@@ -13,6 +13,7 @@ dependencies = [
     "python-decouple>=3.8,<4.0",
     "psycopg2>=2.9.10,<3.0.0",
     "requests>=2.32.3,<3.0.0",
+    "djangorestframework (>=3.16.0,<4.0.0)",
 ]
 
 
@@ -75,7 +76,7 @@ safety = "~3.3.1"
 [tool.isort]
 profile = "black"
 line_length = 120
-known_first_party = ["plov", "users", "mocklms"]
+known_first_party = ["plov"]
 known_third_party = ["django"]
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 skip = ["migrations", "venv", ".venv"]
@@ -86,7 +87,7 @@ default_section = "THIRDPARTY"
 max-line-length = 120
 ignore = ["E203", "E266", "E501", "W503", "I202"]
 import-order-style = "google"
-application-import-names = ["plov", "users", "mocklms"]
+application-import-names = ["plov"]
 inline-quotes = "single"
 exclude = [".git", ".venv", "venv", "*/migrations/*", "__pycache__", "*.pyc"]
 
@@ -99,6 +100,7 @@ exclude = '''
 /(
     \.git
     | \.venv
+    | venv
     | migrations
     | __pycache__
 )/
@@ -107,4 +109,33 @@ exclude = '''
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "plov.settings"
 python_files = "tests.py test_*.py *_tests.py"
-addopts = "--cov=plov --cov=users --cov=mocklms --verbose"
+addopts = "--cov=plov --verbose"
+
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false  # Relaxed for Django projects
+ignore_missing_imports = true
+strict_optional = true
+show_error_codes = true
+mypy_path = 'plov'
+
+plugins = [
+    "mypy_django_plugin.main"
+]
+
+
+[tool.django-stubs]
+django_settings_module = "plov.settings"
+
+
+[[tool.mypy.overrides]]
+module = [
+    "decouple.*",
+    "django.*.migrations.*",
+    "tests.*",
+    "*.migrations.*"
+]
+ignore_errors = true

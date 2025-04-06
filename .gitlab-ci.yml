@@ -46,7 +46,7 @@ flake8:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]  # Wait for setup
   script:
-    - poetry run flake8 .  # Uses pyproject.toml config automatically
+    - poetry run flake8 .
   cache:  # Faster than artifacts
     paths:
       - .venv/
@@ -57,7 +57,18 @@ black:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - poetry run black --check .  # Config from pyproject.toml
+    - poetry run black --check .
+  cache:
+    paths:
+      - .venv/
+    policy: pull
+
+mypy:
+  stage: lint
+  image: python:${PYTHON_VERSION}
+  needs: ["install-dependencies"]
+  script:
+    - poetry run mypy .
   cache:
     paths:
       - .venv/
