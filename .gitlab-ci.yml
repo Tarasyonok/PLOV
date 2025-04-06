@@ -1,0 +1,106 @@
+stages:
+  - setup    # Install dependencies once
+  - lint     # Code quality checks
+  - test     # Run tests with coverage
+  - security # Safety scans (non-blocking)
+
+cache:
+  paths:
+    - .venv/
+    - .cache/pip/
+  key: ${CI_PROJECT_ID}-${CI_COMMIT_REF_SLUG}
+
+variables:
+  PYTHON_VERSION: "3.12"       # Matches your Python requirement
+  POETRY_VERSION: "1.8.2"      # Current stable Poetry
+  DJANGO_SETTINGS_MODULE: "plov.settings"  # Explicit Django config
+  PIP_NO_CACHE_DIR: "false"  # Ensures pip uses our cache directory
+  PYTHONUNBUFFERED: "1"      # Real-time test output
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 1. DEPENDENCY INSTALLATION (runs once)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+install-dependencies:
+  stage: setup
+  image: python:${PYTHON_VERSION}
+  script:
+    - python -V  # Verify Python version
+    - pip install poetry==${POETRY_VERSION}
+    - poetry config virtualenvs.in-project true
+    - poetry install --no-root
+  artifacts:
+    paths:
+      - .venv/  # Share virtualenv with other jobs
+    expire_in: 1 hour  # Clean up after pipeline completes
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 2. LINTING STAGE
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+flake8:
+  stage: lint
+  image: python:${PYTHON_VERSION}
+  needs: ["install-dependencies"]  # Wait for setup
+  script:
+    - poetry run flake8 .  # Uses pyproject.toml config automatically
+  cache:  # Faster than artifacts
+    paths:
+      - .venv/
+    policy: pull  # Read-only cache
+
+black:
+  stage: lint
+  image: python:${PYTHON_VERSION}
+  needs: ["install-dependencies"]
+  script:
+    - poetry run black --check .  # Config from pyproject.toml
+  cache:
+    paths:
+      - .venv/
+    policy: pull
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 3. TESTING STAGE
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+run-tests:
+  image: python:${PYTHON_VERSION}
+  stage: test
+  needs: ["install-dependencies"]
+  script:
+    - poetry run pytest plov/ --cov=plov --cov-report=xml --junitxml=test-results.xml
+  cache:
+    paths:
+      - .venv/
+    policy: pull
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 4. SECURITY STAGE (non-blocking)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+bandit-scan:
+  image: python:${PYTHON_VERSION}
+  stage: security
+  needs: ["install-dependencies"]
+  script:
+    - poetry run bandit -r plov/  # Scans your Django app
+  allow_failure: true  # Shows warnings but doesn't fail pipeline
+  cache:
+    paths:
+      - .venv/
+    policy: pull
+
+
+dependency-scan:
+  image: python:${PYTHON_VERSION}
+  stage: security
+  needs: ["install-dependencies"]
+  script:
+    - poetry export --without-hashes | safety check --stdin
+  allow_failure: true
+  cache:
+    paths:
+      - .venv/
+    policy: pull
