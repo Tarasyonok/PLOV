@@ -13,27 +13,15 @@ class LMSProfile(django.db.models.Model):
         ('male', 'Male'),
         ('female', 'Female'),
     ]
-    gender = django.db.models.CharField(
-        max_length=10,
-        choices=GENDER_CHOICES,
-    )
-    display_name = django.db.models.CharField(
-        max_length=255,
-    )
-    avatar = django.db.models.CharField(
-        max_length=255,
-        blank=True,
-    )
+    gender = django.db.models.CharField(max_length=10, choices=GENDER_CHOICES)
+    display_name = django.db.models.CharField(max_length=255)
+    avatar = django.db.models.CharField(max_length=255, blank=True)
     email = django.db.models.EmailField()
     phone = django.db.models.CharField(max_length=20)
     birth_date = django.db.models.DateField()
     city = django.db.models.CharField(max_length=100, blank=True)
     school = django.db.models.CharField(max_length=255, blank=True)
-    school_class = django.db.models.CharField(
-        max_length=50,
-        blank=True,
-    )
-
+    school_class = django.db.models.CharField(max_length=50, blank=True)
     tags = django.db.models.JSONField(default=list)
     clubs = django.db.models.JSONField(default=list)
     competitions = django.db.models.JSONField(default=list)
@@ -46,7 +34,6 @@ class LMSCourse(django.db.models.Model):
         ('graduated', 'Graduated'),
         ('dropped', 'Dropped'),
     ]
-
     profile = django.db.models.ForeignKey(
         'mocklms.LMSProfile',
         on_delete=django.db.models.CASCADE,
@@ -58,11 +45,7 @@ class LMSCourse(django.db.models.Model):
     visited_attendances_count = django.db.models.IntegerField(default=0)
     status = django.db.models.CharField(max_length=20, choices=COURSE_STATUS)
     certificate_id = django.db.models.IntegerField(null=True, blank=True)
-    certificate_number = django.db.models.CharField(
-        max_length=50,
-        null=True,
-        blank=True,
-    )
+    certificate_number = django.db.models.CharField(max_length=50, null=True, blank=True)
     accessibility_status = django.db.models.CharField(max_length=20)
 
 

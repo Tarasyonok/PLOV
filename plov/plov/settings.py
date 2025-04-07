@@ -6,12 +6,7 @@ import django.urls
 BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
 SECRET_KEY = decouple.config('DJANGO_SECRET_KEY', default='FAKE-SECRET-KEY')
 DEBUG = decouple.config('DJANGO_DEBUG', default=False, cast=bool)
-
-ALLOWED_HOSTS = decouple.config(
-    'DJANGO_ALLOWED_HOSTS',
-    default='localhost,127.0.0.1',
-    cast=lambda v: v.split(','),
-)
+ALLOWED_HOSTS = decouple.config('DJANGO_ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: v.split(','))
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',

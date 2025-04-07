@@ -27,23 +27,15 @@ class Command(django.core.management.base.BaseCommand):
         lms_profile_id = input('Profile ID (unique number): ') or random.randint(100000, 999999)
         username = input('Username: ') or fake.user_name()
         gender = int(input('Gender (0 - male | 1 - female): ') or random.randint(0, 1))
-        last_name = input('Last Name: ')
-        if not last_name:
-            last_name = [fake.last_name_male(), fake.last_name_female()][gender]
-
-        first_name = input('First Name: ')
-        if not first_name:
-            first_name = [fake.first_name_male(), fake.first_name_female()][gender]
-
-        middle_name = input('Middle Name: ')
-        if not middle_name:
-            middle_name = [fake.middle_name_male(), fake.middle_name_female()][gender]
-
+        last_name = input('Last Name: ') or [fake.last_name_male(), fake.last_name_female()][gender]
+        first_name = input('First Name: ') or [fake.first_name_male(), fake.first_name_female()][gender]
+        middle_name = input('Middle Name: ') or [fake.middle_name_male(), fake.middle_name_female()][gender]
         email = input('Email: ') or fake.email()
         phone = input('Phone (+7XXXXXXXXXX): ') or f'+79{fake.msisdn()[:9]}'
-        birth_date = input('Birth Date (YYYY-MM-DD): ') or fake.date_of_birth(minimum_age=12, maximum_age=18).strftime(
-            '%Y-%m-%d'
-        )
+        birth_date = input('Birth Date (YYYY-MM-DD): ') or fake.date_of_birth(
+            minimum_age=12,
+            maximum_age=18,
+        ).strftime('%Y-%m-%d')
 
         return mocklms.models.LMSProfile.objects.create(
             lms_profile_id=lms_profile_id,

@@ -1,8 +1,6 @@
 import django.test
 import django.urls
 
-__all__ = ()
-
 
 class TestTestCase(django.test.TestCase):
     def test_test(self):
