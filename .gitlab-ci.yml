@@ -23,7 +23,6 @@ variables:
 install-dependencies:
   stage: setup
   image: python:${PYTHON_VERSION}
-  before_script: []
   script:
     - python -V
     - pip install poetry==${POETRY_VERSION}
@@ -39,9 +38,6 @@ install-dependencies:
       - runner_system_failure
       - stuck_or_timeout_failure
 
-before_script:
-  - source .venv/bin/activate
-
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 2. LINTING STAGE
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -50,7 +46,8 @@ flake8:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - poetry run flake8 .
+    - source .venv/bin/activate
+    - flake8 .
   cache:
     paths:
       - .venv/
@@ -61,7 +58,8 @@ black:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - poetry run black --check .
+    - source .venv/bin/activate
+    - black --check .
   cache:
     paths:
       - .venv/
@@ -72,7 +70,8 @@ mypy:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - poetry run mypy .
+    - source .venv/bin/activate
+    - mypy .
   cache:
     paths:
       - .venv/
@@ -85,8 +84,18 @@ run-tests:
   stage: test
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
+  services:
+    - postgres:17
+  variables:
+    POSTGRES_DB: test_db
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_HOST: postgres
+    POSTGRES_PORT: 5432
   script:
-    - poetry run pytest plov/
+    - source .venv/bin/activate
+    - python plov/manage.py migrate
+    - pytest plov/
   cache:
     paths:
       - .venv/
@@ -100,6 +109,7 @@ bandit-scan:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
+    - source .venv/bin/activate
     - bandit -r plov/
   allow_failure: true
   cache:
