@@ -23,6 +23,7 @@ variables:
 install-dependencies:
   stage: setup
   image: python:${PYTHON_VERSION}
+  before_script: []
   script:
     - python -V
     - pip install poetry==${POETRY_VERSION}
@@ -61,17 +62,6 @@ black:
   needs: ["install-dependencies"]
   script:
     - poetry run black --check .
-  cache:
-    paths:
-      - .venv/
-    policy: pull
-
-pyright:
-  stage: lint
-  image: python:${PYTHON_VERSION}
-  needs: ["install-dependencies"]
-  script:
-    - poetry run pyright .
   cache:
     paths:
       - .venv/

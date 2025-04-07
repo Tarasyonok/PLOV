@@ -14,6 +14,7 @@ ALLOWED_HOSTS = decouple.config(
 )
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -108,6 +109,7 @@ if DEBUG:
     ] + MIDDLEWARE
     INTERNAL_IPS = ['*']
 
+AUTH_USER_MODEL = 'users.User'
 LMS_API_URL = 'http://localhost:8000/api/mocklms'
 
 LOGIN_URL = django.urls.reverse_lazy('users:login')

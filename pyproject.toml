@@ -44,7 +44,9 @@ isort = "~6.0.1"
 mypy = "~1.15.0"
 pre-commit = "~4.2.0"
 psycopg2-binary = "~2.9.10"
-pyright = "~1.1.398"
+types-requests = "^2.32.0.20250328"
+django-types = "^0.20.0"
+djangorestframework-types = "^0.9.0"
 
 
 # FLAKE8
@@ -96,7 +98,7 @@ exclude = '''
 [tool.isort]
 profile = "black"
 line_length = 120
-known_first_party = ["plov"]
+known_first_party = ["plov", "users"]
 known_third_party = ["django"]
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 skip = ["migrations", "venv", ".venv"]
@@ -113,7 +115,7 @@ max-line-length = 120
 ignore = ["E203", "E266", "E501", "W503", "I202"]
 import-order-style = "google"
 inline-quotes = "single"
-application-import-names = ["plov"]
+application-import-names = ["plov", "users"]
 exclude = [".git", ".venv", "venv", "*/migrations/*", "__pycache__", "*.pyc"]
 
 
@@ -127,45 +129,13 @@ strict_optional = true
 show_error_codes = true
 mypy_path = 'plov'
 plugins = ["mypy_django_plugin.main"]
+exclude = '/migrations/'
 
 [tool.django-stubs]
 django_settings_module = "plov.settings"
 
 
-[tool.pyright]
-venvPath = "."
-venv = ".venv"
-include = ["src"]
-exclude = [
-    ".git",
-    ".venv",
-    "venv",
-    "**/migrations/**",
-    "**/tests/**",
-    "**/node_modules",
-    "**/__pycache__",
-    "src/experimental",
-    "src/typestubs"
-]
-ignore = ["src/oldstuff"]
-defineConstant = { DEBUG = true }
-stubPath = "src/stubs"
-
-reportMissingImports = "error"
-reportMissingTypeStubs = false
-
-pythonVersion = "3.12"
-pythonPlatform = "Linux"
-
-executionEnvironments = [
-    { root = "src/web", pythonVersion = "3.5", pythonPlatform = "Windows", extraPaths = ["src/service_libs"], reportMissingImports = "warning" },
-    { root = "src/sdk", pythonVersion = "3.0", extraPaths = ["src/backend"] },
-    { root = "src/tests", extraPaths = ["src/tests/e2e", "src/sdk"] },
-    { root = "src" }
-]
-
-
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "plov.settings"
 python_files = "tests.py test_*.py *_tests.py"
-addopts = "--cov=plov --verbose"
+addopts = "--cov=plov --cov=users --verbose"
