@@ -129,7 +129,13 @@ strict_optional = true
 show_error_codes = true
 mypy_path = 'plov'
 plugins = ["mypy_django_plugin.main"]
-exclude = '/migrations/'
+exclude = '''
+(?x)(
+    .venv
+    | /venv/
+    | /migrations/
+)
+'''
 
 [tool.django-stubs]
 django_settings_module = "plov.settings"
