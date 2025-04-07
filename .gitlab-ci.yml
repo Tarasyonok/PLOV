@@ -26,6 +26,8 @@ install-dependencies:
   script:
     - python -V
     - pip install poetry==${POETRY_VERSION}
+    - export PATH=$PATH:~/.local/bin
+    - poetry --version
     - poetry config virtualenvs.in-project true
     - poetry install --no-root
   artifacts:
@@ -57,6 +59,7 @@ black:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
+    - export PATH=$PATH:~/.local/bin
     - poetry run black --check .
   cache:
     paths:
