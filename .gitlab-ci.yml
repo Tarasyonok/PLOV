@@ -1,8 +1,8 @@
 stages:
-  - setup    # Install dependencies once
-  - lint     # Code quality checks
-  - test     # Run tests with coverage
-  - security # Safety scans (non-blocking)
+  - setup
+  - lint
+  - test
+  - security
 
 cache:
   paths:
@@ -11,11 +11,11 @@ cache:
   key: ${CI_PROJECT_ID}-${CI_COMMIT_REF_SLUG}
 
 variables:
-  PYTHON_VERSION: "3.12"       # Matches your Python requirement
-  POETRY_VERSION: "1.8.2"      # Current stable Poetry
-  DJANGO_SETTINGS_MODULE: "plov.settings"  # Explicit Django config
-  PIP_NO_CACHE_DIR: "false"  # Ensures pip uses our cache directory
-  PYTHONUNBUFFERED: "1"      # Real-time test output
+  PYTHON_VERSION: "3.12"
+  POETRY_VERSION: "2.1.2"
+  DJANGO_SETTINGS_MODULE: "plov.settings"
+  PIP_NO_CACHE_DIR: "false"
+  PYTHONUNBUFFERED: "1"
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 1. DEPENDENCY INSTALLATION (runs once)
@@ -24,14 +24,14 @@ install-dependencies:
   stage: setup
   image: python:${PYTHON_VERSION}
   script:
-    - python -V  # Verify Python version
+    - python -V
     - pip install poetry==${POETRY_VERSION}
     - poetry config virtualenvs.in-project true
     - poetry install --no-root
   artifacts:
     paths:
-      - .venv/  # Share virtualenv with other jobs
-    expire_in: 1 hour  # Clean up after pipeline completes
+      - .venv/
+    expire_in: 1 hour
   retry:
     max: 2
     when:
@@ -44,13 +44,13 @@ install-dependencies:
 flake8:
   stage: lint
   image: python:${PYTHON_VERSION}
-  needs: ["install-dependencies"]  # Wait for setup
+  needs: ["install-dependencies"]
   script:
     - poetry run flake8 .
-  cache:  # Faster than artifacts
+  cache:
     paths:
       - .venv/
-    policy: pull  # Read-only cache
+    policy: pull
 
 black:
   stage: lint
@@ -58,6 +58,17 @@ black:
   needs: ["install-dependencies"]
   script:
     - poetry run black --check .
+  cache:
+    paths:
+      - .venv/
+    policy: pull
+
+pyright:
+  stage: lint
+  image: python:${PYTHON_VERSION}
+  needs: ["install-dependencies"]
+  script:
+    - poetry run pyright .
   cache:
     paths:
       - .venv/
@@ -96,20 +107,7 @@ bandit-scan:
   stage: security
   needs: ["install-dependencies"]
   script:
-    - poetry run bandit -r plov/  # Scans your Django app
-  allow_failure: true  # Shows warnings but doesn't fail pipeline
-  cache:
-    paths:
-      - .venv/
-    policy: pull
-
-
-dependency-scan:
-  image: python:${PYTHON_VERSION}
-  stage: security
-  needs: ["install-dependencies"]
-  script:
-    - poetry export --without-hashes | safety check --stdin
+    - poetry run bandit -r plov/
   allow_failure: true
   cache:
     paths:
