@@ -15,6 +15,7 @@ dependencies = [
     "psycopg2>=2.9.10,<3.0.0",
     "python-decouple>=3.8,<4.0",
     "requests>=2.32.3,<3.0.0",
+    "faker (>=37.1.0,<38.0.0)",
 ]
 
 
@@ -98,7 +99,7 @@ exclude = '''
 [tool.isort]
 profile = "black"
 line_length = 120
-known_first_party = ["plov", "users"]
+known_first_party = ["core", "plov", "users"]
 known_third_party = ["django"]
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 skip = ["migrations", "venv", ".venv"]
@@ -115,7 +116,7 @@ max-line-length = 120
 ignore = ["E203", "E266", "E501", "W503", "I202"]
 import-order-style = "google"
 inline-quotes = "single"
-application-import-names = ["plov", "users"]
+application-import-names = ["core", "plov", "users"]
 exclude = [".git", ".venv", "venv", "*/migrations/*", "__pycache__", "*.pyc"]
 
 
@@ -144,4 +145,4 @@ django_settings_module = "plov.settings"
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "plov.settings"
 python_files = "tests.py test_*.py *_tests.py"
-addopts = "--cov=plov --cov=users --verbose"
+addopts = "--cov=core --cov=plov --cov=users --verbose"
