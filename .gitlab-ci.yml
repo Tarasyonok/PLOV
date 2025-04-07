@@ -84,8 +84,16 @@ run-tests:
   stage: test
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
+  services:
+    - postgres:17
+  variables:
+    POSTGRES_DB: test_db
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_HOST: postgres
   script:
     - source .venv/bin/activate
+    - python plov/manage.py migrate
     - pytest plov/
   cache:
     paths:
