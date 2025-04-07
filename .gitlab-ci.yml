@@ -38,6 +38,9 @@ install-dependencies:
       - runner_system_failure
       - stuck_or_timeout_failure
 
+before_script:
+  - source .venv/bin/activate
+
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 2. LINTING STAGE
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -46,8 +49,7 @@ flake8:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - source .venv/bin/activate
-    - flake8 .
+    - poetry run flake8 .
   cache:
     paths:
       - .venv/
@@ -58,8 +60,7 @@ black:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - source .venv/bin/activate
-    - black --check .
+    - poetry run black --check .
   cache:
     paths:
       - .venv/
@@ -70,8 +71,7 @@ pyright:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - source .venv/bin/activate
-    - pyright .
+    - poetry run pyright .
   cache:
     paths:
       - .venv/
@@ -82,8 +82,7 @@ mypy:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - source .venv/bin/activate
-    - mypy .
+    - poetry run mypy .
   cache:
     paths:
       - .venv/
@@ -93,12 +92,11 @@ mypy:
 # 3. TESTING STAGE
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 run-tests:
-  image: python:${PYTHON_VERSION}
   stage: test
+  image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - source .venv/bin/activate
-    - pytest plov/ --cov=plov --cov-report=xml --junitxml=test-results.xml
+    - poetry run pytest plov/
   cache:
     paths:
       - .venv/
@@ -108,11 +106,10 @@ run-tests:
 # 4. SECURITY STAGE (non-blocking)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 bandit-scan:
-  image: python:${PYTHON_VERSION}
   stage: security
+  image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - source .venv/bin/activate
     - bandit -r plov/
   allow_failure: true
   cache:
