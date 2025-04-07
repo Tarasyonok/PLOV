@@ -26,8 +26,6 @@ install-dependencies:
   script:
     - python -V
     - pip install poetry==${POETRY_VERSION}
-    - export PATH=$PATH:~/.local/bin
-    - poetry --version
     - poetry config virtualenvs.in-project true
     - poetry install --no-root
   artifacts:
@@ -48,7 +46,7 @@ flake8:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - poetry run flake8 .
+    - flake8 .
   cache:
     paths:
       - .venv/
@@ -60,7 +58,7 @@ black:
   needs: ["install-dependencies"]
   script:
     - export PATH=$PATH:~/.local/bin
-    - poetry run black --check .
+    - black --check .
   cache:
     paths:
       - .venv/
@@ -71,7 +69,7 @@ pyright:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - poetry run pyright .
+    - pyright .
   cache:
     paths:
       - .venv/
@@ -82,7 +80,7 @@ mypy:
   image: python:${PYTHON_VERSION}
   needs: ["install-dependencies"]
   script:
-    - poetry run mypy .
+    - mypy .
   cache:
     paths:
       - .venv/
@@ -96,7 +94,7 @@ run-tests:
   stage: test
   needs: ["install-dependencies"]
   script:
-    - poetry run pytest plov/ --cov=plov --cov-report=xml --junitxml=test-results.xml
+    - pytest plov/ --cov=plov --cov-report=xml --junitxml=test-results.xml
   cache:
     paths:
       - .venv/
@@ -110,7 +108,7 @@ bandit-scan:
   stage: security
   needs: ["install-dependencies"]
   script:
-    - poetry run bandit -r plov/
+    - bandit -r plov/
   allow_failure: true
   cache:
     paths:
