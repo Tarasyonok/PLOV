@@ -47,7 +47,7 @@ flake8:
   needs: ["install-dependencies"]
   script:
     - source .venv/bin/activate
-    - poetry run flake8 .
+    - flake8 .
   cache:
     paths:
       - .venv/
@@ -59,7 +59,7 @@ black:
   needs: ["install-dependencies"]
   script:
     - source .venv/bin/activate
-    - poetry run black --check .
+    - black --check .
   cache:
     paths:
       - .venv/
@@ -71,7 +71,7 @@ mypy:
   needs: ["install-dependencies"]
   script:
     - source .venv/bin/activate
-    - poetry run mypy .
+    - mypy .
   cache:
     paths:
       - .venv/
@@ -86,7 +86,7 @@ run-tests:
   needs: ["install-dependencies"]
   script:
     - source .venv/bin/activate
-    - poetry run pytest plov/
+    - pytest plov/
   cache:
     paths:
       - .venv/
@@ -101,7 +101,7 @@ bandit-scan:
   needs: ["install-dependencies"]
   script:
     - source .venv/bin/activate
-    - poetry run bandit -r plov/
+    - bandit -r plov/
   allow_failure: true
   cache:
     paths:
