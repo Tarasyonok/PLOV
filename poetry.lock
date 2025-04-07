@@ -502,6 +502,21 @@ django = "*"
 typing-extensions = "*"
 
 [[package]]
+name = "django-types"
+version = "0.20.0"
+description = "Type stubs for Django"
+optional = false
+python-versions = "<4.0,>=3.8"
+groups = ["dev"]
+files = [
+    {file = "django_types-0.20.0-py3-none-any.whl", hash = "sha256:a0b5c2c9a1e591684bb21a93b64e50ca6cb2d3eab48f49faff1eac706bd3a9c7"},
+    {file = "django_types-0.20.0.tar.gz", hash = "sha256:4e55d2c56155e3d69d75def9eb1d95a891303f2ac19fccf6fe8056da4293fae7"},
+]
+
+[package.dependencies]
+types-psycopg2 = ">=2.9.21.13"
+
+[[package]]
 name = "djangorestframework"
 version = "3.16.0"
 description = "Web APIs for Django, made easy."
@@ -515,6 +530,21 @@ files = [
 
 [package.dependencies]
 django = ">=4.2"
+
+[[package]]
+name = "djangorestframework-types"
+version = "0.9.0"
+description = "Type stubs for Django Rest Framework"
+optional = false
+python-versions = "<4.0,>=3.8"
+groups = ["dev"]
+files = [
+    {file = "djangorestframework_types-0.9.0-py3-none-any.whl", hash = "sha256:5e4258fe43774d0a3d018780170bd702bf615407fe244453ea5ec6e6676b98c4"},
+    {file = "djangorestframework_types-0.9.0.tar.gz", hash = "sha256:aa6b27fbdab5ff4ab1dfa5376f3b6ec45713ce48dbcdd4226bf3e1410f0deaca"},
+]
+
+[package.dependencies]
+typing_extensions = {version = ">=4.6,<5.0", markers = "python_version < \"3.11\""}
 
 [[package]]
 name = "eradicate"
@@ -1762,6 +1792,18 @@ docs = ["myst-parser", "pydata-sphinx-theme", "sphinx"]
 test = ["argcomplete (>=3.0.3)", "mypy (>=1.7.0)", "pre-commit", "pytest (>=7.0,<8.2)", "pytest-mock", "pytest-mypy-testing"]
 
 [[package]]
+name = "types-psycopg2"
+version = "2.9.21.20250318"
+description = "Typing stubs for psycopg2"
+optional = false
+python-versions = ">=3.9"
+groups = ["dev"]
+files = [
+    {file = "types_psycopg2-2.9.21.20250318-py3-none-any.whl", hash = "sha256:7296d111ad950bbd2fc979a1ab0572acae69047f922280e77db657c00d2c79c0"},
+    {file = "types_psycopg2-2.9.21.20250318.tar.gz", hash = "sha256:eb6eac5bfb16adfd5f16b818918b9e26a40ede147e0f2bbffdf53a6ef7025a87"},
+]
+
+[[package]]
 name = "types-pyyaml"
 version = "6.0.12.20250402"
 description = "Typing stubs for PyYAML"
@@ -1772,6 +1814,21 @@ files = [
     {file = "types_pyyaml-6.0.12.20250402-py3-none-any.whl", hash = "sha256:652348fa9e7a203d4b0d21066dfb00760d3cbd5a15ebb7cf8d33c88a49546681"},
     {file = "types_pyyaml-6.0.12.20250402.tar.gz", hash = "sha256:d7c13c3e6d335b6af4b0122a01ff1d270aba84ab96d1a1a1063ecba3e13ec075"},
 ]
+
+[[package]]
+name = "types-requests"
+version = "2.32.0.20250328"
+description = "Typing stubs for requests"
+optional = false
+python-versions = ">=3.9"
+groups = ["dev"]
+files = [
+    {file = "types_requests-2.32.0.20250328-py3-none-any.whl", hash = "sha256:72ff80f84b15eb3aa7a8e2625fffb6a93f2ad5a0c20215fc1dcfa61117bcb2a2"},
+    {file = "types_requests-2.32.0.20250328.tar.gz", hash = "sha256:c9e67228ea103bd811c96984fac36ed2ae8da87a36a633964a21f199d60baf32"},
+]
+
+[package.dependencies]
+urllib3 = ">=2"
 
 [[package]]
 name = "typing-extensions"
@@ -1805,7 +1862,7 @@ version = "2.3.0"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
 python-versions = ">=3.9"
-groups = ["main"]
+groups = ["main", "dev"]
 files = [
     {file = "urllib3-2.3.0-py3-none-any.whl", hash = "sha256:1cee9ad369867bfdbbb48b7dd50374c0967a0bb7710050facf0dd6911440e3df"},
     {file = "urllib3-2.3.0.tar.gz", hash = "sha256:f8c5449b3cf0861679ce7e0503c7b44b5ec981bec0d1d3795a07f1ba96f0204d"},
@@ -1853,4 +1910,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "954663e9d7f06305a71b64bbbfc5f0ab76dc6d21d8c023243a4968fe6bb70222"
+content-hash = "b0eca5eb07216691f66149421754e32c3039ee5c65c5b4d076c2a30541231f59"
