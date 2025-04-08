@@ -100,7 +100,7 @@ exclude = '''
 [tool.isort]
 profile = "black"
 line_length = 120
-known_first_party = ["core", "plov", "users"]
+known_first_party = ["core", "plov", "users", "reviews"]
 known_third_party = ["django"]
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 skip = ["migrations", "venv", ".venv"]
@@ -117,7 +117,7 @@ max-line-length = 120
 ignore = ["E203", "E266", "E501", "W503", "I202"]
 import-order-style = "google"
 inline-quotes = "single"
-application-import-names = ["core", "plov", "users"]
+application-import-names = ["core", "plov", "users", "reviews"]
 exclude = [".git", ".venv", "venv", "*/migrations/*", "__pycache__", "*.pyc"]
 
 
@@ -146,4 +146,4 @@ django_settings_module = "plov.settings"
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "plov.settings"
 python_files = "tests.py test_*.py *_tests.py"
-addopts = "--cov=core --cov=plov --cov=users --verbose"
+addopts = "--cov=core --cov=plov --cov=users --cov=reviews --verbose"
