@@ -1676,6 +1676,17 @@ test = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "ini2toml[lite] (>=
 type = ["importlib_metadata (>=7.0.2) ; python_version < \"3.10\"", "jaraco.develop (>=7.21) ; sys_platform != \"cygwin\"", "mypy (==1.14.*)", "pytest-mypy"]
 
 [[package]]
+name = "slugify"
+version = "0.0.1"
+description = "A generic slugifier."
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "slugify-0.0.1.tar.gz", hash = "sha256:c5703cc11c1a6947536f3ce8bb306766b8bb5a84a53717f5a703ce0f18235e4c"},
+]
+
+[[package]]
 name = "sqlparse"
 version = "0.5.3"
 description = "A non-validating SQL parser."
@@ -1904,4 +1915,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "54b608ddbfd41fad32b679b90acbe74063656d73f799a7df22e6e37e34e189d5"
+content-hash = "4e0ba7a28477fb7a26616a538fe10833ef7844dda5bc33d707de4d6ab80c85ff"

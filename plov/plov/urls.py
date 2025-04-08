@@ -3,7 +3,9 @@ import django.contrib.admin
 import django.urls
 
 urlpatterns = [
+    django.urls.path('', django.urls.include('homepage.urls')),
     django.urls.path('users/', django.urls.include('users.urls')),
+    django.urls.path('reviews/', django.urls.include('reviews.urls')),
     django.urls.path('auth/', django.urls.include('django.contrib.auth.urls')),
     django.urls.path('api/mocklms/profiles/', django.urls.include('mocklms.urls')),
     django.urls.path('admin/', django.contrib.admin.site.urls),

@@ -110,7 +110,7 @@ bandit-scan:
   needs: ["install-dependencies"]
   script:
     - source .venv/bin/activate
-    - bandit -r plov/
+    - bandit -r ./plov/
   allow_failure: true
   cache:
     paths:

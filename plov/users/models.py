@@ -10,19 +10,8 @@ import users.utils.validators
 
 class User(django.contrib.auth.models.AbstractUser):
     email = django.db.models.EmailField(unique=True)
-    lms_profile_id = django.db.models.CharField(
-        max_length=100,
-        null=True,
-        blank=True,
-        unique=True,
-    )
-
-    telegram_username = django.db.models.CharField(
-        max_length=50,
-        null=True,
-        blank=True,
-        unique=True,
-    )
+    lms_profile_id = django.db.models.CharField(max_length=100, null=True, blank=True, unique=True)
+    telegram_username = django.db.models.CharField(max_length=50, null=True, blank=True, unique=True)
 
     def __str__(self):
         return f'User {self.username}'
@@ -46,10 +35,7 @@ class UserProfile(django.db.models.Model):
         ],
     )
     bio = django.db.models.TextField(blank=True)
-    reputation_points = django.db.models.IntegerField(
-        default=0,
-        db_index=True,
-    )
+    reputation_points = django.db.models.IntegerField(default=0, db_index=True)
     birthday = django.db.models.DateField(
         blank=True,
         null=True,
@@ -57,9 +43,7 @@ class UserProfile(django.db.models.Model):
             users.utils.validators.YearRangeValidator(2000, -10),
         ],
     )
-    last_activity = django.db.models.DateTimeField(
-        default=django.utils.timezone.now,
-    )
+    last_activity = django.db.models.DateTimeField(default=django.utils.timezone.now)
 
     def __str__(self):
         return f'Profile of {self.user.username}'
@@ -80,11 +64,11 @@ class UserCourse(django.db.models.Model):
         FALL = 'F', 'Осень'
 
     user = django.db.models.ForeignKey(
-        django.conf.settings.AUTH_USER_MODEL, on_delete=django.db.models.CASCADE, related_name='courses'
+        django.conf.settings.AUTH_USER_MODEL,
+        on_delete=django.db.models.CASCADE,
+        related_name='courses',
     )
-    specialization = django.db.models.CharField(
-        choices=SpecializationChoices,
-    )
+    specialization = django.db.models.CharField(choices=SpecializationChoices, default=SpecializationChoices.DJANGO)
     rating = django.db.models.IntegerField(
         db_index=True,
         validators=[
@@ -92,17 +76,13 @@ class UserCourse(django.db.models.Model):
             django.core.validators.MaxValueValidator(200),
         ],
     )
-    flow_season = django.db.models.CharField(
-        choices=SeasonChoices.choices,
-    )
+    flow_season = django.db.models.CharField(choices=SeasonChoices.choices)
     flow_year = django.db.models.IntegerField(
         validators=[
             users.utils.validators.YearRangeValidator(2000, +1),
         ],
     )
-    is_graduated = django.db.models.BooleanField(
-        default=False,
-    )
+    is_graduated = django.db.models.BooleanField(default=False)
 
     class Meta:
         constraints = [

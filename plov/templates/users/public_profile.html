@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Left Column - Avatar & Basic Info -->
+        <div class="col-md-4 text-center">
+            <div class="card mb-4 shadow-sm">
+                {% if profile_user.profile.avatar %}
+                    <img src="{{ profile_user.profile.avatar.url }}"
+                        class="card-img-top rounded-circle p-4 object-fit-cover"
+                        alt="{{ profile_user.username }}"
+                        style="width: 250px; height: 250px; margin: 0 auto;">
+                {% else %}
+                    <img src="{% static 'img/no-img.png' %}"
+                        class="card-img-top rounded-circle p-4 object-fit-cover"
+                        alt="{{ profile_user.username }}"
+                        style="width: 250px; height: 250px; margin: 0 auto;">
+                {% endif %}
+
+                <div class="card-body">
+                    <h2 class="card-title">{{ profile_user.get_full_name }}</h2>
+                    <p class="text-muted">@{{ profile_user.username }}</p>
+
+                    {% if profile_user.telegram_username %}
+                    <p class="mb-1">
+                        <i class="bi bi-telegram"></i>
+                        {{ profile_user.telegram_username }}
+                    </p>
+                    {% endif %}
+
+                    {% if is_owner %}
+                    <a href="{% url 'users:edit-profile' %}"
+                       class="btn btn-outline-primary mt-3">
+                        <i class="bi bi-pencil-square"></i> Edit Profile
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column - Details -->
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#about" data-bs-toggle="tab">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#badges" data-bs-toggle="tab">Badges</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body tab-content">
+                    <!-- About Tab -->
+                    <div class="tab-pane fade show active" id="about">
+                        {% if profile_user.profile.bio %}
+                        <div class="mb-4">
+                            <h5 class="text-muted">Bio</h5>
+                            <p>{{ profile_user.profile.bio }}</p>
+                        </div>
+                        {% endif %}
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 class="text-muted">Contact</h5>
+                                <p>
+                                    <i class="bi bi-envelope"></i>
+                                    {{ profile_user.email }}
+                                </p>
+
+                                {% if profile_user.lms_profile_id %}
+                                <p>
+                                    <i class="bi bi-book"></i>
+                                    LMS Connected (ID: {{ profile_user.lms_profile_id }})
+                                </p>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                {% if profile_user.profile.birthday %}
+                                <h5 class="text-muted">Details</h5>
+                                <p>
+                                    <i class="bi bi-balloon"></i>
+                                    Born {{ profile_user.profile.birthday|date:"F j, Y" }}
+                                </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Badges Tab -->
+                    <div class="tab-pane fade" id="badges">
+                        <div class="d-flex flex-wrap">
+                            {% for badge in profile_user.profile.badges.all %}
+                            <div class="m-2 text-center">
+                                <img src="{{ badge.image.url }}"
+                                     class="rounded-circle"
+                                     width="80"
+                                     height="80"
+                                     alt="{{ badge.name }}"
+                                     data-bs-toggle="tooltip"
+                                     title="{{ badge.description }}">
+                                <p class="mt-2 small">{{ badge.name }}</p>
+                            </div>
+                            {% empty %}
+                            <p class="text-muted">No badges yet!</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
