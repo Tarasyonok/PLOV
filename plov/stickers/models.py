@@ -16,10 +16,8 @@ import stickers.managers
 
 
 class StickerPack(django.db.models.Model):
-    name = django.db.models.CharField(
-        'name'
-        )
-    slug = django.db.models.SlugField('slug',unique=True)
+    name = django.db.models.CharField('name')
+    slug = django.db.models.SlugField('slug', unique=True)
     published_on_tg = django.db.models.BooleanField(
         'published_on_tg',
         default=False,
@@ -37,17 +35,14 @@ class StickerPack(django.db.models.Model):
 class Sticker(django.db.models.Model):
     objects = stickers.managers.StickerManager()
 
-    image = django.db.models.ImageField('sticker_image',
-                                        upload_to='stickers/just_img/',)
-    image_for_tg = django.db.models.ImageField('sticker_image',
-                                               upload_to='stickers/for_tg/',
-                                               null=True)
+    image = django.db.models.ImageField(
+        'sticker_image',
+        upload_to='stickers/just_img/',
+    )
+    image_for_tg = django.db.models.ImageField('sticker_image', upload_to='stickers/for_tg/', null=True)
     decryption = django.db.models.TextField('decryption')
     stickerpack = django.db.models.ForeignKey(
-        StickerPack,
-        on_delete=django.db.models.CASCADE,
-        related_name='sticker',
-        default=None
+        StickerPack, on_delete=django.db.models.CASCADE, related_name='sticker', default=None
     )
 
     def clean(self):
@@ -72,7 +67,7 @@ async def make_ocr_request(session, base64_image, file_extension, language):
 
 
 @django.dispatch.receiver(django.db.models.signals.post_save, sender=Sticker)
-async def add_decryption(sender, instance, created,  **kwargs):
+async def add_decryption(sender, instance, created, **kwargs):
     file_extension = instance.image.path.split('.')[-1]
     with open(instance.image.path, "rb") as image_file:
         image_data = image_file.read()
@@ -81,15 +76,13 @@ async def add_decryption(sender, instance, created,  **kwargs):
     async with aiohttp.ClientSession() as session:
         tasks = [
             make_ocr_request(session, base64_image, file_extension, 'rus'),
-            make_ocr_request(session, base64_image, file_extension, 'eng')
+            make_ocr_request(session, base64_image, file_extension, 'eng'),
         ]
         results = await asyncio.gather(*tasks)
         jsoned_text_rus, jsoned_text_eng = results
-    text = (' '.join(list(map(lambda x: x['ParsedText'],
-                              jsoned_text_rus['ParsedResults']))) +
-            ' '.join(list(map(lambda x: x['ParsedText'],
-                              jsoned_text_eng['ParsedResults'])))
-            )
+    text = ' '.join(list(map(lambda x: x['ParsedText'], jsoned_text_rus['ParsedResults']))) + ' '.join(
+        list(map(lambda x: x['ParsedText'], jsoned_text_eng['ParsedResults']))
+    )
     text = text.replace('\r', ' ').replace('\n', '')
     img = PIL.Image.open(instance.image.path).convert("RGBA")
     background = PIL.Image.new("RGBA", (512, 512), (0, 0, 0, 0))
@@ -112,6 +105,7 @@ async def add_decryption(sender, instance, created,  **kwargs):
         image_for_tg=image_field,
     )
 
+
 @django.dispatch.receiver(django.db.models.signals.post_save, sender=StickerPack)
-def add_stickerpack_to_tg(sender, instance, created,  **kwargs):
-    
+def add_stickerpack_to_tg(sender, instance, created, **kwargs):
+    pass

@@ -27,7 +27,5 @@ class StickerManager(django.db.models.Manager):
 
     def get_stickers_by_stickerpack(self, stickerpack_obj):
         queryset = self.get_queryset()
-        queryset_filtered = queryset.filter(
-            stickerpack=stickerpack_obj
-        )
+        queryset_filtered = queryset.filter(stickerpack=stickerpack_obj)
         return queryset_filtered

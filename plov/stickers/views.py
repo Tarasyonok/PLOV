@@ -11,8 +11,7 @@ class AddStickerPackView(django.views.generic.CreateView):
     fields = ['name']
 
     def get_success_url(self):
-        return django.urls.reverse('stickers:stickerpackinfo',
-                                   kwargs={'pk': self.object.pk})
+        return django.urls.reverse('stickers:stickerpackinfo', kwargs={'pk': self.object.pk})
 
 
 class StickerPackDetailView(django.views.generic.DetailView):
@@ -20,7 +19,7 @@ class StickerPackDetailView(django.views.generic.DetailView):
     template_name = 'stickers/stickerpack_info.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs) 
+        context = super().get_context_data(**kwargs)
         context['stickers'] = stickers.models.Sticker.objects.get_stickers_by_stickerpack(self.object)
         return context
 

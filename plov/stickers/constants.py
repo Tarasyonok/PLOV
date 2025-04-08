@@ -24,10 +24,4 @@ LOOKALIKES = {
     'Y': 'У',  # y
 }
 
-IMAGE_EXTENSIONS = {'png',
-                    'jpeg',
-                    'tiff',
-                    'bmp',
-                    'webp',
-                    'jpg'
-                    }
+IMAGE_EXTENSIONS = {'png', 'jpeg', 'tiff', 'bmp', 'webp', 'jpg'}

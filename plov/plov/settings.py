@@ -7,10 +7,7 @@ BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
 SECRET_KEY = decouple.config('DJANGO_SECRET_KEY', default='FAKE-SECRET-KEY')
 DEBUG = decouple.config('DJANGO_DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = decouple.config('DJANGO_ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: v.split(','))
-OCR_SPACE_APIKEY = decouple.config(
-    'OCR_SPACE_APIKEY',
-    default='api-key'
-)
+OCR_SPACE_APIKEY = decouple.config('OCR_SPACE_APIKEY', default='api-key')
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
@@ -23,7 +20,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'core.apps.CoreConfig',
     'mocklms.apps.MocklmsConfig',
-    'stickers.apps.StickersConfig'
+    'stickers.apps.StickersConfig',
 ]
 
 MIDDLEWARE = [
