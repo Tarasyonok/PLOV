@@ -17,10 +17,6 @@ class StickerManager(django.db.models.Manager):
 
         return self._model_cache[(app_label, model_name)]
 
-    def _init_fields(self):
-        if not self._fields_initialized:
-            sticker = self._get_model('stickers', 'Sticker')
-
     def get_queryset(self):
         self._init_fields()
         return super().get_queryset()

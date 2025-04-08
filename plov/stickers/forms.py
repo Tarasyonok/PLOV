@@ -1,5 +1,4 @@
 import django.forms
-
 import stickers.models
 
 
@@ -14,7 +13,7 @@ class MultipleFileField(django.forms.FileField):
             MultipleFileInput(
                 attrs={
                     'class': 'form-control',
-                    'placeholder': 'Прикрепите фотографии стикеров,' ' которые будут находиться в этом стикерпаке',
+                    'placeholder': 'Прикрепите фотографии стикеров, которые будут находиться в этом стикерпаке',
                 },
             ),
         )

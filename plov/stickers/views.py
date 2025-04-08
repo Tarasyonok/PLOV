@@ -1,7 +1,6 @@
 import django.http
 import django.urls
 import django.views.generic
-
 import stickers.models
 
 

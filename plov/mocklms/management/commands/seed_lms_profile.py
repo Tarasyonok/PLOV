@@ -18,7 +18,7 @@ class Command(django.core.management.base.BaseCommand):
         self.create_teachers(course)
 
         self.stdout.write(
-            self.style.SUCCESS(f'✅ Created profile: {profile.display_name} ' f'(ID: {profile.lms_profile_id})')
+            self.style.SUCCESS(f'✅ Created profile: {profile.display_name} (ID: {profile.lms_profile_id})')
         )
 
     def create_profile(self):

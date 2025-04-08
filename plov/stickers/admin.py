@@ -1,5 +1,4 @@
 import django.contrib.admin
-
 import stickers.models
 
 
@@ -7,17 +6,6 @@ class StickerInline(django.contrib.admin.TabularInline):
     model = stickers.models.Sticker
     readonly_fields = (stickers.models.Sticker.decryption.field.name,)
     extra = 1
-
-
-# @django.contrib.admin.register(stickers.models.Sticker)
-# class StickerAdmin(django.contrib.admin.ModelAdmin):
-#     list_display = (
-#         stickers.models.Sticker.decryption.field.name,
-#         stickers.models.Sticker.emoji.field.name,
-#     )
-#     readonly_fields = (
-#         stickers.models.Sticker.decryption.field.name,
-#     )
 
 
 @django.contrib.admin.register(stickers.models.StickerPack)
