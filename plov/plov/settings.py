@@ -19,6 +19,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'core.apps.CoreConfig',
     'mocklms.apps.MocklmsConfig',
+    'interactions.apps.InteractionsConfig',
+    'reviews.apps.ReviewsConfig',
 ]
 
 MIDDLEWARE = [
@@ -46,6 +48,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'review_tags': 'reviews.templatetags.review_tags',
+            },
         },
     },
 ]

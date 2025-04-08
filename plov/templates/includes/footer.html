@@ -1,0 +1,11 @@
+{% load static %}
+
+<footer style="height: 50px;" class="bg-light py-3 mt-3 d-flex align-items-center justify-content-center">
+  <p>
+    &copy; <span id="current-year">{% now 'Y' %}</span> Kir Tarasov, Arina Kanzafarova, Timoxa Borisov
+  </p>
+</footer>
+<script>
+  let serverYear = {% now "Y" %};
+</script>
+<script src="{% static 'js/includes/footer.js' %}"></script>

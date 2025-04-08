@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}    
+    <div class="dx-box-5 pb-100 bg-grey-6">
+        <div class="container">
+            <div class="row vertical-gap md-gap">
+                <div class="col-lg-8">
+                    <div class="dx-box dx-box-decorated">
+                        <div class="dx-blog-post">
+                            <div class="dx-blog-post-box pt-30 pb-30">
+                                <h2 class="h4 mnt-5 mb-9">Q&A</h2>
+                            </div>
+                        <div class="dx-widget dx-box dx-box-decorated">
+                            <div class="dx-widget-title">
+                                Последние топики
+                            </div>
+                            {% for topics in latest_topics %}
+                            <a href="{% url 'forum:topic-detail' topics.id %}" class="dx-widget-link">
+                                <span class="dx-widget-link-text">{{ topics.title }}</span>
+                                <span class="dx-widget-link-date">{{ topics.created|date }}</span>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
