@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Жалоба на ответ</h2>
+<form action="" method="POST" class="dx-form mt-50 mb-45">
+    <div class="row vertical-gap">
+        <div class="col-12">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" class="dx-btn dx-btn-lg" value="Отправить жалобу">
+        </div>
+    </div>
+</form>
+{% endblock content %}

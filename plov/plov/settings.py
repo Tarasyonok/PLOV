@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'mocklms.apps.MocklmsConfig',
     'leaderboard.apps.LeaderboardConfig',
+    'forum.apps.ForumConfig',
 ]
 
 MIDDLEWARE = [
