@@ -1,0 +1,9 @@
+<p>Название стикерпака {{ object.name }}</p>
+{{ object.slug }}
+<div>
+    <p> Стикеры: </p>
+        {% for sticker in stickers %}
+            <img src="{{ sticker.image.url }}">
+        {% endfor %}
+</div>
+<a href="{% url 'stickers:addsticker' stickerpack_id=object.pk %}"> создать стикер </a>

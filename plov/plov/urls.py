@@ -4,6 +4,7 @@ import django.urls
 
 urlpatterns = [
     django.urls.path('users/', django.urls.include('users.urls')),
+    django.urls.path('stickerpacks/', django.urls.include('stickers.urls')),
     django.urls.path('auth/', django.urls.include('django.contrib.auth.urls')),
     django.urls.path('api/mocklms/profiles/', django.urls.include('mocklms.urls')),
     django.urls.path('admin/', django.contrib.admin.site.urls),

@@ -18,7 +18,6 @@ class StickerManager(django.db.models.Manager):
         return self._model_cache[(app_label, model_name)]
 
     def get_queryset(self):
-        self._init_fields()
         return super().get_queryset()
 
     def get_stickers_by_stickerpack(self, stickerpack_obj):

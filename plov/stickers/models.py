@@ -14,6 +14,7 @@ import transliterate
 
 import stickers.constants
 import stickers.managers
+import tg_bot.bot
 
 
 class StickerPack(django.db.models.Model):
@@ -43,6 +44,7 @@ class Sticker(django.db.models.Model):
     )
     image_for_tg = django.db.models.ImageField('sticker_image', upload_to='stickers/for_tg/', blank=True)
     decryption = django.db.models.TextField('decryption')
+    file_id_from_tg = django.db.models.CharField('file_id_from_tg', blank=True, null=True)
     stickerpack = django.db.models.ForeignKey(
         StickerPack, on_delete=django.db.models.CASCADE, related_name='sticker', default=None
     )
@@ -72,7 +74,7 @@ async def make_ocr_request(session, base64_image, file_extension, language):
 @django.dispatch.receiver(django.db.models.signals.post_save, sender=Sticker)
 async def add_decryption(sender, instance, created, **kwargs):
     file_extension = instance.image.path.split('.')[-1]
-    with pathlib.Path(instance.image.path, 'rb').open() as image_file:
+    with pathlib.Path(instance.image.path).open('rb') as image_file:
         image_data = image_file.read()
         base64_image = base64.b64encode(image_data).decode('utf-8')
 
@@ -105,12 +107,20 @@ async def add_decryption(sender, instance, created, **kwargs):
     output_path = instance.image.path.rsplit('.', 1)[0] + '.webp'
     background.save(output_path, 'webp', quality=99)
     image_field = 'for_tg/'.join(output_path.split('media/')[-1].split('just_img/'))
+    file_id = await tg_bot.bot.add_sticker_to_stickerpack(instance.image.path, instance.stickerpack.slug)
     await sender.objects.filter(id=instance.id).aupdate(
         decryption=get_cleaned_text_without_time(text),
         image_for_tg=image_field,
+        file_id_from_tg=file_id,
     )
 
 
-@django.dispatch.receiver(django.db.models.signals.post_save, sender=StickerPack)
-def add_stickerpack_to_tg(sender, instance, created, **kwargs):
+@django.dispatch.receiver(django.db.models.signals.pre_delete, sender=Sticker)
+def delete_sticker_from_tg_stickerpack(sender, instance, created, **kwargs):
     pass
+
+
+@django.dispatch.receiver(django.db.models.signals.post_save, sender=StickerPack)
+async def add_stickerpack_to_tg(sender, instance, created, **kwargs):
+    await tg_bot.bot.create_stickerpack(instance.name, instance.slug,
+                                        Sticker.objects.get_stickers_by_stickerpack(instance))
