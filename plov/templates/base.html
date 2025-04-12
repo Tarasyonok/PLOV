@@ -26,21 +26,11 @@
 
     {% include 'includes/footer.html' %}
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        });
+    </script>
   </body>
 </html>
-<script>
-// Handle review updates
-document.body.addEventListener('reviewUpdated', function() {
-    // Any specific update-related logic can go here
-    // The HX-Refresh header will handle the actual refresh
-});
-
-// Toast notification system (same as create view)
-document.body.addEventListener('showToast', function(event) {
-    // Implement your toast notification here
-    // Example using Bootstrap Toasts:
-    const toast = new bootstrap.Toast(document.getElementById('toast-notification'));
-    document.getElementById('toast-message').innerText = event.detail.message;
-    toast.show();
-});
-</script>
