@@ -36,6 +36,7 @@ class NormalizedNameModel(django.db.models.Model):
         self.normalized_name = self.get_normalized_name()
         if not self.slug:
             self.slug = slugify.slugify(self.name)
+
         super().save(*args, **kwargs)
 
 

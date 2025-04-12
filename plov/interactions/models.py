@@ -38,5 +38,3 @@ class Vote(core.models.UserContentInteraction):
     class Meta:
         unique_together = ('user', 'content_type', 'object_id')
         default_related_name = 'likes'
-
-    def __str__(self):

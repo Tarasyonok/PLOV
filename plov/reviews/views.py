@@ -32,12 +32,9 @@ class ReviewListView(django.views.generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context['user_review'] = reviews.models.Review.objects.filter(
-                user=self.request.user
-            ).first()
+            context['user_review'] = reviews.models.Review.objects.filter(user=self.request.user).first()
             context['form'] = reviews.forms.ReviewForm()
         return context
-
 
 
 class ReviewCreateView(BaseReviewView, django.views.generic.CreateView):
@@ -71,6 +68,7 @@ class ReviewDeleteView(BaseReviewView, django.views.generic.DeleteView):
 
     def delete(self, request, *args, **kwargs):
         from django.contrib import messages
+
         messages.success(self.request, self.success_message)
         return super().delete(request, *args, **kwargs)
 
@@ -88,10 +86,7 @@ def vote_review(request, review_id):
 
     # Check if vote exists
     vote, created = Vote.objects.get_or_create(
-        user=request.user,
-        content_type=content_type,
-        object_id=review.id,
-        defaults={'vote_type': vote_type}
+        user=request.user, content_type=content_type, object_id=review.id, defaults={'vote_type': vote_type}
     )
 
     if not created:
@@ -103,17 +98,15 @@ def vote_review(request, review_id):
             vote.vote_type = vote_type
             vote.save()
 
-    context = {
-        'review': review,
-        'user_vote': vote.vote_type if not created and vote.vote_type == vote_type else None
-    }
+    context = {'review': review, 'user_vote': vote.vote_type if not created and vote.vote_type == vote_type else None}
 
     if request.htmx:
         return render(request, 'reviews/partials/vote_controls.html', context)
 
-    return JsonResponse({  # Fallback for non-HTMX
-        'upvotes': review.upvotes_count,
-        'downvotes': review.downvotes_count,
-        'user_vote': context['user_vote']
-    })
-
+    return JsonResponse(
+        {  # Fallback for non-HTMX
+            'upvotes': review.upvotes_count,
+            'downvotes': review.downvotes_count,
+            'user_vote': context['user_vote'],
+        }
+    )
