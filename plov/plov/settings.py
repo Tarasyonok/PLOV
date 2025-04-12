@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'interactions.apps.InteractionsConfig',
     'reviews.apps.ReviewsConfig',
     'leaderboard.apps.LeaderboardConfig',
+    'forum.apps.ForumConfig',
 ]
 
 MIDDLEWARE = [

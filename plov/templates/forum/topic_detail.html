@@ -11,8 +11,9 @@
 
                         <h1 class="h3 dx-blog-post-title">{{ topic.title }}</h1>
                         <ul class="dx-blog-post-info">
+                            <a href="{% url 'forum:topic-report' topic.id %}" class="dx-widget-link"> Пожаловаться</a>
                             <li>Дата публикации: {{ topic.created }}</li>
-                            <li>Просмотры: {{ topic.topic_views_count }}</li>
+                            <li>Просмотры: {{ topic.topic_view_count }}</li>
                             <li>Автор: {{ topic.user }}</li>
                         </ul>
                         <p class="mnb-2">{{ topic.text }}</p>
@@ -20,8 +21,14 @@
 
                 </div>
                 <div class="dx-box mt-55">
-                    {% if  answers.count > 0 %}
-                    <h2 class="h4 mb-45">{{ answers.count }} ответ{{ answers|pluralize }} в этом топике: </h2>
+                    {% if answers.count > 0 %}
+                        {% if answers.count == 1 %}
+                            <h2 class="h4 mb-45">{{ answers.count }} ответ в этом топике: </h2>
+                        {% elif answers.count >= 2 and answers.count <= 4 %}
+                            <h2 class="h4 mb-45">{{ answers.count }} ответа в этом топике: </h2>
+                        {% else %}
+                            <h2 class="h4 mb-45">{{ answers.count }} ответов в этом топике: </h2>
+                        {% endif %}
                     {% else %}
                     <h2 class="h4 mb-45">Будь первым ответив на этот вопрос!</h2>
                     {% endif %}
@@ -37,9 +44,10 @@
                                     <span class="dx-comment-name">{{ answer.user|capfirst }}</span>
 
                                     <span class="dx-comment-date">
-                                        Ответил в: {{ answer.created }}
+                                        ответил(а) в {{ answer.created }}
                                     </span>
                                 </p>
+                                <a href="{% url 'forum:answer-report' answer.id %}" class="dx-widget-link"> Пожаловаться</a>
 
                                 <div class="dx-comment-text">
                                     <p class="mb-0">{{ answer.text }}</p>
