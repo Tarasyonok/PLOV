@@ -8,6 +8,12 @@ SECRET_KEY = decouple.config('DJANGO_SECRET_KEY', default='FAKE-SECRET-KEY')
 DEBUG = decouple.config('DJANGO_DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = decouple.config('DJANGO_ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: v.split(','))
 
+OCR_SPACE_APIKEY = decouple.config('OCR_SPACE_APIKEY', default='api-key')
+
+TG_BOT_TOKEN = decouple.config('TG_BOT_TOKEN', 'bot-token')
+TG_USER_ID = decouple.config('TG_USER_ID', default=1, cast=int)
+TG_STICKERPACK_ENDING = decouple.config('TG_STICKERPACK_ENDING', default='by_bot')
+
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'django.contrib.admin',
@@ -24,6 +30,7 @@ INSTALLED_APPS = [
     'reviews.apps.ReviewsConfig',
     'leaderboard.apps.LeaderboardConfig',
     'forum.apps.ForumConfig',
+    'stickers.apps.StickersConfig',
 ]
 
 MIDDLEWARE = [

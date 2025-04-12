@@ -18,6 +18,9 @@ dependencies = [
     "faker (>=37.1.0,<38.0.0)",
     "slugify (>=0.0.1,<0.0.2)",
     "django-htmx (>=1.23.0,<2.0.0)",
+    "aiohttp (>=3.11.16,<4.0.0)",
+    "transliterate (>=1.10.2,<2.0.0)",
+    "python-telegram-bot (>=22.0,<23.0)",
 ]
 
 
@@ -118,7 +121,7 @@ max-line-length = 120
 ignore = ["E203", "E266", "E501", "W503", "I202"]
 import-order-style = "google"
 inline-quotes = "single"
-application-import-names = ["core", "plov", "users", "reviews"]
+application-import-names = ["core", "plov", "stickers", "tg_bot", "users" ]
 exclude = [".git", ".venv", "venv", "*/migrations/*", "__pycache__", "*.pyc"]
 
 
