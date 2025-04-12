@@ -20,10 +20,9 @@ INSTALLED_APPS = [
     'django_htmx',
     'core.apps.CoreConfig',
     'mocklms.apps.MocklmsConfig',
-    'reviews.apps.ReviewsConfig',
-    'interactions.apps.InteractionsConfig',
     'interactions.apps.InteractionsConfig',
     'reviews.apps.ReviewsConfig',
+    'leaderboard.apps.LeaderboardConfig',
 ]
 
 MIDDLEWARE = [
