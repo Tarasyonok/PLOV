@@ -8,6 +8,11 @@ urlpatterns = [
         name='rep',
     ),
     django.urls.path(
+        'my/',
+        leaderboard.views.leaderboard_my_course,
+        name='my',
+    ),
+    django.urls.path(
         '',
         leaderboard.views.leaderboard,
         name='leaderboard',
