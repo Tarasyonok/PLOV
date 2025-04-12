@@ -26,11 +26,11 @@ class NormalizedNameModel(django.db.models.Model):
 
     def clean(self):
         if len(str(self.emoji)) != 1:
-            raise django.core.exceptions.ValidationError("Emoji must be a single character.")
+            raise django.core.exceptions.ValidationError('Emoji must be a single character.')
 
         normalized_name = self.get_normalized_name()
         if type(self).objects.exclude(id=self.id).filter(normalized_name=normalized_name).exists():
-            raise django.core.exceptions.ValidationError("Object with similar name already exists.")
+            raise django.core.exceptions.ValidationError('Object with similar name already exists.')
 
     def save(self, *args, **kwargs):
         self.normalized_name = self.get_normalized_name()

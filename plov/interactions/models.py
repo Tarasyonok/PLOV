@@ -13,6 +13,7 @@ class Comment(core.models.UserContentInteraction):
     def save(self, *args, **kwargs):
         if not self._state.adding:
             self.is_edited = True
+
         super().save(*args, **kwargs)
 
     class Meta:
@@ -22,7 +23,7 @@ class Comment(core.models.UserContentInteraction):
         ]
 
     def __str__(self):
-        return f"Comment by {self.user.username}"
+        return f'Comment by {self.user.username}'
 
 
 class Vote(core.models.UserContentInteraction):
@@ -39,4 +40,3 @@ class Vote(core.models.UserContentInteraction):
         default_related_name = 'likes'
 
     def __str__(self):
-        return f"{self.user.username} likes {self.content_object}"

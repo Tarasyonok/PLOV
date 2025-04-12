@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h4 class="my-0">Edit Profile</h4>
+                </div>
+
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Avatar Upload -->
+                        <div class="text-center mb-4">
+                            {% if form.instance.avatar %}
+                                <img src="{{ form.instance.avatar.url }}"
+                                    id="avatar-preview"
+                                    class="rounded-circle mb-2 object-fit-cover"
+                                    width="150"
+                                    height="150">
+                            {% else %}
+                                <img src="{% static 'img/no-img.png' %}"
+                                    id="avatar-preview"
+                                    class="rounded-circle mb-2 object-fit-cover"
+                                    width="150"
+                                    height="150">
+                            {% endif %}
+
+                            <div class="d-flex justify-content-center">
+                                <div class="btn btn-sm btn-outline-secondary position-relative">
+                                    Change Avatar
+                                    <input type="file"
+                                           name="avatar"
+                                           class="position-absolute top-0 start-0 w-100 h-100 opacity-0"
+                                           onchange="document.getElementById('avatar-preview').src = window.URL.createObjectURL(this.files[0])">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User Form Fields -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="id_user-first_name" class="form-label">First Name</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="id_user-first_name"
+                                       name="user-first_name"
+                                       value="{{ form.user_form.instance.first_name|default:'' }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="id_user-last_name" class="form-label">Last Name</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="id_user-last_name"
+                                       name="user-last_name"
+                                       value="{{ form.user_form.instance.last_name|default:'' }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="id_user-email" class="form-label">Email</label>
+                                <input type="email"
+                                       class="form-control"
+                                       id="id_user-email"
+                                       name="user-email"
+                                       value="{{ form.user_form.instance.email|default:'' }}">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="id_telegram_username" class="form-label">
+                                    <i class="bi bi-telegram"></i> Telegram
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">@</span>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="id_telegram_username"
+                                           name="telegram_username"
+                                           value="{{ form.user_form.instance.telegram_username|default:'' }}">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="id_lms_profile_id" class="form-label">
+                                    <i class="bi bi-book"></i> LMS Profile ID
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="id_lms_profile_id"
+                                       name="lms_profile_id"
+                                       value="{{ form.user_form.instance.lms_profile_id|default:'' }}">
+                                <div class="form-text">Enter your Yandex LMS profile ID</div>
+                            </div>
+                        </div>
+
+                        <!-- Profile Form Fields -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_birthday" class="form-label">Birthday</label>
+                                <input type="date"
+                                       class="form-control"
+                                       id="id_birthday"
+                                       name="birthday"
+                                       max="{{ form.instance.birthday.field.widget.attrs.max }}"
+                                       value="{{ form.instance.birthday|date:'Y-m-d' }}">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="id_bio" class="form-label">Bio</label>
+                                <textarea class="form-control"
+                                          id="id_bio"
+                                          name="bio"
+                                          rows="4">{{ form.instance.bio }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{% url 'users:profile' username=request.user.username %}"
+                               class="btn btn-outline-secondary me-md-2">
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Tooltip Init -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+})
+</script>
+{% endblock %}

@@ -1,0 +1,133 @@
+{% with view_name=request.resolver_match.view_name %}
+{% load static i18n %}
+
+<header class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom">
+  <div class="container-fluid">
+    <!-- Logo/Brand -->
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'homepage:homepage' %}">
+      <img src="{% static 'img/logo.png' %}" width="40" height="40" class="d-inline-block align-top" alt="Плов">
+      <span class="ms-2 fs-4 fw-bold d-none d-sm-inline">Плов</span>
+    </a>
+
+    <!-- Mobile Burger -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Main Navigation -->
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link {% if view_name == 'homepage:homepage' %}active fw-bold{% endif %}"
+             href="{% url 'homepage:homepage' %}">
+            <i class="bi bi-house-door"></i> Главная
+          </a>
+        </li>
+
+        <!-- Future Pages -->
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="bi bi-chat-square-text"></i> Q&A</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="bi bi-stickies"></i> Стикеры</a>
+        </li>
+
+        {% if user.is_authenticated and user.is_staff %}
+        <li class="nav-item">
+          <a class="nav-link text-danger" href="{% url 'admin:index' %}">
+            <i class="bi bi-shield-lock"></i> Админка
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+
+      <!-- Auth Section -->
+      <div class="d-flex align-items-center">
+        {% if user.is_authenticated %}
+          <!-- User Dropdown -->
+          <div class="dropdown">
+            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle"
+               id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}"
+                    width="40" height="40"
+                    class="rounded-circle border object-fit-cover"
+                    onerror="this.src='{% static 'img/no-img.png' %}'">
+              {% else %}
+                <img src="{% static 'img/no-img.png' %}"
+                    width="40" height="40"
+                    class="rounded-circle border object-fit-cover"
+                    onerror="this.src='{% static 'img/no-img.png' %}'">
+              {% endif %}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li>
+                <a class="dropdown-item" href="{% url 'users:profile' user.username %}">
+                  <i class="bi bi-person"></i> Мой профиль
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'users:edit-profile' %}">
+                  <i class="bi bi-pencil"></i> Редактировать
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item text-danger" href="{% url 'users:logout' %}">
+                  <i class="bi bi-box-arrow-right"></i> Выйти
+                </a>
+              </li>
+            </ul>
+          </div>
+        {% else %}
+          <!-- Guest Buttons -->
+          <div class="btn-group ms-2">
+            <a href="{% url 'users:login' %}"
+               class="btn btn-outline-primary btn-sm">
+              <i class="bi bi-box-arrow-in-right"></i> Войти
+            </a>
+            <a href="{% url 'users:signup' %}"
+               class="btn btn-primary btn-sm">
+              <i class="bi bi-person-plus"></i> Регистрация
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .navbar {
+    height: 70px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+  }
+  .dropdown-menu {
+    margin-top: 10px;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  .nav-link.active {
+    position: relative;
+  }
+  .nav-link.active:after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: var(--bs-primary);
+  }
+  @media (max-width: 992px) {
+    .navbar-collapse {
+      padding: 20px 0;
+      background: white;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+  }
+</style>
+{% endwith %}

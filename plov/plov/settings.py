@@ -20,6 +20,8 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'mocklms.apps.MocklmsConfig',
     'interactions.apps.InteractionsConfig',
+    'interactions.apps.InteractionsConfig',
+    'reviews.apps.ReviewsConfig',
 ]
 
 MIDDLEWARE = [
