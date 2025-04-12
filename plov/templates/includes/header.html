@@ -1,10 +1,10 @@
 {% with view_name=request.resolver_match.view_name %}
-{% load static i18n %}
+{% load static %}
 
 <header class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom">
   <div class="container-fluid">
     <!-- Logo/Brand -->
-    <a class="navbar-brand d-flex align-items-center" href="{% url 'homepage:homepage' %}">
+    <a class="navbar-brand d-flex align-items-center" href="#">
       <img src="{% static 'img/logo.png' %}" width="40" height="40" class="d-inline-block align-top" alt="Плов">
       <span class="ms-2 fs-4 fw-bold d-none d-sm-inline">Плов</span>
     </a>
@@ -19,14 +19,14 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link {% if view_name == 'homepage:homepage' %}active fw-bold{% endif %}"
-             href="{% url 'homepage:homepage' %}">
+             href="#">
             <i class="bi bi-house-door"></i> Главная
           </a>
         </li>
 
         <!-- Future Pages -->
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'forum:forum' %}"><i class="bi bi-chat-square-text"></i> Q&A</a>
+          <a class="nav-link" href="#"><i class="bi bi-chat-square-text"></i> Q&A</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#"><i class="bi bi-stickies"></i> Стикеры</a>

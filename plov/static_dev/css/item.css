@@ -1,0 +1,62 @@
+.carousel,
+  .main-image-container {
+    position: relative;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: TranslateY(-50%);
+  }
+
+  .download-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+  }
+
+  .star {
+    position: fixed;
+    opacity: 0;
+    left: -90000px;
+  }
+
+  .star-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;
+  }
+
+  .star-shape {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .star-shape svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .star-not-active {
+    fill: none;
+    stroke: #CCCCCC;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  .star-active {
+    fill: #FECF37;
+    stroke: #FECF37;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  .rating-form {
+    display: none;
+  }

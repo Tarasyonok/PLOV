@@ -1,0 +1,23 @@
+<div style="display: flex; gap: 10px; margin-top: 10px;">
+    <form hx-post="{% url 'reviews:vote_review' review.id %}"
+          hx-target="closest .review-item"
+          hx-swap="outerHTML">
+        {% csrf_token %}
+        <input type="hidden" name="vote_type" value="U">
+        <button type="submit" style="background: none; border: none; cursor: pointer;
+               opacity: {% if user_vote == 'U' %}1{% else %}0.5{% endif %};">
+            👍 <span>{{ review.upvotes_count }}</span>
+        </button>
+    </form>
+
+    <form hx-post="{% url 'reviews:vote_review' review.id %}"
+          hx-target="closest .review-item"
+          hx-swap="outerHTML">
+        {% csrf_token %}
+        <input type="hidden" name="vote_type" value="D">
+        <button type="submit" style="background: none; border: none; cursor: pointer;
+               opacity: {% if user_vote == 'D' %}1{% else %}0.5{% endif %};">
+            👎 <span>{{ review.downvotes_count }}</span>
+        </button>
+    </form>
+</div>
