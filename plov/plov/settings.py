@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'mocklms.apps.MocklmsConfig',
     'leaderboard.apps.LeaderboardConfig',
+    'users_status.apps.UsersStatusConfig',
 ]
 
 MIDDLEWARE = [
@@ -30,6 +31,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'users_status.middleware.OnlineNowMiddleware',
 ]
 
 ROOT_URLCONF = 'plov.urls'

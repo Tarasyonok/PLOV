@@ -6,6 +6,7 @@ import django.urls
 import django.views.generic
 
 import users.forms
+import users_status.models
 
 
 class SignUpView(
@@ -33,6 +34,12 @@ class PublicProfileView(django.views.generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['is_owner'] = self.request.user == self.object
+        context['is_online'] = users_status.models.UserStatus.is_user_online(
+            self.kwargs['username'],
+        )
+        context['last_seen'] = users_status.models.UserStatus.last_seen(
+            self.kwargs['username'],
+        )
         return context
 
 
