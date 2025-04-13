@@ -1,5 +1,6 @@
 import asyncio
 import base64
+import io
 import pathlib
 import re
 
@@ -94,7 +95,6 @@ async def add_decryption(sender, instance, created, **kwargs):
     )
     text = text.replace('\r', ' ').replace('\n', '')
     img = PIL.Image.open(instance.image.path).convert('RGBA')
-    background = PIL.Image.new('RGBA', (512, 512), (0, 0, 0, 0))
     width, height = img.size
     if width > height:
         new_width = 512
@@ -104,29 +104,27 @@ async def add_decryption(sender, instance, created, **kwargs):
         new_width = int(width * (512 / height))
 
     img = img.resize((new_width, new_height), PIL.Image.LANCZOS)
-    x = (512 - img.width) // 2
-    y = (512 - img.height) // 2
-    background.paste(img, (x, y), img)
-    output_path = instance.image.path.rsplit('.', 1)[0] + '.webp'
-    background.save(output_path, 'webp', quality=99)
-    image_field = 'for_tg/'.join(output_path.split('media/')[-1].split('just_img/'))
-    file_id = await tg_bot.bot.add_sticker_to_stickerpack(instance.image.path, instance.stickerpack.slug)
+    buffer = io.BytesIO()
+    img.save(buffer, 'webp', quality=99)
+    file_id = await tg_bot.bot.add_sticker_to_stickerpack(buffer, instance.stickerpack.slug)
     await sender.objects.filter(id=instance.id).aupdate(
         decryption=get_cleaned_text_without_time(text),
-        image_for_tg=image_field,
+        image_for_tg=buffer,
         file_id_from_tg=file_id,
     )
+    buffer.close()
 
 
 @django.dispatch.receiver(django.db.models.signals.pre_delete, sender=Sticker)
-def delete_sticker_from_tg_stickerpack(sender, instance, created, **kwargs):
-    pass
+async def delete_sticker_from_tg_stickerpack(sender, instance, **kwargs):
+    await tg_bot.bot.delete_sticker_from_stickerpack(instance.file_id)
 
 
 @django.dispatch.receiver(django.db.models.signals.post_save, sender=StickerPack)
 async def add_stickerpack_to_tg(sender, instance, created, **kwargs):
-    await tg_bot.bot.create_stickerpack(
-        instance.name,
-        instance.slug,
-        Sticker.objects.get_stickers_by_stickerpack(instance),
-    )
+    if not instance.published_on_tg:
+        await tg_bot.bot.create_stickerpack(instance.name, instance.slug,
+                                            Sticker.objects.get_stickers_by_stickerpack(instance))
+        await sender.objects.filter(id=instance.id).aupdate(
+            published_on_tg=True
+        )

@@ -2,6 +2,7 @@ import pathlib
 
 import decouple
 import django.urls
+import telegram
 
 BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
 SECRET_KEY = decouple.config('DJANGO_SECRET_KEY', default='FAKE-SECRET-KEY')
@@ -13,6 +14,9 @@ OCR_SPACE_APIKEY = decouple.config('OCR_SPACE_APIKEY', default='api-key')
 TG_BOT_TOKEN = decouple.config('TG_BOT_TOKEN', 'bot-token')
 TG_USER_ID = decouple.config('TG_USER_ID', default=1, cast=int)
 TG_STICKERPACK_ENDING = decouple.config('TG_STICKERPACK_ENDING', default='by_bot')
+TG_START_OF_TG_URL_ON_STICKERPACK = decouple.config('TG_START_OF_TG_URL_ON_STICKERPACK', default='https://t.me/addstickers/')
+TG_BOT = telegram.Bot(TG_BOT_TOKEN)
+
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',

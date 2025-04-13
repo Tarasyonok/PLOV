@@ -1,3 +1,4 @@
+import django.conf
 import django.urls
 import django.views.generic
 
@@ -20,6 +21,7 @@ class StickerPackDetailView(django.views.generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['stickers'] = stickers.models.Sticker.objects.get_stickers_by_stickerpack(self.object)
+        context['url_to_tg'] = django.conf.settings.TG_START_OF_TG_URL_ON_STICKERPACK + self.object.slug + django.conf.settings.TG_STICKERPACK_ENDING
         return context
 
 
@@ -37,3 +39,6 @@ class AddStickerView(django.views.generic.CreateView):
 
     def get_success_url(self):
         return django.urls.reverse('stickers:stickerpackinfo', kwargs={'pk': self.kwargs.get('stickerpack_id')})
+
+class DeleteStickerView(django.views.generic.DeleteView):
+    model = stickers.models.Sticker

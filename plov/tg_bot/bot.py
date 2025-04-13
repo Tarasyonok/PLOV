@@ -6,7 +6,7 @@ import telegram.constants
 
 
 async def create_stickerpack(stickerpack_name, stickerpack_slug, stickers_img_paths):
-    bot = telegram.Bot(django.conf.settings.TG_BOT_TOKEN)
+    bot = django.conf.settings.TG_BOT
     user_id = django.conf.settings.TG_USER_ID
     stickers = []
     with pathlib.Path('tg_bot/django.png').open('rb') as f:
@@ -25,23 +25,30 @@ async def create_stickerpack(stickerpack_name, stickerpack_slug, stickers_img_pa
     )
 
 
-async def add_sticker_to_stickerpack(sticker_img_path, stickerpack_slug):
-    bot = telegram.Bot(django.conf.settings.TG_BOT_TOKEN)
+async def add_sticker_to_stickerpack(buffer, stickerpack_slug):
+    bot = django.conf.settings.TG_BOT
     user_id = django.conf.settings.TG_USER_ID
-    # printing stickerpack_slug
-    with pathlib.Path(sticker_img_path).open('rb') as f:
-        sticker = telegram.InputSticker(
-            sticker=f.read(),
+    buffer.seek(0)
+    sticker = (
+        telegram.InputSticker(
+            sticker=buffer.read(),
             emoji_list=['😀'],
-            format=telegram.constants.StickerFormat.STATIC,
+            format=telegram.constants.StickerFormat.STATIC
         )
+
+    )
 
     stickerpack_name = stickerpack_slug + django.conf.settings.TG_STICKERPACK_ENDING
 
-    bot.add_sticker_to_set(
+    await bot.add_sticker_to_set(
         user_id=user_id,
         name=stickerpack_name,
         sticker=sticker,
     )
     stickerset = await bot.get_sticker_set(stickerpack_name)
     return stickerset.stickers[-1].file_id
+
+
+async def delete_sticker_from_stickerpack(file_id):
+    bot = telegram.Bot(django.conf.settings.TG_BOT_TOKEN)
+    bot.delete_sticker_from_set(file_id)
