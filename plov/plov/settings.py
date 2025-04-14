@@ -110,6 +110,9 @@ if DEBUG:
     INTERNAL_IPS = ['*']
 
 AUTH_USER_MODEL = 'users.User'
+AUTHENTICATION_BACKENDS = [
+    'users.backends.EmailAuthBackend',
+]
 LMS_API_URL = 'http://localhost:8000/api/mocklms'
 
 LOGIN_URL = django.urls.reverse_lazy('users:login')
