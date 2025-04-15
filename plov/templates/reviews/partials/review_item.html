@@ -1,0 +1,38 @@
+<div style="border-bottom: 1px solid #eee; padding: 15px 0;" id="review-{{ review.id }}" class="review-item">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+        <strong>{{ review.user.get_full_name|default:review.user.username }}</strong>
+        <span>
+            {% if review.rating == 1 %}⭐
+            {% elif review.rating == 2 %}⭐⭐
+            {% elif review.rating == 3 %}⭐⭐⭐
+            {% elif review.rating == 4 %}⭐⭐⭐⭐
+            {% elif review.rating == 5 %}⭐⭐⭐⭐⭐
+            {% endif %}
+            ({{ review.get_rating_display }})
+        </span>
+    </div>
+    <p style="margin: 10px 0;">{{ review.content }}</p>
+    <div style="color: #666; font-size: 0.9em;">
+        {{ review.created_at|date:"F j, Y" }}
+    </div>
+    {% if review.user == request.user %}
+        <div class="review-actions">
+            <button hx-get="{% url 'reviews:update' review.pk %}"
+                    hx-target="#review-form-container"
+                    hx-swap="innerHTML"
+                    onclick="document.getElementById('review-form-container').style.display = 'block';"
+                    class="btn btn-sm btn-primary">
+                Edit
+            </button>
+
+            {% if review %}
+                <a href="{% url 'reviews:delete' review.pk %}"
+                   class="btn btn-sm btn-danger">
+                    Delete
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% include "reviews/partials/vote_controls.html" %}
+</div>

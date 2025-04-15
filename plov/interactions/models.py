@@ -31,12 +31,8 @@ class Vote(core.models.UserContentInteraction):
         UPVOTE = 'U', 'Лайк'
         DOWNVOTE = 'D', 'Дизлайк'
 
-    specialization = django.db.models.CharField(
-        choices=VoteChoices,
-    )
+    vote_type = django.db.models.CharField(choices=VoteChoices, max_length=1)
 
     class Meta:
         unique_together = ('user', 'content_type', 'object_id')
         default_related_name = 'likes'
-
-    def __str__(self):

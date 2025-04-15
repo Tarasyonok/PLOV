@@ -1,5 +1,4 @@
 import django.forms
-
 import stickers.models
 
 

@@ -9,6 +9,7 @@ urlpatterns = [
     django.urls.path('reviews/', django.urls.include('reviews.urls')),
     django.urls.path('auth/', django.urls.include('django.contrib.auth.urls')),
     django.urls.path('reviews/', django.urls.include('reviews.urls')),
+    django.urls.path('interactions/', django.urls.include('interactions.urls')),
     django.urls.path('api/mocklms/profiles/', django.urls.include('mocklms.urls')),
     django.urls.path('leaderboard/', django.urls.include('leaderboard.urls')),
     django.urls.path('admin/', django.contrib.admin.site.urls),

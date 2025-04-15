@@ -1,5 +1,4 @@
 import django.contrib.admin
-
 import stickers.models
 
 

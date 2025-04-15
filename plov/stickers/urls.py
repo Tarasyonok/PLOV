@@ -1,5 +1,4 @@
 import django.urls
-
 import stickers.views
 
 app_name = 'stickers'

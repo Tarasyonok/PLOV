@@ -10,11 +10,10 @@ import django.core.exceptions
 import django.db.models
 import django.dispatch
 import PIL.Image
-import transliterate
-
 import stickers.constants
 import stickers.managers
 import tg_bot.bot
+import transliterate
 
 
 class StickerPack(django.db.models.Model):

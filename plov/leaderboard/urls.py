@@ -1,6 +1,7 @@
 import django.urls
 import leaderboard.views
 
+app_name = 'leaderboards'
 urlpatterns = [
     django.urls.path(
         'rep/',

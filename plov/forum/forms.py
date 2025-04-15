@@ -53,41 +53,41 @@ class AnswerForm(django.forms.ModelForm):
         ]
 
 
-class TopicReportForm(django.forms.ModelForm):
-    reason = django.forms.CharField(
-        label="",
-        widget=django.forms.Textarea(
-            attrs={
-                "class": "form-control form-control-style-3",
-                "placeholder": "Ваша жалоба...",
-                "rows": "8",
-                "cols": "50",
-            }
-        ),
-    )
+# class TopicReportForm(django.forms.ModelForm):
+#     reason = django.forms.CharField(
+#         label="",
+#         widget=django.forms.Textarea(
+#             attrs={
+#                 "class": "form-control form-control-style-3",
+#                 "placeholder": "Ваша жалоба...",
+#                 "rows": "8",
+#                 "cols": "50",
+#             }
+#         ),
+#     )
+#
+#     class Meta:
+#         model = forum.models.TopicReport
+#         fields = [
+#             "reason",
+#         ]
 
-    class Meta:
-        model = forum.models.TopicReport
-        fields = [
-            "reason",
-        ]
 
-
-class AnswerReportForm(django.forms.ModelForm):
-    reason = django.forms.CharField(
-        label="",
-        widget=django.forms.Textarea(
-            attrs={
-                "class": "form-control form-control-style-3",
-                "placeholder": "Ваша жалоба...",
-                "rows": "8",
-                "cols": "50",
-            }
-        ),
-    )
-
-    class Meta:
-        model = forum.models.AnswerReport
-        fields = [
-            "reason",
-        ]
+# class AnswerReportForm(django.forms.ModelForm):
+#     reason = django.forms.CharField(
+#         label="",
+#         widget=django.forms.Textarea(
+#             attrs={
+#                 "class": "form-control form-control-style-3",
+#                 "placeholder": "Ваша жалоба...",
+#                 "rows": "8",
+#                 "cols": "50",
+#             }
+#         ),
+#     )
+#
+#     class Meta:
+#         model = forum.models.AnswerReport
+#         fields = [
+#             "reason",
+#         ]
