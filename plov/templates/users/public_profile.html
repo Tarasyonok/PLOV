@@ -19,6 +19,16 @@
                         style="width: 250px; height: 250px; margin: 0 auto;">
                 {% endif %}
 
+                {% if is_online %}
+                <div class="mb-4">
+                    <div class="online-indicator"></div>
+                </div>
+                {% else %}
+                <div class="mb-4">
+                    <div class="offline-indicator"></div>
+                </div>
+                {% endif %}
+
                 <div class="card-body">
                     <h2 class="card-title">{{ profile_user.get_full_name }}</h2>
                     <p class="text-muted">@{{ profile_user.username }}</p>
@@ -61,6 +71,18 @@
                         <div class="mb-4">
                             <h5 class="text-muted">Bio</h5>
                             <p>{{ profile_user.profile.bio }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if is_online %}
+                        <div class="mb-4">
+                            <h5 class="text-muted">Status</h5>
+                            <p>Online</p>
+                        </div>
+                        {% else %}
+                        <div class="mb-4">
+                            <h5 class="text-muted">Status</h5>
+                            <p>Last seen {{ last_seen }}</p>
                         </div>
                         {% endif %}
 

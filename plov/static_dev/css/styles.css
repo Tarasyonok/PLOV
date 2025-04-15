@@ -1,0 +1,24 @@
+.online-indicator {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: green;
+    position: absolute;
+    top: 190px;
+    right: 120px;
+}
+
+.offline-indicator {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: gray;
+    position: absolute;
+    top: 190px;
+    right: 120px;
+}
+
+.circle-border {
+    border-radius: 50%;
+    border: 2px solid black; 
+}

@@ -13,8 +13,8 @@
                         <ul class="dx-blog-post-info">
                             <a href="{% url 'forum:topic-report' topic.id %}" class="dx-widget-link"> Пожаловаться</a>
                             <li>Дата публикации: {{ topic.created }}</li>
+                            <li>Автор: {{ topic.user.username }}</li>
                             <li>Просмотры: {{ topic.topic_view_count }}</li>
-                            <li>Автор: {{ topic.user }}</li>
                         </ul>
                         <p class="mnb-2">{{ topic.text }}</p>
                     </div>
@@ -41,7 +41,7 @@
                             </div>
                             <div class="dx-comment-cont">
                                 <p class="dx-comment-info">
-                                    <span class="dx-comment-name">{{ answer.user|capfirst }}</span>
+                                    <span class="dx-comment-name">{{ answer.user.username|capfirst }}</span>
 
                                     <span class="dx-comment-date">
                                         ответил(а) в {{ answer.created }}

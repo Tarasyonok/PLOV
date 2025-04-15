@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'leaderboard.apps.LeaderboardConfig',
     'forum.apps.ForumConfig',
     'stickers.apps.StickersConfig',
+    'users_status.apps.UsersStatusConfig',
 ]
 
 MIDDLEWARE = [
@@ -42,6 +43,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
+    'users_status.middleware.OnlineNowMiddleware',
 ]
 
 ROOT_URLCONF = 'plov.urls'
@@ -120,6 +122,9 @@ if DEBUG:
     INTERNAL_IPS = ['*']
 
 AUTH_USER_MODEL = 'users.User'
+AUTHENTICATION_BACKENDS = [
+    'users.backends.EmailAuthBackend',
+]
 LMS_API_URL = 'http://localhost:8000/api/mocklms'
 
 LOGIN_URL = django.urls.reverse_lazy('users:login')
