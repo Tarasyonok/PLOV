@@ -1,6 +1,7 @@
 import django.conf
 import django.contrib.auth
 import django.contrib.auth.mixins
+import django.contrib.auth.views
 import django.contrib.messages.views
 import django.urls
 import django.views.generic
@@ -22,6 +23,11 @@ class SignUpView(
         new_user.is_active = True
         new_user.save()
         return super().form_valid(form)
+
+
+class LoginView(django.contrib.auth.views.LoginView):
+    def get_success_url(self):
+        return django.urls.reverse('users:profile', kwargs={'username': self.request.user.username})
 
 
 class PublicProfileView(django.views.generic.DetailView):

@@ -9,7 +9,6 @@ import django.shortcuts
 import django.urls
 import django.views.decorators.http
 import django.views.generic
-
 import reviews.forms
 import reviews.models
 
@@ -18,6 +17,7 @@ class BaseReviewView(
     django.contrib.auth.mixins.LoginRequiredMixin,
     django.contrib.auth.mixins.UserPassesTestMixin,
     django.contrib.messages.views.SuccessMessageMixin,
+    django.views.generic.detail.SingleObjectMixin,
 ):
     model = reviews.models.Review
     success_url = django.urls.reverse_lazy('reviews:reviews')
@@ -30,6 +30,7 @@ class ReviewListView(django.views.generic.ListView):
     def get_template_names(self):
         if self.request.htmx:
             return ['reviews/partials/reviews_list_content.html']
+
         return [self.template_name]
 
     def get_queryset(self):
@@ -42,15 +43,16 @@ class ReviewListView(django.views.generic.ListView):
             context['user_review'] = user_review
             context['show_write_button'] = not user_review
             context['form'] = reviews.forms.ReviewForm()
+
         return context
 
 
-class ReviewCreateView(BaseReviewView, django.views.generic.CreateView):
+class ReviewCreateView(BaseReviewView, django.views.generic.edit.CreateView):
     form_class = reviews.forms.ReviewForm
     template_name = 'reviews/partials/review_form.html'
 
     def test_func(self):
-        course = self.request.user.courses.filter(specialization="D")
+        course = self.request.user.courses.filter(specialization='D')
         return course.exists() and course.first().is_graduated
 
     def form_valid(self, form):
@@ -59,15 +61,19 @@ class ReviewCreateView(BaseReviewView, django.views.generic.CreateView):
             if form.is_valid():
                 self.object = form.save()
                 response = django.http.HttpResponse(status=204)
-                response['HX-Trigger'] = json.dumps({
-                    'refreshReviews': True,
-                    'hideWriteButton': True,
-                })
+                response['HX-Trigger'] = json.dumps(
+                    {
+                        'refreshReviews': True,
+                        'hideWriteButton': True,
+                    },
+                )
+
                 return response
+
         return super().form_valid(form)
 
 
-class ReviewUpdateView(BaseReviewView, django.views.generic.UpdateView):
+class ReviewUpdateView(BaseReviewView, django.views.generic.edit.UpdateView):
     form_class = reviews.forms.ReviewForm
     template_name = 'reviews/partials/review_form.html'
 
@@ -82,6 +88,7 @@ class ReviewUpdateView(BaseReviewView, django.views.generic.UpdateView):
                 'rating': self.object.rating,
                 'content': self.object.content,
             }
+
         return kwargs
 
     def form_valid(self, form):
@@ -89,11 +96,14 @@ class ReviewUpdateView(BaseReviewView, django.views.generic.UpdateView):
             if form.is_valid():
                 self.object = form.save()
                 response = django.shortcuts.HttpResponse(status=204)
-                response['HX-Trigger'] = json.dumps({
-                    'refreshReviews': True,
-                    'hideWriteButton': True,
-                })
+                response['HX-Trigger'] = json.dumps(
+                    {
+                        'refreshReviews': True,
+                        'hideWriteButton': True,
+                    },
+                )
                 return response
+
         return super().form_valid(form)
 
     def get(self, request, *args, **kwargs):
@@ -101,16 +111,17 @@ class ReviewUpdateView(BaseReviewView, django.views.generic.UpdateView):
             self.object = self.get_object()
             return django.shortcuts.render(
                 request,
-                "reviews/partials/review_form.html",
+                'reviews/partials/review_form.html',
                 {
                     'form': self.get_form(),
                     'review': self.object,
-                }
+                },
             )
+
         return super().get(request, *args, **kwargs)
 
 
-class ReviewDeleteView(BaseReviewView, django.views.generic.DeleteView):
+class ReviewDeleteView(BaseReviewView, django.views.generic.edit.DeleteView):
     def test_func(self):
         review = self.get_object()
         return self.request.user == review.user or self.request.user.is_staff
@@ -119,10 +130,6 @@ class ReviewDeleteView(BaseReviewView, django.views.generic.DeleteView):
         self.object = self.get_object()
         if request.htmx:
             self.object.delete()
-            return django.http.HttpResponse(
-                status=204,
-                headers={
-                    'HX-Trigger': json.dumps({'reviewDeleted': True})
-                }
-            )
+            return django.http.HttpResponse(status=204, headers={'HX-Trigger': json.dumps({'reviewDeleted': True})})
+
         return super().delete(request, *args, **kwargs)

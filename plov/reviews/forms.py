@@ -1,5 +1,4 @@
 import django.forms
-
 import reviews.models
 
 
@@ -15,9 +14,7 @@ class ReviewForm(django.forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['rating'].required = True
-        self.fields['rating'].error_messages = {
-            'required': 'Please select a rating'
-        }
+        self.fields['rating'].error_messages = {'required': 'Please select a rating'}
 
     def clean_rating(self):
         rating = self.cleaned_data['rating']

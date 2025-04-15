@@ -10,10 +10,11 @@ import django.core.exceptions
 import django.db.models
 import django.dispatch
 import PIL.Image
+import transliterate
+
 import stickers.constants
 import stickers.managers
 import tg_bot.bot
-import transliterate
 
 
 class StickerPack(django.db.models.Model):
@@ -45,7 +46,10 @@ class Sticker(django.db.models.Model):
     decryption = django.db.models.TextField('decryption')
     file_id_from_tg = django.db.models.CharField('file_id_from_tg', blank=True, null=True)
     stickerpack = django.db.models.ForeignKey(
-        StickerPack, on_delete=django.db.models.CASCADE, related_name='sticker', default=None
+        StickerPack,
+        on_delete=django.db.models.CASCADE,
+        related_name='sticker',
+        default=None,
     )
 
     def clean(self):
@@ -86,7 +90,7 @@ async def add_decryption(sender, instance, created, **kwargs):
         jsoned_text_rus, jsoned_text_eng = results
 
     text = ' '.join(list(map(lambda x: x['ParsedText'], jsoned_text_rus['ParsedResults']))) + ' '.join(
-        list(map(lambda x: x['ParsedText'], jsoned_text_eng['ParsedResults']))
+        list(map(lambda x: x['ParsedText'], jsoned_text_eng['ParsedResults'])),
     )
     text = text.replace('\r', ' ').replace('\n', '')
     img = PIL.Image.open(instance.image.path).convert('RGBA')
@@ -122,5 +126,7 @@ def delete_sticker_from_tg_stickerpack(sender, instance, created, **kwargs):
 @django.dispatch.receiver(django.db.models.signals.post_save, sender=StickerPack)
 async def add_stickerpack_to_tg(sender, instance, created, **kwargs):
     await tg_bot.bot.create_stickerpack(
-        instance.name, instance.slug, Sticker.objects.get_stickers_by_stickerpack(instance)
+        instance.name,
+        instance.slug,
+        Sticker.objects.get_stickers_by_stickerpack(instance),
     )

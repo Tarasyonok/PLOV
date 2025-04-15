@@ -1,4 +1,5 @@
 import django.urls
+
 import forum.views
 
 app_name = "forum"

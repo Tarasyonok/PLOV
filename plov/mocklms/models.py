@@ -9,11 +9,12 @@ class LMSProfile(django.db.models.Model):
     last_name = django.db.models.CharField(max_length=150)
     first_name = django.db.models.CharField(max_length=150)
     middle_name = django.db.models.CharField(max_length=150, blank=True, null=True)
-    GENDER_CHOICES = [
-        ('male', 'Male'),
-        ('female', 'Female'),
-    ]
-    gender = django.db.models.CharField(max_length=10, choices=GENDER_CHOICES)
+
+    class GenderChoices(django.db.models.TextChoices):
+        MALE = 'male', 'Male'
+        FEMALE = 'female', 'Female'
+
+    gender = django.db.models.CharField(max_length=10, choices=GenderChoices)
     display_name = django.db.models.CharField(max_length=255)
     avatar = django.db.models.CharField(max_length=255, blank=True)
     email = django.db.models.EmailField()

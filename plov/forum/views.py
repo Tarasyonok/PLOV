@@ -2,6 +2,7 @@ import django.contrib.auth.decorators
 import django.http
 import django.shortcuts
 import django.urls
+
 import forum.forms
 import forum.models
 

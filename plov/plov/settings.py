@@ -75,7 +75,7 @@ DATABASES = {
         'PASSWORD': decouple.config('POSTGRES_PASSWORD', default='postgres'),
         'HOST': decouple.config('POSTGRES_HOST', default='localhost'),
         'PORT': decouple.config('POSTGRES_PORT', default='5432'),
-    }
+    },
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -128,7 +128,7 @@ AUTHENTICATION_BACKENDS = [
 LMS_API_URL = 'http://localhost:8000/api/mocklms'
 
 LOGIN_URL = django.urls.reverse_lazy('users:login')
-LOGIN_REDIRECT_URL = django.urls.reverse_lazy('users:profile')
+LOGIN_REDIRECT_URL = 'users:profile'
 LOGOUT_REDIRECT_URL = django.urls.reverse_lazy('users:login')
 
 LOG_LEVEL = decouple.config('DJANGO_LOG_LEVEL', default='INFO')

@@ -88,9 +88,9 @@ class UserCourse(django.db.models.Model):
         constraints = [
             django.db.models.UniqueConstraint(
                 fields=['user', 'specialization'],
-                name='unique_user_specialization',
+                name='unique_course_user_specialization',
                 violation_error_message='User already has this course specialization',
-            )
+            ),
         ]
 
     def __str__(self):

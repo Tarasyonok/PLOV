@@ -7,10 +7,10 @@ import django.shortcuts
 import django.urls
 import django.views.decorators.http
 import django.views.generic
-import interactions.models
-
 import reviews.forms
 import reviews.models
+
+import interactions.models
 
 
 @django.contrib.auth.decorators.login_required
@@ -28,7 +28,7 @@ def vote_review(request, review_id):
         user=request.user,
         content_type=content_type,
         object_id=review.id,
-        defaults={'vote_type': vote_type}
+        defaults={'vote_type': vote_type},
     )
 
     if not created:
@@ -40,20 +40,19 @@ def vote_review(request, review_id):
 
     context = {
         'review': review,
-        'user_vote': vote.vote_type if not created and vote.vote_type == vote_type else None
+        'user_vote': vote.vote_type if not created and vote.vote_type == vote_type else None,
     }
 
     if request.htmx:
         return django.shortcuts.render(
-            request, 'reviews/partials/vote_controls.html',
+            request,
+            'reviews/partials/vote_controls.html',
             {
                 'review': review,
                 'user_vote': vote_type if (created or vote.vote_type == vote_type) else None,
-            }
+            },
         )
 
-    return django.http.JsonResponse({
-        'upvotes': review.upvotes_count,
-        'downvotes': review.downvotes_count,
-        'user_vote': context['user_vote']
-    })
+    return django.http.JsonResponse(
+        {'upvotes': review.upvotes_count, 'downvotes': review.downvotes_count, 'user_vote': context['user_vote']},
+    )

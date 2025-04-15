@@ -54,13 +54,13 @@ class ProfileEditForm(django.forms.ModelForm):
             'bio': django.forms.Textarea(
                 attrs={
                     'rows': 4,
-                }
+                },
             ),
             'birthday': django.forms.DateInput(
                 attrs={
                     'type': 'date',
                     'max': str(django.utils.timezone.now().year - 10),
-                }
+                },
             ),
         }
 
@@ -69,7 +69,10 @@ class ProfileEditForm(django.forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.user_form = UserEditForm(
-            data=kwargs.get('data'), files=kwargs.get('files'), instance=user_instance, prefix='user'
+            data=kwargs.get('data'),
+            files=kwargs.get('files'),
+            instance=user_instance,
+            prefix='user',
         )
 
     def is_valid(self):

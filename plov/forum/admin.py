@@ -1,4 +1,6 @@
+# flake8: noqa: E800
 import django.contrib.admin
+
 import forum.models
 
 django.contrib.admin.site.register(forum.models.Topic)

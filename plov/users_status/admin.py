@@ -1,18 +1,18 @@
-from django.contrib import admin
+import django.contrib
 
-from users_status.models import UserStatus
+import users_status.models
 
 
-class UserStatusAdmin(admin.ModelAdmin):
+class UserStatusAdmin(django.contrib.admin.ModelAdmin):
     list_display = (
-        UserStatus.user.field.name,
-        UserStatus.last_activity.field.name,
+        'user',
+        'last_activity',
     )
-    search_fields = [f'{UserStatus.user.field.name}__username',]
-    list_filter = [UserStatus.last_activity.field.name]
+    search_fields = ('user__username',)
+    list_filter = ('last_activity',)
 
     def get_ordering(self, request):
-        return [UserStatus.last_activity.field.name]
+        return ('last_activity',)
 
 
-admin.site.register(UserStatus, UserStatusAdmin)
+django.contrib.admin.site.register(users_status.models.UserStatus, UserStatusAdmin)

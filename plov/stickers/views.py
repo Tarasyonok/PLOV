@@ -1,5 +1,6 @@
 import django.urls
 import django.views.generic
+
 import stickers.models
 
 

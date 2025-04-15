@@ -1,9 +1,9 @@
 import django.conf
 import django.contrib.contenttypes.fields
+import django.contrib.contenttypes.models
 import django.db.models
-import interactions.models
-from django.contrib.contenttypes.models import ContentType
 
+import interactions.models
 import users.models
 
 
@@ -20,7 +20,6 @@ class Review(django.db.models.Model):
         on_delete=django.db.models.SET_NULL,
         null=True,
         blank=True,
-        unique=True,
     )
     specialization = django.db.models.CharField(
         choices=users.models.UserCourse.SpecializationChoices,
@@ -44,13 +43,19 @@ class Review(django.db.models.Model):
     def get_user_vote(self, user):
         if not user.is_authenticated:
             return None
-        content_type = ContentType.objects.get_for_model(self)
-        vote = interactions.models.Vote.objects.filter(
-            user=user,
-            content_type=content_type,
-            object_id=self.id
-        ).first()
+
+        content_type = django.contrib.contenttypes.models.ContentType.objects.get_for_model(self)
+        vote = interactions.models.Vote.objects.filter(user=user, content_type=content_type, object_id=self.id).first()
         return vote.vote_type if vote else None
+
+    class Meta:
+        constraints = [
+            django.db.models.UniqueConstraint(
+                fields=['user', 'specialization'],
+                name='unique_review_user_specialization',
+                violation_error_message='Этот пользователь уже оставлял отзыв на этот курс',
+            ),
+        ]
 
     def __str__(self):
         return f"{self.rating}/5 review by {self.user or 'Anonymous'}"

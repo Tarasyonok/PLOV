@@ -1,8 +1,7 @@
 import django.conf
 import django.db
-import django.utils
 import django.http
-
+import django.utils
 
 SESSION = 300
 
@@ -30,6 +29,7 @@ class UserStatus(django.db.models.Model):
             online = django.utils.timezone.now() - user_status.last_activity
             if online.seconds < SESSION:
                 return True
+
             return False
         except UserStatus.DoesNotExist:
             return django.http.Http404

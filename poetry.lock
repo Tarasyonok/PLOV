@@ -852,6 +852,21 @@ files = [
 flake8 = ">=4"
 
 [[package]]
+name = "flake8-commas"
+version = "4.0.0"
+description = "Flake8 lint for trailing commas."
+optional = false
+python-versions = ">=3.8"
+groups = ["flake8"]
+files = [
+    {file = "flake8_commas-4.0.0-py3-none-any.whl", hash = "sha256:cad476d71ba72e8b941a8508d5b9ffb6b03e50f7102982474f085ad0d674b685"},
+    {file = "flake8_commas-4.0.0.tar.gz", hash = "sha256:a68834b42a9a31c94ca790efe557a932c0eae21a3479c6b9a23c4dc077e3ea96"},
+]
+
+[package.dependencies]
+flake8 = ">=5"
+
+[[package]]
 name = "flake8-eradicate"
 version = "1.5.0"
 description = "Flake8 plugin to find commented out code"
@@ -2639,4 +2654,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "643faf885ae9b1c1ed8201460a755231d7958c17e739ba284f3a5b0d9a7f1a04"
+content-hash = "cb507bdddac2945bf90292c2f2dc56b1d50793f2413dd8d7e84e83507e5a3d75"
