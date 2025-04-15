@@ -36,6 +36,7 @@ class NormalizedNameModel(django.db.models.Model):
         self.normalized_name = self.get_normalized_name()
         if not self.slug:
             self.slug = slugify.slugify(self.name)
+
         super().save(*args, **kwargs)
 
 
@@ -54,6 +55,31 @@ class UserContentInteraction(django.db.models.Model):
         'object_id',
     )
     created_at = django.db.models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True
+
+
+class Report(django.db.models.Model):
+    reporter = django.db.models.ForeignKey(
+        django.conf.settings.AUTH_USER_MODEL,
+        verbose_name='жалующийся',
+        on_delete=django.db.models.CASCADE,
+    )
+
+    reason = django.db.models.TextField(
+        max_length=1000,
+        verbose_name='жалоба',
+        blank=True,
+    )
+
+    created = django.db.models.DateTimeField(
+        verbose_name='дата поступления жалобы',
+        editable=False,
+        auto_now_add=True,
+        null=True,
+        help_text='Дата поступления жалобы.',
+    )
 
     class Meta:
         abstract = True

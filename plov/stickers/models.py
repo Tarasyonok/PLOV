@@ -121,5 +121,6 @@ def delete_sticker_from_tg_stickerpack(sender, instance, created, **kwargs):
 
 @django.dispatch.receiver(django.db.models.signals.post_save, sender=StickerPack)
 async def add_stickerpack_to_tg(sender, instance, created, **kwargs):
-    await tg_bot.bot.create_stickerpack(instance.name, instance.slug,
-                                        Sticker.objects.get_stickers_by_stickerpack(instance))
+    await tg_bot.bot.create_stickerpack(
+        instance.name, instance.slug, Sticker.objects.get_stickers_by_stickerpack(instance)
+    )
