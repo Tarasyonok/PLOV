@@ -9,6 +9,7 @@ class Comment(core.models.UserContentInteraction):
         auto_now=True,
     )
     is_edited = django.db.models.BooleanField(default=False)
+    parent = django.db.models.ForeignKey("self", null=True, blank=True, on_delete=django.db.models.CASCADE)
 
     def save(self, *args, **kwargs):
         if not self._state.adding:
@@ -36,3 +37,13 @@ class Vote(core.models.UserContentInteraction):
     class Meta:
         unique_together = ('user', 'content_type', 'object_id')
         default_related_name = 'likes'
+
+
+'''
+Ok, I'll tell you all I know.
+Structure:
+interactions (comments will be here) > models; views; urls
+reviews > models; views; urls
+templates > reviews > review_list.html; review_confirm_delete.html; partials > review_form.html; review_item.html; reviews_list_content.html; vote_controls.html
+
+'''
