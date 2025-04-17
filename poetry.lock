@@ -597,6 +597,22 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-background-tasks"
+version = "1.2.8"
+description = "Database backed asynchronous task queue"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "django_background_tasks-1.2.8-py3-none-any.whl", hash = "sha256:266b64316e364771afc3af73ae4c3e75f16782aa69e36c9e71d289cfd241347f"},
+    {file = "django_background_tasks-1.2.8.tar.gz", hash = "sha256:1ed5816f8d60f0ed436cd0435405e55e7b91e825fd69bcdada2d605ee1a97056"},
+]
+
+[package.dependencies]
+Django = ">=4.0"
+six = "*"
+
+[[package]]
 name = "django-debug-toolbar"
 version = "5.1.0"
 description = "A configurable set of panels that display various debug information about the current request/response."
@@ -611,6 +627,25 @@ files = [
 [package.dependencies]
 django = ">=4.2.9"
 sqlparse = ">=0.2"
+
+[[package]]
+name = "django-elasticsearch-dsl"
+version = "8.0"
+description = "Wrapper around elasticsearch-dsl-py for django models"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "django-elasticsearch-dsl-8.0.tar.gz", hash = "sha256:64ee0612ced6d57515a6b7f29f1a3e1c2eea1996a6226fc72079a95c067b27ca"},
+    {file = "django_elasticsearch_dsl-8.0-py2.py3-none-any.whl", hash = "sha256:423784a4af336d109c3763622f1edc4973664cb5154beb55b3ff9390c1e4525e"},
+]
+
+[package.dependencies]
+elasticsearch-dsl = ">=8.9.0,<9.0.0"
+six = "*"
+
+[package.extras]
+celery = ["celery (>=4.1.0)"]
 
 [[package]]
 name = "django-extensions"
@@ -728,6 +763,73 @@ files = [
 
 [package.dependencies]
 typing_extensions = {version = ">=4.6,<5.0", markers = "python_version < \"3.11\""}
+
+[[package]]
+name = "elastic-transport"
+version = "8.17.1"
+description = "Transport classes and utilities shared among Python Elastic client libraries"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "elastic_transport-8.17.1-py3-none-any.whl", hash = "sha256:192718f498f1d10c5e9aa8b9cf32aed405e469a7f0e9d6a8923431dbb2c59fb8"},
+    {file = "elastic_transport-8.17.1.tar.gz", hash = "sha256:5edef32ac864dca8e2f0a613ef63491ee8d6b8cfb52881fa7313ba9290cac6d2"},
+]
+
+[package.dependencies]
+certifi = "*"
+urllib3 = ">=1.26.2,<3"
+
+[package.extras]
+develop = ["aiohttp", "furo", "httpx", "opentelemetry-api", "opentelemetry-sdk", "orjson", "pytest", "pytest-asyncio", "pytest-cov", "pytest-httpserver", "pytest-mock", "requests", "respx", "sphinx (>2)", "sphinx-autodoc-typehints", "trustme"]
+
+[[package]]
+name = "elasticsearch"
+version = "8.18.0"
+description = "Python client for Elasticsearch"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "elasticsearch-8.18.0-py3-none-any.whl", hash = "sha256:b26a6e67958b7bd04711a31f3400197aabf4a6f03873eadce1a0aeb446653886"},
+    {file = "elasticsearch-8.18.0.tar.gz", hash = "sha256:4fb28cfe82d480c72fc049e659afe4cad450b318c210e43493ca402e900793eb"},
+]
+
+[package.dependencies]
+elastic-transport = ">=8.15.1,<9"
+python-dateutil = "*"
+typing-extensions = "*"
+
+[package.extras]
+async = ["aiohttp (>=3,<4)"]
+dev = ["aiohttp", "black", "build", "coverage", "isort", "jinja2", "mapbox-vector-tile", "mypy", "nltk", "nox", "numpy", "orjson", "pandas", "pyarrow", "pyright", "pytest", "pytest-asyncio", "pytest-cov", "pytest-mock", "python-dateutil", "pyyaml (>=5.4)", "requests (>=2,<3)", "sentence-transformers", "simsimd", "tqdm", "twine", "types-python-dateutil", "types-tqdm", "unasync"]
+docs = ["sphinx", "sphinx-autodoc-typehints", "sphinx-rtd-theme (>=2.0)"]
+orjson = ["orjson (>=3)"]
+pyarrow = ["pyarrow (>=1)"]
+requests = ["requests (>=2.4.0,!=2.32.2,<3.0.0)"]
+vectorstore-mmr = ["numpy (>=1)", "simsimd (>=3)"]
+
+[[package]]
+name = "elasticsearch-dsl"
+version = "8.18.0"
+description = "Python client for Elasticsearch"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "elasticsearch_dsl-8.18.0-py3-none-any.whl", hash = "sha256:0522c5bb20c7abae69855109e650bf1166d486cbf706b5e1b29c28936a9102a3"},
+    {file = "elasticsearch_dsl-8.18.0.tar.gz", hash = "sha256:763465dba9eae166add10567e924c65730aa122819b08bfe9a077e91b13b30d1"},
+]
+
+[package.dependencies]
+elastic-transport = ">=8.0.0,<9.0.0"
+elasticsearch = ">=8.0.0,<9.0.0"
+python-dateutil = "*"
+typing-extensions = "*"
+
+[package.extras]
+async = ["elasticsearch[async] (>=8.0.0,<9.0.0)"]
+develop = ["coverage", "elasticsearch[async]", "jinja2", "mypy", "nltk", "pyright", "pytest", "pytest-asyncio", "pytest-cov", "pytest-mock", "pytz", "sentence_transformers", "sphinx (>2)", "sphinx-rtd-theme (>0.5)", "tqdm", "types-python-dateutil", "types-pytz", "types-tqdm", "unasync"]
 
 [[package]]
 name = "eradicate"
@@ -2110,6 +2212,21 @@ setproctitle = ["setproctitle"]
 testing = ["filelock"]
 
 [[package]]
+name = "python-dateutil"
+version = "2.9.0.post0"
+description = "Extensions to the standard Python datetime module"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+groups = ["main"]
+files = [
+    {file = "python-dateutil-2.9.0.post0.tar.gz", hash = "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3"},
+    {file = "python_dateutil-2.9.0.post0-py2.py3-none-any.whl", hash = "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"},
+]
+
+[package.dependencies]
+six = ">=1.5"
+
+[[package]]
 name = "python-decouple"
 version = "3.8"
 description = "Strict separation of settings from code."
@@ -2483,7 +2600,7 @@ files = [
     {file = "typing_extensions-4.13.1-py3-none-any.whl", hash = "sha256:4b6cf02909eb5495cfbc3f6e8fd49217e6cc7944e145cdda8caa3734777f9e69"},
     {file = "typing_extensions-4.13.1.tar.gz", hash = "sha256:98795af00fb9640edec5b8e31fc647597b4691f099ad75f469a2616be1a76dff"},
 ]
-markers = {main = "python_version < \"3.13\"", security = "python_version == \"3.10\""}
+markers = {security = "python_version == \"3.10\""}
 
 [[package]]
 name = "tzdata"
@@ -2654,4 +2771,3 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "cb507bdddac2945bf90292c2f2dc56b1d50793f2413dd8d7e84e83507e5a3d75"

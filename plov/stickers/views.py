@@ -40,5 +40,10 @@ class AddStickerView(django.views.generic.CreateView):
     def get_success_url(self):
         return django.urls.reverse('stickers:stickerpackinfo', kwargs={'pk': self.kwargs.get('stickerpack_id')})
 
+
 class DeleteStickerView(django.views.generic.DeleteView):
     model = stickers.models.Sticker
+    template_name = 'stickers/delete_sticker.html'
+
+    def get_success_url(self):
+        return django.urls.reverse('stickers:stickerpackinfo', kwargs={'pk': self.kwargs.get('stickerpack_id')})

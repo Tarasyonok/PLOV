@@ -46,10 +46,10 @@
             <div class="image-container">
                 <img src="{{ sticker.image.url }}" alt="Стикер">
                 <div class="hover-text">
-                    <button style="background-color:rgba(0,0,0,0); border: 0; width:100%; height:100%"
-                            hx-post="{% url ""%}">
+                    <a style="background-color:rgba(0,0,0,0); border: 0; width:100%; height:100%"
+                       href="{% url "stickers:deletesticker" stickerpack_id=object.pk pk=sticker.pk%}">
                         <h1 style="color:white">Удалить стикер</h1>
-                    </button>
+                    </a>
                 </div>
             </div>
         {% endfor %}

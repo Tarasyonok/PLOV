@@ -5,6 +5,7 @@ import django.urls
 urlpatterns = [
     django.urls.path('', django.urls.include('homepage.urls')),
     django.urls.path('users/', django.urls.include('users.urls')),
+    django.urls.path('search/', django.urls.include('search.urls')),
     django.urls.path('stickerpacks/', django.urls.include('stickers.urls')),
     django.urls.path('reviews/', django.urls.include('reviews.urls')),
     django.urls.path('auth/', django.urls.include('django.contrib.auth.urls')),

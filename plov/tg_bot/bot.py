@@ -50,5 +50,5 @@ async def add_sticker_to_stickerpack(buffer, stickerpack_slug):
 
 
 async def delete_sticker_from_stickerpack(file_id):
-    bot = telegram.Bot(django.conf.settings.TG_BOT_TOKEN)
-    bot.delete_sticker_from_set(file_id)
+    bot = django.conf.settings.TG_BOT
+    await bot.delete_sticker_from_set(file_id)

@@ -121,7 +121,11 @@ max-line-length = 120
 ignore = ["E203", "E266", "E501", "W503", "I202"]
 import-order-style = "google"
 inline-quotes = "single"
-application-import-names = ["core", "forum", "interactions", "plov", "stickers", "tg_bot", "users", "users_status"]
+<<<<<<< HEAD
+application-import-names = ["core", "plov", "stickers", "tg_bot", "users" ]
+=======
+application-import-names = ["core", "plov", "users", "reviews"]
+>>>>>>> origin/dev
 exclude = [".git", ".venv", "venv", "*/migrations/*", "__pycache__", "*.pyc"]
 
 

@@ -26,10 +26,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_elasticsearch_dsl',
     'rest_framework',
     'django_htmx',
     'core.apps.CoreConfig',
     'mocklms.apps.MocklmsConfig',
+    'search.apps.SearchConfig',
+    'stickers.apps.StickersConfig',
     'interactions.apps.InteractionsConfig',
     'reviews.apps.ReviewsConfig',
     'leaderboard.apps.LeaderboardConfig',
@@ -155,5 +158,11 @@ LOGGING = {
             'level': LOG_LEVEL,
             'propagate': False,
         },
+    },
+}
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'http://localhost:9200'
     },
 }
