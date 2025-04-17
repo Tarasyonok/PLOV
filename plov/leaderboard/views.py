@@ -1,3 +1,5 @@
+import http
+
 import django.shortcuts
 
 import users.models
@@ -26,16 +28,23 @@ def leaderboard(request):
 
 
 def leaderboard_my_course(request):
-    user = users.models.UserCourse.objects.filter(user=request.user).get()
-    user_profiles = users.models.UserCourse.objects.filter(
-        specialization=user.specialization,
-        flow_season=user.flow_season,
-        flow_year=user.flow_year,
-    )
-    leaderboard = user_profiles.order_by('-rating')
+    try:
+        user = users.models.UserCourse.objects.filter(user=request.user).get()
+        user_profiles = users.models.UserCourse.objects.filter(
+            specialization=user.specialization,
+            flow_season=user.flow_season,
+            flow_year=user.flow_year,
+        )
+        leaderboard = user_profiles.order_by('-rating')
 
-    return django.shortcuts.render(
-        request,
-        'leaderboard/leaderboard_my_course.html',
-        {'leaderboard': leaderboard},
-    )
+        return django.shortcuts.render(
+            request,
+            'leaderboard/leaderboard_my_course.html',
+            {'leaderboard': leaderboard},
+        )
+    except users.models.UserCourse.DoesNotExist:
+        return django.shortcuts.render(
+            request,
+            'leaderboard/leaderboard_my_course_err.html',
+            status=http.HTTPStatus.NOT_FOUND,
+        )

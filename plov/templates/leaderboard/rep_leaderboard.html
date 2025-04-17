@@ -1,19 +1,42 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-  <h1>Таблица лидеров по репутации</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Имя пользователя - Репутация</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for profile in leaderboard %}
-        <tr>
-          <td>{{ profile.user.username }} - {{ profile.reputation_points }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="container">
+  <h1 style="text-align:center;">Таблица лидеров по репутации</h1>
+  <div class="row">
+      <div class="col-md-12">
+          <table class="table table-striped table-bordered">
+              <thead class="thead-light">
+                  <tr>
+                      <th scope="col">Место</th>
+                      <th scope="col">Пользователь</th>
+                      <th scope="col">Репутация</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for profile in leaderboard %}
+                  <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <td>{{ profile.user.username }}</td>
+                      <td>{{ profile.reputation_points }}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  </div>
+  <div class="row" style="text-align: center;">
+      <div class="col-md-6">
+        <a href={% url "leaderboard:leaderboard" %}>
+          <img class="small-image" src={% static "img/rating.png" %} width="555" height="295">
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a href={% url "leaderboard:my" %}>
+          <img class="small-image" src={% static "img/my.png" %} width="555" height="295">
+        </a>
+      </div>
+  </div>
+</div>
 {% endblock %}
