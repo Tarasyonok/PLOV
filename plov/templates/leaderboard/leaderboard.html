@@ -4,24 +4,43 @@
 {% block content %}
 <div class="container">
   <h1 style="text-align:center;">Таблица лидеров по рейтингу</h1>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Потоки
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href={% url "leaderboard:spring" %}>Весна {{ year }}</a></li>
+      <li><a class="dropdown-item" href={% url "leaderboard:spring-past" %}>Весна {{ past_year }}</a></li>
+      <li><a class="dropdown-item" href={% url "leaderboard:fall" %}>Осень {{ year }}</a></li>
+      <li><a class="dropdown-item" href={% url "leaderboard:fall-past" %}>Осень {{ past_year }}</a></li>
+    </ul>
+  </div>
   <div class="row">
       <div class="col-md-12">
-          <table class="table table-striped table-bordered">
+          <table class="table table-striped table-bordered" border="2" style="border-color:black;">
               <thead class="thead-light">
                   <tr>
-                      <th scope="col">Место</th>
+                      <th scope="col">#</th>
                       <th scope="col">Пользователь</th>
                       <th scope="col">Рейтинг</th>
                   </tr>
               </thead>
-              <tbody>
-                  {% for profile in leaderboard %}
+              <tbody class="table-group-divider">
+                {% for profile in page.object_list %}
+                {% if forloop.counter == 1 %}
+                  <tr class="table-primary" style="height: 55px;">
+                        <th scope="row">ЛИДЕР</th>
+                        <td>{{ profile.user.username }}</td>
+                        <td>{{ profile.rating }}</td>
                   <tr>
-                      <th scope="row">{{ forloop.counter }}</th>
-                      <td>{{ profile.user.username }}</td>
-                      <td>{{ profile.rating }}</td>
-                  </tr>
-                  {% endfor %}
+                {% else %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ profile.user.username }}</td>
+                    <td>{{ profile.rating }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
               </tbody>
           </table>
       </div>
@@ -39,4 +58,35 @@
       </div>
   </div>
 </div>
+
+<nav>
+  <ul class="pagination pagination-lg">
+    {% if page.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="?page={{ page.page_number }}" aria-label="Previous" aria-disabled="true">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% endif %}
+    {% if page.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="?page={{ page.page_number }}" aria-label="Next" aria-disabled="true">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
 {% endblock %}

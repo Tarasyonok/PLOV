@@ -19,4 +19,24 @@ urlpatterns = [
         leaderboard.views.leaderboard,
         name='leaderboard',
     ),
+    django.urls.path(
+        'spring/',
+        leaderboard.views.leaderboard_spring,
+        name='spring',
+    ),
+    django.urls.path(
+        'spring-past/',
+        leaderboard.views.leaderboard_spring_past,
+        name='spring-past',
+    ),
+    django.urls.path(
+        'fall/',
+        leaderboard.views.leaderboard_fall,
+        name='fall',
+    ),
+    django.urls.path(
+        'fall-past/',
+        leaderboard.views.leaderboard_fall_past,
+        name='fall-past',
+    ),
 ]
