@@ -27,17 +27,17 @@
               </thead>
               <tbody class="table-group-divider">
                 {% for profile in page.object_list %}
-                {% if forloop.counter == 1 %}
+                {% if profile.index == 1 %}
                   <tr class="table-primary" style="height: 55px;">
                         <th scope="row">ЛИДЕР</th>
-                        <td>{{ profile.user.username }}</td>
-                        <td>{{ profile.rating }}</td>
+                        <td>{{ profile.object.user.username }}</td>
+                        <td>{{ profile.object.rating }}</td>
                   <tr>
                 {% else %}
                 <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ profile.user.username }}</td>
-                    <td>{{ profile.rating }}</td>
+                    <th scope="row">{{ profile.index }}</th>
+                    <td>{{ profile.object.user.username }}</td>
+                    <td>{{ profile.object.rating }}</td>
                 </tr>
                 {% endif %}
                 {% endfor %}

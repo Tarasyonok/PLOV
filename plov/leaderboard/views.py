@@ -7,11 +7,18 @@ import django.utils.timezone
 import users.models
 
 
+ELEMENTS_PER_PAGE = 3
+
+
 def rep_leaderboard(request):
     user_profiles = users.models.UserProfile.objects.all()
     leaderboard = user_profiles.order_by('-reputation_points')
 
-    paginator = django.core.paginator.Paginator(leaderboard, 10)
+    leaderboard_indexed = []
+    for i, obj in enumerate(leaderboard):
+        leaderboard_indexed.append({'index': i + 1, 'object': obj})
+
+    paginator = django.core.paginator.Paginator(leaderboard_indexed, ELEMENTS_PER_PAGE)
     page_num = request.GET.get('page')
     page = paginator.get_page(page_num)
 
@@ -26,7 +33,11 @@ def leaderboard(request):
     user_profiles = users.models.UserCourse.objects.all()
     leaderboard = user_profiles.order_by('-rating')
 
-    paginator = django.core.paginator.Paginator(leaderboard, 10)
+    leaderboard_indexed = []
+    for i, obj in enumerate(leaderboard):
+        leaderboard_indexed.append({'index': i + 1, 'object': obj})
+
+    paginator = django.core.paginator.Paginator(leaderboard_indexed, ELEMENTS_PER_PAGE)
     page_num = request.GET.get('page')
     page = paginator.get_page(page_num)
 
@@ -34,7 +45,6 @@ def leaderboard(request):
         request,
         'leaderboard/leaderboard.html',
         {
-            'leaderboard': leaderboard,
             'page': page,
             'year': django.utils.timezone.now().year,
             'past_year': django.utils.timezone.now().year - 1,
@@ -52,7 +62,11 @@ def leaderboard_my_course(request):
         )
         leaderboard = user_profiles.order_by('-rating')
 
-        paginator = django.core.paginator.Paginator(leaderboard, 10)
+        leaderboard_indexed = []
+        for i, obj in enumerate(leaderboard):
+            leaderboard_indexed.append({'index': i + 1, 'object': obj})
+
+        paginator = django.core.paginator.Paginator(leaderboard_indexed, ELEMENTS_PER_PAGE)
         page_num = request.GET.get('page')
         page = paginator.get_page(page_num)
 
@@ -77,7 +91,11 @@ def leaderboard_spring(request):
     )
     leaderboard = user_profiles.order_by('-rating')
 
-    paginator = django.core.paginator.Paginator(leaderboard, 10)
+    leaderboard_indexed = []
+    for i, obj in enumerate(leaderboard):
+        leaderboard_indexed.append({'index': i + 1, 'object': obj})
+
+    paginator = django.core.paginator.Paginator(leaderboard_indexed, ELEMENTS_PER_PAGE)
     page_num = request.GET.get('page')
     page = paginator.get_page(page_num)
 
@@ -101,7 +119,11 @@ def leaderboard_spring_past(request):
     )
     leaderboard = user_profiles.order_by('-rating')
 
-    paginator = django.core.paginator.Paginator(leaderboard, 10)
+    leaderboard_indexed = []
+    for i, obj in enumerate(leaderboard):
+        leaderboard_indexed.append({'index': i + 1, 'object': obj})
+
+    paginator = django.core.paginator.Paginator(leaderboard_indexed, ELEMENTS_PER_PAGE)
     page_num = request.GET.get('page')
     page = paginator.get_page(page_num)
 
@@ -125,7 +147,11 @@ def leaderboard_fall(request):
     )
     leaderboard = user_profiles.order_by('-rating')
 
-    paginator = django.core.paginator.Paginator(leaderboard, 10)
+    leaderboard_indexed = []
+    for i, obj in enumerate(leaderboard):
+        leaderboard_indexed.append({'index': i + 1, 'object': obj})
+
+    paginator = django.core.paginator.Paginator(leaderboard_indexed, ELEMENTS_PER_PAGE)
     page_num = request.GET.get('page')
     page = paginator.get_page(page_num)
 
@@ -149,7 +175,11 @@ def leaderboard_fall_past(request):
     )
     leaderboard = user_profiles.order_by('-rating')
 
-    paginator = django.core.paginator.Paginator(leaderboard, 10)
+    leaderboard_indexed = []
+    for i, obj in enumerate(leaderboard):
+        leaderboard_indexed.append({'index': i + 1, 'object': obj})
+
+    paginator = django.core.paginator.Paginator(leaderboard_indexed, ELEMENTS_PER_PAGE)
     page_num = request.GET.get('page')
     page = paginator.get_page(page_num)
 
