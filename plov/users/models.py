@@ -5,6 +5,7 @@ import django.db.models
 import django.utils.deconstruct
 import django.utils.timezone
 
+import stickers.models
 import users.utils.validators
 
 
@@ -91,6 +92,7 @@ class UserProfile(django.db.models.Model):
         ],
     )
     last_activity = django.db.models.DateTimeField(default=django.utils.timezone.now)
+    featured_stickers = django.db.models.ManyToManyField(stickers.models.Sticker)
 
     def __str__(self):
         return f'Profile of {self.user.username}'

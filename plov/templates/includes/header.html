@@ -38,7 +38,7 @@
           <a class="nav-link" href="{% url 'leaderboard:leaderboard' %}"><i class="bi bi-trophy"></i> Лидерборд</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="bi bi-stickies"></i> Стикеры</a>
+          <a class="nav-link" href="{% url 'stickers:main' %}"><i class="bi bi-stickies"></i> Стикеры</a>
         </li>
 
         {% if user.is_authenticated and user.is_staff %}

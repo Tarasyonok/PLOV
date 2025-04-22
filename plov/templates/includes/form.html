@@ -1,5 +1,13 @@
-<form method="post">
+<form method="post" {% if fileform == "true" %} enctype="multipart/form-data" {% endif %}>
   {% csrf_token %}
+  {% if title %}
+  <h1> {{ title }} </h1>
+  {% endif %}
+  {% if image %}
+    <div style="justify-content: space-around; display:flex">
+      <img src={{image}} class="img-fluid rounded" style="width: 300px; height: 300px; object-fit: contain;" alt="Стикер">
+    </div>
+  {% endif %}
   {% for field in form %}
     <label class="form-label w-100 mb-4">
       <p class="mb-2">
@@ -32,6 +40,11 @@
         {% endspaceless %}"
       >
     </label>
+    {% if field.errors %}
+      {% for error in field.errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endfor %}
+    {% endif %}
   {% endfor %}
   {% if submit_btn_label %}
     <button type="submit" class="btn btn-primary w-100">{{ submit_btn_label }}</button>

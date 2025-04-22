@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="get" action={% url "stickers:search" %}>
+    <div class="row">
+        <input class="col form-control text-left" type="text" name="q" placeholder="Поиск стикеров по тексту на них..." value="{{ query }}">
+        <button class="col-1 btn btn-primary" type="submit" style="margin-left:5px">Найти</button>
+    </div>
+</form>
+<br>
+<div class="row">
+    {% for sticker in objects %}
+        <img src="{{ sticker.image.url }}" class="img-fluid rounded" style="width: 200px; height: 200px; object-fit: contain;" alt="Стикер">
+    {% empty %}
+        <h2> Ничего не найдено </h2>
+    {% endfor %}
+</div>
+{% endblock %}

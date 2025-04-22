@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% with submit_btn_label="Да" title="Вы точно хотите удалить этот стикер?" image=object.image.url %}
+        {% include "includes/form.html" %}
+    {% endwith %}
+{% endblock %}
