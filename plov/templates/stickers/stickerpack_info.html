@@ -4,9 +4,9 @@
     <h2 align="center" class="col"> {{ object.name }} </h2>
     <a href={{ url_to_tg }} class="btn btn-primary col-2">Стикерпак в тг</a>
     </div>
-    <div class="row">
-        {% for sticker in stickers %}
-            <div class="col">
+    {% for sticker in stickers%}
+        {% if forloop.counter0|divisibleby:6 %}<div class="row">{% endif %}
+            <div class="col-2" >
                 <img src="{{ sticker.image.url }}" class="img-fluid rounded" style="width: 200px; height: 200px; object-fit: contain;" alt="Стикер">
                 <div class="row">
                     <a class="btn btn-danger" href={% url "stickers:deletesticker" stickerpack_id=object.pk pk=sticker.pk%} style="width:40px; margin-left:10px;"><i class="bi bi-trash"></i></a>
@@ -25,9 +25,10 @@
                     </button>
                 </div>
             </div>
+        {% if forloop.counter|divisibleby:6 or forloop.last %}</div>{% endif %}
         {% empty %}
             <h2> В этом стикерпаке пока что нет стикеров </h2>
-        {% endfor %}
-    </div>
+    {% endfor %}   
+    
     <a class="btn btn-primary" href={% url 'stickers:addsticker' stickerpack_id=object.pk %} style="margin-top: 10px"> Добавить стикер </a>
 {% endblock %}

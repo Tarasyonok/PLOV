@@ -1,11 +1,11 @@
 import django.conf
-import django.http
 import django.shortcuts
 import django.urls
 import django.views.generic
-import http
 import elasticsearch_dsl
+import transliterate
 
+import stickers.constants
 import stickers.documents
 import stickers.models
 
@@ -14,6 +14,22 @@ class AddStickerPackView(django.views.generic.CreateView):
     model = stickers.models.StickerPack
     template_name = 'stickers/add_sticker_pack.html'
     fields = ['name']
+
+    def form_valid(self, form):
+        text = form.cleaned_data['name']
+        for k, v in stickers.constants.LOOKALIKES.items():
+            text = text.replace(k, v)
+
+        text = text.lower().replace(' ', '')
+        slug_generated = transliterate.translit(text, 'ru', reversed=True)
+        if stickers.models.StickerPack.objects.filter(slug=slug_generated).exists():
+            form.add_error('name', 'Уже есть похожее на это название стикерпака')
+            return self.form_invalid(form)
+
+        self.object = form.save(commit=False)
+        self.object.slug = slug_generated
+        self.object.save()
+        return super().form_valid(form)
 
     def get_success_url(self):
         return django.urls.reverse('stickers:stickerpackinfo', kwargs={'pk': self.object.pk})

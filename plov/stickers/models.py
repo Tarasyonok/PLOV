@@ -1,8 +1,5 @@
-import django.conf
-import django.core
 import django.core.exceptions
 import django.db.models
-import django.dispatch
 import transliterate
 
 import stickers.constants
@@ -16,16 +13,6 @@ class StickerPack(django.db.models.Model):
         'published_on_tg',
         default=False,
     )
-
-    def save(self, *args, **kwargs):
-        text = self.name
-        for k, v in stickers.constants.LOOKALIKES.items():
-            text = text.replace(k, v)
-
-        text = text.lower().replace(' ', '')
-        self.slug = transliterate.translit(text, 'ru', reversed=True)
-        return super().save(*args, **kwargs)
-
 
 class Sticker(django.db.models.Model):
     objects = stickers.managers.StickerManager()
