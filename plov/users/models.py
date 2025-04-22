@@ -9,12 +9,59 @@ import users.utils.validators
 
 
 class User(django.contrib.auth.models.AbstractUser):
+    class Role(django.db.models.TextChoices):
+        GUEST = "guest", "Гость"
+        STUDENT = "student", "Ученик"
+        MODERATOR = "moderator", "Модератор"
+        MENTOR = "mentor", "Ментор"
+        LEAD = "lead", "Лид"
+        ADMIN = "admin", "Админ"
+
+    role = django.db.models.CharField(max_length=20, choices=Role.choices, default=Role.GUEST, db_index=True)
+    is_banned = django.db.models.BooleanField(default=False)
+    ban_reason = django.db.models.TextField(blank=True, null=True, max_length=500)
+    banned_at = django.db.models.DateTimeField(null=True, blank=True)
+    ban_ends_at = django.db.models.DateTimeField(null=True, blank=True)
+
     email = django.db.models.EmailField(unique=True)
     lms_profile_id = django.db.models.CharField(max_length=100, null=True, blank=True, unique=True)
-    telegram_username = django.db.models.CharField(max_length=50, null=True, blank=True, unique=True)
+    telegram_username = django.db.models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+        unique=True,
+        validators=[django.core.validators.RegexValidator(r'^@[a-zA-Z0-9_]{5,32}$')],
+    )
+
+    REQUIRED_FIELDS = ['email']
 
     def __str__(self):
         return f'User {self.username}'
+
+    def is_moderator_or_higher(self):
+        return self.role in [self.Role.MODERATOR, self.Role.MENTOR, self.Role.LEAD, self.Role.ADMIN]
+
+    @property
+    def is_currently_banned(self):
+        return self.is_banned and (
+                not self.ban_ends_at or
+                django.utils.timezone.now() < self.ban_ends_at
+        )
+
+    def ban_user(self, duration_days=None, reason=""):
+        self.is_banned = True
+        self.ban_reason = reason
+        now = django.utils.timezone.now()
+        self.banned_at = now
+        self.ban_ends_at = now + django.utils.timezone.timedelta(days=duration_days) if duration_days else None
+        self.save(update_fields=['is_banned', 'ban_reason', 'banned_at', 'ban_ends_at'])
+
+    def unban_user(self):
+        self.is_banned = False
+        self.ban_reason = ""
+        self.banned_at = None
+        self.ban_ends_at = None
+        self.save(update_fields=['is_banned', 'ban_reason', 'banned_at', 'ban_ends_at'])
 
 
 def avatar_upload_to(self, filename: str) -> str:

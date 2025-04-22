@@ -10,7 +10,7 @@ class CustomUserAdmin(django.contrib.auth.admin.UserAdmin):
     def lms_sync_status(self, obj):
         return '❌✅'[bool(obj.lms_profile_id)]
 
-    list_display = ('username', 'email', 'lms_sync_status', 'telegram_username', 'is_staff')
+    list_display = ('username', 'email', 'lms_sync_status', 'telegram_username', 'is_staff', 'role', 'is_banned', 'ban_reason')
     list_filter = ('is_staff', 'is_superuser')
     readonly_fields = ('lms_sync_status',)
     search_fields = ('username', 'email', 'telegram_username')
@@ -18,7 +18,7 @@ class CustomUserAdmin(django.contrib.auth.admin.UserAdmin):
         (None, {'fields': ('username', 'password')}),
         ('Personal Info', {'fields': ('email', 'first_name', 'last_name', 'telegram_username')}),
         ('LMS Integration', {'fields': ('lms_profile_id', 'lms_sync_status')}),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+        ('Permissions', {'fields': ('is_active', 'is_banned', 'ban_reason', 'is_staff', 'is_superuser')}),
     )
     add_fieldsets = (
         (

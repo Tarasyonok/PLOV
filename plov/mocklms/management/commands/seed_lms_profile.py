@@ -26,7 +26,6 @@ class Command(django.core.management.base.BaseCommand):
         lms_profile_id = input('Profile ID (unique number): ') or self.fake.pyint(100000, 999999)
         username = input('Username: ') or self.fake.user_name()
         gender = input('Gender (0 - male | 1 - female): ') or self.fake.pybool()
-        gender = list(mocklms.models.LMSProfile)[gender]
         last_name = input('Last Name: ') or [self.fake.last_name_male(), self.fake.last_name_female()][gender]
         first_name = input('First Name: ') or [self.fake.first_name_male(), self.fake.first_name_female()][gender]
         middle_name = input('Middle Name: ') or [self.fake.middle_name_male(), self.fake.middle_name_female()][gender]
@@ -44,7 +43,7 @@ class Command(django.core.management.base.BaseCommand):
             last_name=last_name,
             first_name=first_name,
             middle_name=middle_name,
-            gender=gender,
+            gender=list(mocklms.models.LMSProfile.GenderChoices)[gender],
             display_name=f'{last_name} {first_name}',
             avatar='avatar_mock.jpg',
             email=email,
