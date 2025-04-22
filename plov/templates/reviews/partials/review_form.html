@@ -22,9 +22,11 @@
 
     <div class="mb-3">
         <label for="content-input" class="form-label">Review</label>
-        <textarea class="form-control" id="content-input" name="content" rows="4" oninput="clearContentError()" required>
-            {{ form.content.value|default:'' }}
-        </textarea>
+        {% spaceless %}
+            <textarea class="form-control" id="content-input" name="content" rows="4" oninput="clearContentError()" required>
+                {{ form.content.value|default:'' }}
+            </textarea>
+        {% endspaceless %}
         <div class="content-error text-danger mt-2 d-none">Please write your review content</div>
     </div>
 
