@@ -2,7 +2,6 @@ import pathlib
 
 import decouple
 import django.urls
-import telegram
 
 BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
 SECRET_KEY = decouple.config('DJANGO_SECRET_KEY', default='FAKE-SECRET-KEY')
@@ -15,7 +14,6 @@ TG_BOT_TOKEN = decouple.config('TG_BOT_TOKEN', 'bot-token')
 TG_USER_ID = decouple.config('TG_USER_ID', default=1, cast=int)
 TG_STICKERPACK_ENDING = decouple.config('TG_STICKERPACK_ENDING', default='by_bot')
 TG_START_OF_TG_URL_ON_STICKERPACK = decouple.config('TG_START_OF_TG_URL_ON_STICKERPACK', default='https://t.me/addstickers/')
-TG_BOT = telegram.Bot(TG_BOT_TOKEN)
 
 
 INSTALLED_APPS = [
@@ -37,7 +35,6 @@ INSTALLED_APPS = [
     'reviews.apps.ReviewsConfig',
     'leaderboard.apps.LeaderboardConfig',
     'forum.apps.ForumConfig',
-    'stickers.apps.StickersConfig',
     'users_status.apps.UsersStatusConfig',
 ]
 
@@ -163,6 +160,6 @@ LOGGING = {
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'http://localhost:9200'
+        'hosts': 'http://localhost:9200',
     },
 }

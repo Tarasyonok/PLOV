@@ -1,57 +1,33 @@
-<style>
-    .image-container {
-        position: relative;
-        display: inline-block;
-    }
-    
-    .image-container img {
-        display: block;
-        width: 100%;
-        height: auto;
-        transition: filter 0.3s ease; /* Добавляем фильтр для затемнения картинки */
-    }
-    
-    .hover-text {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(190, 95, 95, 0.7);
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        opacity: 0; /* Изначально скрыт */
-        transition: opacity 0.3s ease;
-    }
-    
-    .image-container:hover .hover-text {
-        opacity: 1;
-    }
-    
-    .image-container:hover img {
-        filter: brightness(70%);
-    }
-</style>
-<script src="https://unpkg.com/htmx.org@2.0.4"></script>
-<p>Название стикерпака {{ object.name }}</p>
-{{ object.slug }}
-<p>
-<a href={{ url_to_tg }} >ссылка на стикерпак</a>
-</p>
-<div>
-    <p> Стикеры: </p>
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+    <h2 align="center" class="col"> {{ object.name }} </h2>
+    <a href={{ url_to_tg }} class="btn btn-primary col-2">Стикерпак в тг</a>
+    </div>
+    <div class="row">
         {% for sticker in stickers %}
-            <div class="image-container">
-                <img src="{{ sticker.image.url }}" alt="Стикер">
-                <div class="hover-text">
-                    <a style="background-color:rgba(0,0,0,0); border: 0; width:100%; height:100%"
-                       href="{% url "stickers:deletesticker" stickerpack_id=object.pk pk=sticker.pk%}">
-                        <h1 style="color:white">Удалить стикер</h1>
-                    </a>
+            <div class="col">
+                <img src="{{ sticker.image.url }}" class="img-fluid rounded" style="width: 200px; height: 200px; object-fit: contain;" alt="Стикер">
+                <div class="row">
+                    <a class="btn btn-danger" href={% url "stickers:deletesticker" stickerpack_id=object.pk pk=sticker.pk%} style="width:40px; margin-left:10px;"><i class="bi bi-trash"></i></a>
+                    <button class="btn btn-primary" 
+                            hx-post="{% url 'stickers:like' pk=sticker.pk %}"
+                            hx-swap="outerHTML"
+                            hx-target="this"
+                            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                            title="{% if sticker in request.user.featured_stickers %}Убрать из избранного{% else %}Добавить в избранное{% endif %}"
+                            style="width:40px; margin-right:10px; margin-left:auto">
+                        {% if sticker in user.profile.featured_stickers.all %}
+                            <i class="bi bi-heart-fill"></i>
+                        {% else %}
+                            <i class="bi bi-heart"></i>
+                        {% endif %}
+                    </button>
                 </div>
             </div>
+        {% empty %}
+            <h2> В этом стикерпаке пока что нет стикеров </h2>
         {% endfor %}
-</div>
-<a href="{% url 'stickers:addsticker' stickerpack_id=object.pk %}"> создать стикер </a>
+    </div>
+    <a class="btn btn-primary" href={% url 'stickers:addsticker' stickerpack_id=object.pk %} style="margin-top: 10px"> Добавить стикер </a>
+{% endblock %}

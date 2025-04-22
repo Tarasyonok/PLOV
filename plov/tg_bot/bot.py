@@ -6,7 +6,7 @@ import telegram.constants
 
 
 async def create_stickerpack(stickerpack_name, stickerpack_slug, stickers_img_paths):
-    bot = django.conf.settings.TG_BOT
+    bot = telegram.Bot(django.conf.settings.TG_BOT_TOKEN)
     user_id = django.conf.settings.TG_USER_ID
     stickers = []
     with pathlib.Path('tg_bot/django.png').open('rb') as f:
@@ -26,7 +26,7 @@ async def create_stickerpack(stickerpack_name, stickerpack_slug, stickers_img_pa
 
 
 async def add_sticker_to_stickerpack(buffer, stickerpack_slug):
-    bot = django.conf.settings.TG_BOT
+    bot = telegram.Bot(django.conf.settings.TG_BOT_TOKEN)
     user_id = django.conf.settings.TG_USER_ID
     buffer.seek(0)
     sticker = (
@@ -50,5 +50,5 @@ async def add_sticker_to_stickerpack(buffer, stickerpack_slug):
 
 
 async def delete_sticker_from_stickerpack(file_id):
-    bot = django.conf.settings.TG_BOT
+    bot = telegram.Bot(django.conf.settings.TG_BOT_TOKEN)
     await bot.delete_sticker_from_set(file_id)

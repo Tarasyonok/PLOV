@@ -1,0 +1,13 @@
+<button class="btn btn-primary" 
+        hx-post="{% url 'stickers:like' pk=sticker.pk %}"
+        hx-swap="outerHTML"
+        hx-target="this"
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+        title="{% if sticker in request.user.featured_stickers %}Убрать из избранного{% else %}Добавить в избранное{% endif %}"
+        style="width:40px; margin-right:10px; margin-left:auto">
+    {% if liked %}
+        <i class="bi bi-heart-fill"></i>
+    {% else %}
+        <i class="bi bi-heart"></i>
+    {% endif %}
+</button>

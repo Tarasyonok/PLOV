@@ -35,7 +35,7 @@
           <a class="nav-link" href="{% url 'forum:forum' %}"><i class="bi bi-chat-square-text"></i> Q&A</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="bi bi-stickies"></i> Стикеры</a>
+          <a class="nav-link" href={% url "stickers:main" %}><i class="bi bi-stickies"></i> Стикеры</a>
         </li>
 
         {% if user.is_authenticated and user.is_staff %}

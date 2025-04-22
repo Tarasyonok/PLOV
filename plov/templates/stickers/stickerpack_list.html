@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="get" action={% url "stickers:search" %}>
+        <div class="row">
+            <input class="col form-control text-left" type="text" name="q" placeholder="Поиск стикеров по тексту на них..." value="{{ query }}">
+            <button class="col-1 btn btn-primary" type="submit" style="margin-left:5px">Найти</button>
+        </div>
+    </form>
+    <br>
+    <h2>Стикерпаки потоков</h2>
+    {% for stickerpack in stickerpacks %}
+        <div class="card" style="margin-bottom: 20px">
+            <div class="card-header">
+                {{ stickerpack.name }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Это стикерпак потока: {{ stickerpack.name }}</h5>
+            </div>
+            <a href={% url "stickers:stickerpackinfo" pk=stickerpack.pk %} class="btn btn-primary" style="margin:30px">Перейти на страницу стикерпака</a>
+        </div>
+    {% empty %}
+    <h5>
+        Пока что нет стикерпаков потока
+    </h5>
+    {% endfor %}
+    <a href={% url "stickers:addstickerpack" %} class="btn btn-primary">Добавить новый стикерпак</a>
+{% endblock %}

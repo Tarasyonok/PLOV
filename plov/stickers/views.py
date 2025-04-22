@@ -1,7 +1,12 @@
 import django.conf
+import django.http
+import django.shortcuts
 import django.urls
 import django.views.generic
+import http
+import elasticsearch_dsl
 
+import stickers.documents
 import stickers.models
 
 
@@ -25,6 +30,16 @@ class StickerPackDetailView(django.views.generic.DetailView):
         return context
 
 
+class StickerpackList(django.views.generic.ListView):
+    model = stickers.models.StickerPack
+    template_name = 'sticlers/stickerpack_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stickerpacks'] = stickers.models.StickerPack.objects.all()
+        return context
+
+
 class AddStickerView(django.views.generic.CreateView):
     model = stickers.models.Sticker
     template_name = 'stickers/add_sticker.html'
@@ -35,6 +50,15 @@ class AddStickerView(django.views.generic.CreateView):
         stickerpack = stickers.models.StickerPack.objects.get(pk=stickerpack_id)
         sticker = form.save(commit=False)
         sticker.stickerpack = stickerpack
+        try:     
+            sticker.full_clean()
+        except django.core.exceptions.ValidationError as e:
+            for field, errors in e.error_dict.items():
+                for error in errors:
+                    form.add_error(field, error)
+
+            return self.form_invalid(form)
+
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -47,3 +71,38 @@ class DeleteStickerView(django.views.generic.DeleteView):
 
     def get_success_url(self):
         return django.urls.reverse('stickers:stickerpackinfo', kwargs={'pk': self.kwargs.get('stickerpack_id')})
+
+
+class SearchStickerView(django.views.generic.ListView):
+    model = stickers.models.Sticker
+    template_name = 'stickers/search_sticker.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        text = self.request.GET.get('q')
+        q = elasticsearch_dsl.Q(
+            'multi_match',
+            query=text,
+            fields=[
+                'decryption',
+            ],
+            fuzziness='auto',
+        )
+        search = stickers.documents.StickerDocument.search().query(q)
+        context['objects'] = search.to_queryset()
+        return context
+
+
+class SetLikeOnSticker(django.views.View):
+    def post(self, request, pk):
+        sticker = django.shortcuts.get_object_or_404(stickers.models.Sticker, pk=pk)
+        user = request.user
+        liked = True
+        if sticker in user.profile.featured_stickers.all():
+            user.profile.featured_stickers.remove(sticker)
+            liked = False
+        else:
+            user.profile.featured_stickers.add(sticker)
+
+        user.profile.save()
+        return django.shortcuts.render(request, 'stickers/button.html', {'sticker': sticker, 'liked': liked})

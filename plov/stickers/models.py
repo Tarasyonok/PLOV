@@ -1,21 +1,12 @@
-import asyncio
-import base64
-import io
-import pathlib
-import re
-
-import aiohttp
 import django.conf
 import django.core
 import django.core.exceptions
 import django.db.models
 import django.dispatch
-import PIL.Image
 import transliterate
 
 import stickers.constants
 import stickers.managers
-import tg_bot.bot
 
 
 class StickerPack(django.db.models.Model):
@@ -44,7 +35,7 @@ class Sticker(django.db.models.Model):
         upload_to='stickers/just_img/',
     )
     image_for_tg = django.db.models.ImageField('sticker_image', upload_to='stickers/for_tg/', blank=True)
-    decryption = django.db.models.TextField('decryption')
+    decryption = django.db.models.TextField(blank=True)
     file_id_from_tg = django.db.models.CharField('file_id_from_tg', blank=True, null=True)
     stickerpack = django.db.models.ForeignKey(
         StickerPack,
@@ -52,9 +43,3 @@ class Sticker(django.db.models.Model):
         related_name='sticker',
         default=None,
     )
-
-    def clean(self):
-        if not self.image.path.split('.')[-1].lower() in stickers.constants.IMAGE_EXTENSIONS:
-            raise django.core.exceptions.ValidationError('формат файла с изображением некорректен')
-
-        return super().clean()
