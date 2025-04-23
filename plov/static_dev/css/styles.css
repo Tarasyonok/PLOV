@@ -22,3 +22,42 @@
     border-radius: 50%;
     border: 2px solid black; 
 }
+
+.banner {
+    background-image: linear-gradient(to right, rgb(128, 128, 255), violet, rgb(255, 247, 159));
+    padding: 10px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.card-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card {
+    flex: 0 0 100%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  
+.card-header {
+    padding: 16px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+}
+  
+.card-body {
+    padding: 16px;
+}
+
+.avatar-info {
+    display: flex;
+    align-items: center;
+}  

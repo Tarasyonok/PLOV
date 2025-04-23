@@ -2,7 +2,6 @@ import users.models
 
 
 def rep_ldb_context(request):
-    user_profiles = users.models.UserProfile.objects.all()
-    leaderboard = user_profiles.order_by('-reputation_points')
+    leader = users.models.UserProfile.objects.all().order_by('-reputation_points').first()
 
-    return {'leaderboard': leaderboard[:3]}
+    return {'leader': leader}

@@ -28,7 +28,7 @@
               <tbody class="table-group-divider">
                 {% for profile in page.object_list %}
                 {% if profile.index == 1 %}
-                  <tr class="table-primary" style="height: 55px;">
+                  <tr class="table-warning" style="height: 55px;">
                         <th scope="row">ЛИДЕР</th>
                         <td>{{ profile.object.user.username }}</td>
                         <td>{{ profile.object.rating }}</td>
