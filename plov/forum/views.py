@@ -14,7 +14,7 @@ def topic_list(request):
     return django.shortcuts.render(request, 'forum/topic_list.html', context)
 
 
-@django.contrib.auth.decorators.login_required(login_url='/login/')
+@django.contrib.auth.decorators.login_required(login_url='/users/login/')
 def topic_post(request):
     form = forum.forms.TopicForm(request.POST or None)
 
@@ -39,7 +39,7 @@ def topic_post(request):
     )
 
 
-@django.contrib.auth.decorators.login_required(login_url='/login/')
+@django.contrib.auth.decorators.login_required(login_url='/users/login/')
 def topic_detail(request, pk):
     post_topic = django.shortcuts.get_object_or_404(forum.models.Topic, pk=pk)
     if request.user.is_authenticated:
@@ -108,7 +108,7 @@ def downvote(request):
     )
 
 
-@django.contrib.auth.decorators.login_required(login_url='/login/')
+@django.contrib.auth.decorators.login_required(login_url='/users/login/')
 def topic_report(request, topic_id):
     topic = django.shortcuts.get_object_or_404(
         forum.models.Topic,
@@ -138,7 +138,7 @@ def topic_report(request, topic_id):
     )
 
 
-@django.contrib.auth.decorators.login_required(login_url='/login/')
+@django.contrib.auth.decorators.login_required(login_url='/users/login/')
 def answer_report(request, ans_id):
     answer = django.shortcuts.get_object_or_404(
         forum.models.Answer,

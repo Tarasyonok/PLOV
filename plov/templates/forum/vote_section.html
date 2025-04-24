@@ -1,31 +1,25 @@
-<div class="dx-comment-vote">
-    <div class="row">
-        <div class="col-lg-6">
-            <form action="{% url 'forum:upvote' %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" id="upvote" name="answer_id" value="{{ answer.id }}"
-                    class="btn btn-danger">
-                    <i class="fa fa-thumbs-o-up" aria-hidden="true">
-                    </i>
-                    <span class="vote-tag">Голос "да"</span>
-                    <span class="upvote-count">
-                        {{ answer.upvotes.count }}
-                    </span>
-                </button>
-            </form>
-        </div>
-        <div class="col-lg-6">
-            <form action="{% url 'forum:downvote' %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" id="downvote" name="answer_id" value="{{ answer.id }}"
-                    class="btn btn-danger">
-                    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                    <span class="vote-tag">Голос "нет"</span>
-                    <span class="downvote-count">
-                        {{ answer.downvotes.count }}
-                    </span>
-                </button>
-            </form>
-        </div>
+<div>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <form action="{% url 'forum:upvote' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" id="upvote" name="answer_id" value="{{ answer.id }}"
+                class="btn">
+                <i class="bi bi-hand-thumbs-up"></i>
+                </i>
+                <span class="upvote-count">
+                    {{ answer.upvotes.count }}
+                </span>
+            </button>
+        </form>
+        <form action="{% url 'forum:downvote' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" id="downvote" name="answer_id" value="{{ answer.id }}"
+                class="btn">
+                <i class="bi bi-hand-thumbs-down"></i>
+                <span class="downvote-count">
+                    {{ answer.downvotes.count }}
+                </span>
+            </button>
+        </form>
     </div>
 </div>
