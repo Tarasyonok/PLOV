@@ -1,8 +1,5 @@
-import django.core.exceptions
 import django.db.models
-import transliterate
 
-import stickers.constants
 import stickers.managers
 
 
@@ -13,6 +10,7 @@ class StickerPack(django.db.models.Model):
         'published_on_tg',
         default=False,
     )
+
 
 class Sticker(django.db.models.Model):
     objects = stickers.managers.StickerManager()

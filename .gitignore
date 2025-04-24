@@ -6,6 +6,7 @@ __pycache__/
 *$py.class
 
 */media/
+*/media/stickers/for_tg/
 # C extensions
 *.so
 
@@ -154,4 +155,3 @@ cython_debug/
 # Windows #
 thumbs.db
 
-/.pre-commit-config.yaml

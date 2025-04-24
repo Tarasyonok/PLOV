@@ -42,7 +42,11 @@ class StickerPackDetailView(django.views.generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['stickers'] = stickers.models.Sticker.objects.get_stickers_by_stickerpack(self.object)
-        context['url_to_tg'] = django.conf.settings.TG_START_OF_TG_URL_ON_STICKERPACK + self.object.slug + django.conf.settings.TG_STICKERPACK_ENDING
+        context['url_to_tg'] = (
+            django.conf.settings.TG_START_OF_TG_URL_ON_STICKERPACK
+            + self.object.slug
+            + django.conf.settings.TG_STICKERPACK_ENDING
+        )
         return context
 
 
@@ -66,7 +70,7 @@ class AddStickerView(django.views.generic.CreateView):
         stickerpack = stickers.models.StickerPack.objects.get(pk=stickerpack_id)
         sticker = form.save(commit=False)
         sticker.stickerpack = stickerpack
-        try:     
+        try:
             sticker.full_clean()
         except django.core.exceptions.ValidationError as e:
             for field, errors in e.error_dict.items():

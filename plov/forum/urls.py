@@ -2,42 +2,42 @@ import django.urls
 
 import forum.views
 
-app_name = "forum"
+app_name = 'forum'
 
 urlpatterns = [
     django.urls.path(
-        "",
+        '',
         forum.views.topic_list,
-        name="forum",
+        name='forum',
     ),
     django.urls.path(
-        "topic_post/",
+        'topic_post/',
         forum.views.topicPost,
-        name="topic-post",
+        name='topic-post',
     ),
     django.urls.path(
-        "topic/<int:pk>/",
+        'topic/<int:pk>/',
         forum.views.topicDetail,
-        name="topic-detail",
+        name='topic-detail',
     ),
     django.urls.path(
-        "upvote/",
+        'upvote/',
         forum.views.upvote,
-        name="upvote",
+        name='upvote',
     ),
     django.urls.path(
-        "downvote/",
+        'downvote/',
         forum.views.downvote,
-        name="downvote",
+        name='downvote',
     ),
     django.urls.path(
-        "report/topic/<int:topic_id>",
+        'report/topic/<int:topic_id>',
         forum.views.topic_report,
-        name="topic-report",
+        name='topic-report',
     ),
     django.urls.path(
-        "report/answer/<int:ans_id>",
+        'report/answer/<int:ans_id>',
         forum.views.answer_report,
-        name="answer-report",
+        name='answer-report',
     ),
 ]

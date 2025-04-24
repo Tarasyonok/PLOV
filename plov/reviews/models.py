@@ -4,6 +4,7 @@ import django.contrib.contenttypes.models
 import django.db.models
 
 import interactions.models
+
 import users.models
 
 

@@ -7,29 +7,11 @@ import django.shortcuts
 import django.urls
 import django.views.decorators.http
 import django.views.generic
-import reviews.forms
-import reviews.models
 
 import interactions.models
 
-
-# class CommentCreateView(LoginRequiredMixin, CreateView):
-#     model = interactions.models.Comment
-#     fields = ['content']
-#     template_name = "interactions/partials/comment_form.html"
-#
-#     def form_valid(self, form):
-#         form.instance.user = self.request.user
-#         form.instance.content_object = self.get_parent_object()  # From URL (like reviews)
-#
-#         if self.request.htmx:
-#             response = HttpResponse(status=204)
-#             response['HX-Trigger'] = json.dumps({
-#                 "refreshComments": True,
-#                 "showToast": {"message": "Comment posted!", "type": "success"}
-#             })
-#             return response
-#         return super().form_valid(form)
+import reviews.forms
+import reviews.models
 
 
 @django.contrib.auth.decorators.login_required

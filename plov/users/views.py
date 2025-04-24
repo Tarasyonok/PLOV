@@ -5,9 +5,9 @@ import django.contrib.auth.views
 import django.contrib.messages.views
 import django.urls
 import django.views.generic
+import users_status.models
 
 import users.forms
-import users_status.models
 
 
 class SignUpView(

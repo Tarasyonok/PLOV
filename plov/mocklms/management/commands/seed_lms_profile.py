@@ -1,7 +1,4 @@
-import random
-
 import django.core.management.base
-import django.utils.timezone
 import faker
 import mocklms.models
 
