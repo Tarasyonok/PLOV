@@ -14,6 +14,7 @@ class StickerPack(django.db.models.Model):
         default=False,
     )
 
+
 class Sticker(django.db.models.Model):
     objects = stickers.managers.StickerManager()
 

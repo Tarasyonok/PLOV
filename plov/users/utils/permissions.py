@@ -1,5 +1,6 @@
 import django.core.exceptions
 
+
 def check_ownership_or_moderator(user, obj):
     if not hasattr(obj, 'user'):
         raise ValueError("Object has no 'user' attribute for ownership check")

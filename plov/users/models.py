@@ -44,10 +44,7 @@ class User(django.contrib.auth.models.AbstractUser):
 
     @property
     def is_currently_banned(self):
-        return self.is_banned and (
-                not self.ban_ends_at or
-                django.utils.timezone.now() < self.ban_ends_at
-        )
+        return self.is_banned and (not self.ban_ends_at or django.utils.timezone.now() < self.ban_ends_at)
 
     def ban_user(self, duration_days=None, reason=""):
         self.is_banned = True
