@@ -1,6 +1,5 @@
 import django.core.exceptions
 import django.db.models
-import transliterate
 
 import stickers.constants
 import stickers.managers

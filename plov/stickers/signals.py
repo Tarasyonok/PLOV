@@ -1,7 +1,6 @@
 import asyncio
 import base64
 import io
-import os
 import pathlib
 import re
 
@@ -33,7 +32,7 @@ async def make_ocr_request(session, base64_image, file_extension, language):
 
 async def async_add_decryption(sender, instance, created, **kwargs):
     file_name = instance.image.path.split('/')[-1]
-    file_name, file_extension = os.path.splitext(file_name)
+    file_name, file_extension = file_name.suffix
     file_extension = file_extension[1:]
     with pathlib.Path(instance.image.path).open('rb') as image_file:
         image_data = image_file.read()
@@ -46,6 +45,7 @@ async def async_add_decryption(sender, instance, created, **kwargs):
         ]
         results = await asyncio.gather(*tasks)
         jsoned_text_rus, jsoned_text_eng = results
+
     text = ' '.join(list(map(lambda x: x['ParsedText'], jsoned_text_rus['ParsedResults']))) + ' '.join(
         list(map(lambda x: x['ParsedText'], jsoned_text_eng['ParsedResults'])),
     )
@@ -88,7 +88,7 @@ async def async_delete_sticker_from_tg_stickerpack(sender, instance, **kwargs):
 @django.dispatch.receiver(django.db.models.signals.pre_delete, sender=stickers.models.Sticker)
 def delete_sticker_from_tg_stickerpack(sender, instance, **kwargs):
     asgiref.sync.async_to_sync(async_delete_sticker_from_tg_stickerpack, force_new_loop=True)(
-        sender, instance, **kwargs
+        sender, instance, **kwargs,
     )
     stickers.documents.StickerDocument().update(instance, action='delete')
 
@@ -96,7 +96,7 @@ def delete_sticker_from_tg_stickerpack(sender, instance, **kwargs):
 async def async_add_stickerpack_to_tg(sender, instance, created, **kwargs):
     if not instance.published_on_tg:
         await tg_bot.bot.create_stickerpack(
-            instance.name, instance.slug, stickers.models.Sticker.objects.get_stickers_by_stickerpack(instance)
+            instance.name, instance.slug, stickers.models.Sticker.objects.get_stickers_by_stickerpack(instance),
         )
         await sender.objects.filter(id=instance.id).aupdate(
             published_on_tg=True,

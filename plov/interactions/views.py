@@ -7,10 +7,10 @@ import django.shortcuts
 import django.urls
 import django.views.decorators.http
 import django.views.generic
-import reviews.forms
-import reviews.models
 
 import interactions.models
+import reviews.forms
+import reviews.models
 
 
 @django.contrib.auth.decorators.login_required
@@ -41,11 +41,10 @@ def vote_review(request, review_id):
             review.user_vote = vote_type
     else:
         interactions.models.Vote.objects.create(
-            user=request.user, content_type=content_type, object_id=review.id, vote_type=vote_type
+            user=request.user, content_type=content_type, object_id=review.id, vote_type=vote_type,
         )
         review.user_vote = vote_type
 
-    # Refresh counts and set user_vote on the review object
     review.refresh_from_db()
 
     if request.htmx:
@@ -53,7 +52,7 @@ def vote_review(request, review_id):
             request,
             'reviews/partials/vote_controls.html',
             {
-                'review': review,  # Now with user_vote attribute
+                'review': review,
             },
         )
 
