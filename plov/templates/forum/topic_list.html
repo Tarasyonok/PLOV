@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}Последние вопросы{% endblock %}
+
 {% block content %}
 <div class="d-flex fw-wrap mb12">
     <div class="flex-grow-1">
@@ -11,7 +13,7 @@
 </div>
 <div>
     <div class="card-list">
-        {% for topic in latest_topics %}
+        {% for topic in page %}
           <div class="card">
             <a href={% url "forum:topic-detail" topic.id %} style="text-decoration: none;">
                 <div class="card-header">
@@ -19,14 +21,58 @@
                 </div>
             </a>
             <div class="card-body">
-              <p>{{ topic.text|truncatechars:325 }}</p>
-              <div>
-                <p><img src="{{ user.profile.avatar.url }}" width="40" height="40" class="rounded-circle border object-fit-cover"> {{ user.username }} задал(а) вопрос в {{ topic.created }}</p>
+              <div class="card-header">
+                <p>{{ topic.text|truncatechars:325 }}</p>
               </div>
-              <p>Просмотры: {{ topic.topic_view_count }}</p>
+            <div>
+                <div class="d-flex fw-wrap mb12">
+                    <div class="flex-grow-1">
+                        <p>
+                          {% if topic.user.profile.avatar %}
+                            <img src="{{ topic.user.profile.avatar.url }}" width="40" height="40" class="rounded-circle border object-fit-cover">
+                          {% endif %}
+                          <a href={% url "users:profile" topic.user.username %}>{{ topic.user.username }}</a> задал(а) вопрос в {{ topic.created }}
+                        </p>
+                    </div>
+                    <div class="aside-cta mb12 print:d-none">
+                      <p>Просмотры: {{ topic.topic_view_count }}</p>
+                    </div>      
+                </div>
+              </div>
             </div>
           </div>
         {% endfor %}
       </div>
 </div>
+
+<nav>
+  <ul class="pagination pagination-lg">
+    {% if page.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="?page={{ page.page_number }}" aria-label="Previous" aria-disabled="true">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% endif %}
+    {% if page.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="?page={{ page.page_number }}" aria-label="Next" aria-disabled="true">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
 {% endblock content %}

@@ -7,14 +7,22 @@ import forum.forms
 import forum.models
 
 
+ELEMENTS_PER_PAGE = 3
+
+
 def topic_list(request):
     topics = forum.models.Topic.objects.all()
-    latest_topics = forum.models.Topic.objects.order_by('-created')[0:5]
-    context = {'topics': topics, 'latest_topics': latest_topics}
+    latest_topics = topics.order_by('-created')
+
+    paginator = django.core.paginator.Paginator(latest_topics, ELEMENTS_PER_PAGE)
+    page_num = request.GET.get('page')
+    page = paginator.get_page(page_num)
+
+    context = {'page': page}
     return django.shortcuts.render(request, 'forum/topic_list.html', context)
 
 
-@django.contrib.auth.decorators.login_required(login_url='/login/')
+@django.contrib.auth.decorators.login_required(login_url='/users/login/')
 def topic_post(request):
     form = forum.forms.TopicForm(request.POST or None)
 
@@ -28,7 +36,7 @@ def topic_post(request):
                 text=text,
             )
             topic.save()
-            return django.shortcuts.redirect('homepage:homepage')
+            return django.shortcuts.redirect('forum:forum')
     else:
         form = forum.forms.TopicForm()
 
@@ -39,7 +47,7 @@ def topic_post(request):
     )
 
 
-@django.contrib.auth.decorators.login_required(login_url='/login/')
+@django.contrib.auth.decorators.login_required(login_url='/users/login/')
 def topic_detail(request, pk):
     post_topic = django.shortcuts.get_object_or_404(forum.models.Topic, pk=pk)
     if request.user.is_authenticated:
@@ -108,7 +116,7 @@ def downvote(request):
     )
 
 
-@django.contrib.auth.decorators.login_required(login_url='/login/')
+@django.contrib.auth.decorators.login_required(login_url='/users/login/')
 def topic_report(request, topic_id):
     topic = django.shortcuts.get_object_or_404(
         forum.models.Topic,
@@ -138,7 +146,7 @@ def topic_report(request, topic_id):
     )
 
 
-@django.contrib.auth.decorators.login_required(login_url='/login/')
+@django.contrib.auth.decorators.login_required(login_url='/users/login/')
 def answer_report(request, ans_id):
     answer = django.shortcuts.get_object_or_404(
         forum.models.Answer,
