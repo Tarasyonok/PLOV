@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.body.addEventListener('refreshReviews', function() {
-        htmx.ajax('GET', '{% url "reviews:reviews" %}', '#reviews-list', {
+        htmx.ajax('GET', '/reviews', '#reviews-list', {
             swap: 'innerHTML',
             headers: {'HX-Request': 'true'},
         });

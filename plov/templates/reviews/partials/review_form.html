@@ -7,7 +7,7 @@
     {% csrf_token %}
 
     <div class="mb-3">
-        <label class="form-label">Rating</label>
+        <label class="form-label">Оценка</label>
         <div class="star-rating">
             {% for i in "54321" %}
                 <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}"
@@ -17,28 +17,26 @@
                 </label>
             {% endfor %}
         </div>
-        <div class="rating-error text-danger mt-2 d-none">Please select a rating</div>
+        <div class="rating-error text-danger mt-2 d-none">Пожалуйста, укажите оценку</div>
     </div>
 
     <div class="mb-3">
-        <label for="content-input" class="form-label">Review</label>
-        {% spaceless %}
-            <textarea class="form-control" id="content-input" name="content" rows="4" oninput="clearContentError()" required>
+        <label for="content-input" class="form-label">Отзыв</label>
+            <textarea class="form-control" id="content-input" name="content" rows="4" oninput="clearContentError()" required>{% spaceless %}
                 {{ form.content.value|default:'' }}
-            </textarea>
-        {% endspaceless %}
-        <div class="content-error text-danger mt-2 d-none">Please write your review content</div>
+            {% endspaceless %}</textarea>
+        <div class="content-error text-danger mt-2 d-none">Пожалуйста, напишите содержание вашего обзора</div>
     </div>
 
     <div class="d-flex justify-content-end gap-2">
         <button type="button" class="btn btn-secondary"
                 onclick="resetForm(); {% if not review %}document.querySelector('#write-review-btn').style.display = 'block';{% endif %}">
-            Cancel
+            Отменить
         </button>
         <button type="button"
                 class="btn btn-primary"
                 onclick="submitReviewForm()">
-            {% if review %}Update{% else %}Submit{% endif %} Review
+            {% if review %}Сохранить{% else %}Опубликовать{% endif %} отзыв
         </button>
     </div>
 </form>

@@ -22,13 +22,13 @@
                     hx-swap="innerHTML"
                     onclick="document.getElementById('review-form-container').style.display = 'block';"
                     class="btn btn-sm btn-primary">
-                Edit
+                Редактировать
             </button>
 
             {% if review %}
                 <a href="{% url 'reviews:delete' review.pk %}"
                    class="btn btn-sm btn-danger">
-                    Delete
+                    Удалить
                 </a>
             {% endif %}
         </div>

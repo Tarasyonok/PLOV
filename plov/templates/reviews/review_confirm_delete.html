@@ -6,15 +6,15 @@
         <div class="col-md-6 mx-auto">
             <div class="card">
                 <div class="card-header bg-danger text-white">
-                    <h5>Delete Review</h5>
+                    <h5>Удалить отзыв</h5>
                 </div>
                 <div class="card-body">
-                    <p>Are you sure you want to delete your review?</p>
+                    <p>Вы уверены, что хотите удалить свой отзыв?</p>
                     <form method="post">
                         {% csrf_token %}
                         <div class="mt-3">
-                            <button type="submit" class="btn btn-danger">Confirm Delete</button>
-                            <a href="{% url 'reviews:reviews' %}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-danger">Подтвердить удаление</button>
+                            <a href="{% url 'reviews:reviews' %}" class="btn btn-secondary">Отменить</a>
                         </div>
                     </form>
                 </div>

@@ -4,8 +4,7 @@
             hx-target="#vote-controls-{{ review.id }}"
             hx-swap="outerHTML"
             hx-vals='{"vote_type": "U"}'
-            style="background: none; border: none; cursor: pointer;
-                   opacity: {% if user_vote == 'U' %}1{% else %}0.5{% endif %};">
+            class="btn btn-sm {% if review.user_vote == 'U' %}btn-success{% else %}btn-outline-success{% endif %}">
         👍 {{ review.upvotes_count }}
     </button>
 
@@ -13,8 +12,7 @@
             hx-target="#vote-controls-{{ review.id }}"
             hx-swap="outerHTML"
             hx-vals='{"vote_type": "D"}'
-            style="background: none; border: none; cursor: pointer;
-                   opacity: {% if user_vote == 'D' %}1{% else %}0.5{% endif %};">
+            class="btn btn-sm {% if review.user_vote == 'D' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">
         👎 {{ review.downvotes_count }}
     </button>
 </div>

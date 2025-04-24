@@ -19,40 +19,51 @@ def vote_review(request, review_id):
     review = django.shortcuts.get_object_or_404(reviews.models.Review, pk=review_id)
     vote_type = request.POST.get('vote_type')
 
-    if vote_type not in ['U', 'D']:  # Simplified check
+    if vote_type not in ['U', 'D']:
         return django.http.JsonResponse({'error': 'Invalid vote type'}, status=400)
 
     content_type = django.contrib.contenttypes.models.ContentType.objects.get_for_model(review)
 
-    vote, created = interactions.models.Vote.objects.get_or_create(
-        user=request.user,
-        content_type=content_type,
-        object_id=review.id,
-        defaults={'vote_type': vote_type},
-    )
+    try:
+        existing_vote = interactions.models.Vote.objects.get(
+            user=request.user,
+            content_type=content_type,
+            object_id=review.id
+        )
+    except interactions.models.Vote.DoesNotExist:
+        existing_vote = None
 
-    if not created:
-        if vote.vote_type == vote_type:
-            vote.delete()  # Remove if same vote clicked
+    if existing_vote:
+        if existing_vote.vote_type == vote_type:
+            existing_vote.delete()
+            review.user_vote = None
         else:
-            vote.vote_type = vote_type  # Change vote type
-            vote.save()
+            existing_vote.vote_type = vote_type
+            existing_vote.save()
+            review.user_vote = vote_type
+    else:
+        interactions.models.Vote.objects.create(
+            user=request.user,
+            content_type=content_type,
+            object_id=review.id,
+            vote_type=vote_type
+        )
+        review.user_vote = vote_type
 
-    context = {
-        'review': review,
-        'user_vote': vote.vote_type if not created and vote.vote_type == vote_type else None,
-    }
+    # Refresh counts and set user_vote on the review object
+    review.refresh_from_db()
 
     if request.htmx:
         return django.shortcuts.render(
             request,
             'reviews/partials/vote_controls.html',
             {
-                'review': review,
-                'user_vote': vote_type if (created or vote.vote_type == vote_type) else None,
+                'review': review,  # Now with user_vote attribute
             },
         )
 
-    return django.http.JsonResponse(
-        {'upvotes': review.upvotes_count, 'downvotes': review.downvotes_count, 'user_vote': context['user_vote']},
-    )
+    return django.http.JsonResponse({
+        'upvotes': review.upvotes_count,
+        'downvotes': review.downvotes_count,
+        'user_vote': review.user_vote,
+    })

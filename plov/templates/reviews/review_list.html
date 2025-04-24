@@ -3,7 +3,7 @@
 
 {% block content %}
 <div style="max-width: 800px; margin: 0 auto; padding: 20px;">
-    <h2 style="margin-bottom: 20px;">Course Reviews</h2>
+    <h2 style="margin-bottom: 20px;">Отзывы по курсу</h2>
 
     <div id="review-form-container" style="display: none;">
         {% if request.user.is_authenticated %}
@@ -22,7 +22,7 @@
             hx-swap="innerHTML"
             onclick="document.getElementById('review-form-container').style.display = 'block'; this.style.display = 'none';"
             class="btn btn-primary mb-3">
-        Write Review
+        Написать отзыв
     </button>
     {% endif %}
 
