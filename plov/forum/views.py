@@ -28,7 +28,7 @@ def topic_post(request):
                 text=text,
             )
             topic.save()
-            return django.shortcuts.redirect('homepage:homepage')
+            return django.shortcuts.redirect('forum:forum')
     else:
         form = forum.forms.TopicForm()
 

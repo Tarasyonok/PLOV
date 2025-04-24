@@ -31,7 +31,7 @@
                           {% if topic.user.profile.avatar %}
                             <img src="{{ topic.user.profile.avatar.url }}" width="40" height="40" class="rounded-circle border object-fit-cover">
                           {% endif %}
-                          {{ topic.user.username }} задал(а) вопрос в {{ topic.created }}
+                          <a href={% url "users:profile" topic.user.username %}>{{ topic.user.username }}</a> задал(а) вопрос в {{ topic.created }}
                         </p>
                     </div>
                     <div class="aside-cta mb12 print:d-none">
