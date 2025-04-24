@@ -26,7 +26,9 @@ def vote_review(request, review_id):
 
     try:
         existing_vote = interactions.models.Vote.objects.get(
-            user=request.user, content_type=content_type, object_id=review.id
+            user=request.user,
+            content_type=content_type,
+            object_id=review.id,
         )
     except interactions.models.Vote.DoesNotExist:
         existing_vote = None
@@ -41,7 +43,10 @@ def vote_review(request, review_id):
             review.user_vote = vote_type
     else:
         interactions.models.Vote.objects.create(
-            user=request.user, content_type=content_type, object_id=review.id, vote_type=vote_type,
+            user=request.user,
+            content_type=content_type,
+            object_id=review.id,
+            vote_type=vote_type,
         )
         review.user_vote = vote_type
 
@@ -61,5 +66,5 @@ def vote_review(request, review_id):
             'upvotes': review.upvotes_count,
             'downvotes': review.downvotes_count,
             'user_vote': review.user_vote,
-        }
+        },
     )

@@ -41,7 +41,8 @@ class ReviewListView(django.views.generic.ListView):
             # Annotate each review with the user's vote
             content_type = django.contrib.contenttypes.models.ContentType.objects.get_for_model(reviews.models.Review)
             user_votes = interactions.models.Vote.objects.filter(
-                user=self.request.user, content_type=content_type,
+                user=self.request.user,
+                content_type=content_type,
             ).values('object_id', 'vote_type')
 
             # Create a mapping of review_id to vote_type

@@ -14,7 +14,8 @@ TG_BOT_TOKEN = decouple.config('TG_BOT_TOKEN', 'bot-token')
 TG_USER_ID = decouple.config('TG_USER_ID', default=1, cast=int)
 TG_STICKERPACK_ENDING = decouple.config('TG_STICKERPACK_ENDING', default='by_bot')
 TG_START_OF_TG_URL_ON_STICKERPACK = decouple.config(
-    'TG_START_OF_TG_URL_ON_STICKERPACK', default='https://t.me/addstickers/',
+    'TG_START_OF_TG_URL_ON_STICKERPACK',
+    default='https://t.me/addstickers/',
 )
 
 
