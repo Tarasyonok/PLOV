@@ -2,13 +2,11 @@ import django.conf
 import django.db.models
 import django.urls
 
-import core.models
-
 
 class Topic(django.db.models.Model):
     user = django.db.models.ForeignKey(
         django.conf.settings.AUTH_USER_MODEL,
-        verbose_name="пользователь",
+        verbose_name='пользователь',
         on_delete=django.db.models.CASCADE,
     )
     title = django.db.models.CharField(
@@ -19,24 +17,24 @@ class Topic(django.db.models.Model):
         max_length=1000,
     )
     created = django.db.models.DateTimeField(
-        verbose_name="дата создания",
+        verbose_name='дата создания',
         editable=False,
         auto_now_add=True,
         null=True,
-        help_text="Дата создания.",
+        help_text='Дата создания.',
     )
 
     class Meta:
-        verbose_name = "топик"
-        verbose_name_plural = "топики"
+        verbose_name = 'топик'
+        verbose_name_plural = 'топики'
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return django.urls.reverse(
-            "forum:topic-detail",
-            kwargs={"pk": self.pk},
+            'forum:topic-detail',
+            kwargs={'pk': self.pk},
         )
 
     @property
@@ -51,38 +49,38 @@ class Topic(django.db.models.Model):
 class Answer(django.db.models.Model):
     topic = django.db.models.ForeignKey(
         Topic,
-        verbose_name="топик",
+        verbose_name='топик',
         on_delete=django.db.models.CASCADE,
     )
     user = django.db.models.ForeignKey(
         django.conf.settings.AUTH_USER_MODEL,
-        verbose_name="пользователь",
+        verbose_name='пользователь',
         on_delete=django.db.models.CASCADE,
     )
     text = django.db.models.TextField(max_length=1000)
     created = django.db.models.DateTimeField(
-        verbose_name="дата создания",
+        verbose_name='дата создания',
         editable=False,
         auto_now_add=True,
         null=True,
-        help_text="Дата создания.",
+        help_text='Дата создания.',
     )
     upvotes = django.db.models.ManyToManyField(
         django.conf.settings.AUTH_USER_MODEL,
         verbose_name='голоса: "да"',
         blank=True,
-        related_name="upvotes",
+        related_name='upvotes',
     )
     downvotes = django.db.models.ManyToManyField(
         django.conf.settings.AUTH_USER_MODEL,
         verbose_name='голоса: "нет"',
         blank=True,
-        related_name="downvotes",
+        related_name='downvotes',
     )
 
     class Meta:
-        verbose_name = "ответ"
-        verbose_name_plural = "ответы"
+        verbose_name = 'ответ'
+        verbose_name_plural = 'ответы'
 
     def __str__(self):
         return self.topic.title
@@ -95,18 +93,18 @@ class Answer(django.db.models.Model):
 class TopicView(django.db.models.Model):
     topic = django.db.models.ForeignKey(
         Topic,
-        verbose_name="топик",
+        verbose_name='топик',
         on_delete=django.db.models.CASCADE,
     )
     user = django.db.models.ForeignKey(
         django.conf.settings.AUTH_USER_MODEL,
-        verbose_name="пользователь",
+        verbose_name='пользователь',
         on_delete=django.db.models.CASCADE,
     )
 
     class Meta:
-        verbose_name = "просмотр топика"
-        verbose_name_plural = "просмотр топиков"
+        verbose_name = 'просмотр топика'
+        verbose_name_plural = 'просмотр топиков'
 
     def __str__(self):
         return self.topic.title
