@@ -1,78 +1,107 @@
 {% extends "base.html" %}
 
+{% block title %}Топик "{{ topic.title }}"{% endblock %}
+
 {% block content %}
-<div class="dx-box-1 pb-100 bg-grey-6">
+<div>
     <div class="container">
-        <div class="row vertical-gap md-gap">
-            <div class="col-lg-8">
-                <div class="dx-blog-post dx-box dx-box-decorated">
-
-                    <div class="dx-blog-post-box">
-
-                        <h1 class="h3 dx-blog-post-title">{{ topic.title }}</h1>
-                        <ul class="dx-blog-post-info">
-                            <a href="{% url 'forum:topic-report' topic.id %}" class="dx-widget-link"> Пожаловаться</a>
-                            <li>Дата публикации: {{ topic.created }}</li>
-                            <li>Автор: {{ topic.user.username }}</li>
-                            <li>Просмотры: {{ topic.topic_view_count }}</li>
-                        </ul>
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex fw-wrap mb12">
+                        <div class="flex-grow-1">
+                            <h1>{{ topic.title }}</h1>
+                        </div>
+                        <div class="aside-cta mb12 print:d-none">
+                            <a href="{% url 'forum:topic-report' topic.id %}" class="report-link" style="color: red;"><i class="bi bi-flag-fill"></i></a>
+                        </div>      
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>Дата публикации: {{ topic.created }}</li>
+                        <li>Автор: <a href={% url "users:profile" topic.user.username %}>{{ topic.user.username }}</a></li>
+                        <li>Просмотры: {{ topic.topic_view_count }}</li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="card-header">
                         <p class="mnb-2">{{ topic.text }}</p>
                     </div>
-
-                </div>
-                <div class="dx-box mt-55">
-                    {% if answers.count > 0 %}
-                        {% if answers.count == 1 %}
-                            <h2 class="h4 mb-45">{{ answers.count }} ответ в этом топике: </h2>
-                        {% elif answers.count >= 2 and answers.count <= 4 %}
-                            <h2 class="h4 mb-45">{{ answers.count }} ответа в этом топике: </h2>
-                        {% else %}
-                            <h2 class="h4 mb-45">{{ answers.count }} ответов в этом топике: </h2>
-                        {% endif %}
-                    {% else %}
-                    <h2 class="h4 mb-45">Будь первым ответив на этот вопрос!</h2>
-                    {% endif %}
-                    {% for answer in answers %}
-                    <div class="dx-comment">
-
-                        <div>
-                            <div class="dx-comment-img">
-                                <img src="{{ answer.user.author.profile_pic.url }}" alt="" class="rounded-circle">
-                            </div>
-                            <div class="dx-comment-cont">
-                                <p class="dx-comment-info">
-                                    <span class="dx-comment-name">{{ answer.user.username|capfirst }}</span>
-
-                                    <span class="dx-comment-date">
-                                        ответил(а) в {{ answer.created }}
-                                    </span>
-                                </p>
-                                <a href="{% url 'forum:answer-report' answer.id %}" class="dx-widget-link"> Пожаловаться</a>
-
-                                <div class="dx-comment-text">
-                                    <p class="mb-0">{{ answer.text }}</p>
-                                </div>
-                                <div id="vote-section">
-                                    {% include 'forum/vote_section.html' %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-
-
-                    <form action="" method="POST" class="dx-form mt-50 mb-45">
-                        <div class="row vertical-gap">
-                            <div class="col-12">
-                                {% csrf_token %}
-                                {{ answer_form }}
-                                <input type="submit" class="dx-btn dx-btn-lg" value="Post Answer">
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
+
         </div>
+        <div class="dx-box mt-55">
+            {% if answers.count > 0 %}
+                {% if answers.count == 1 %}
+                    <h2 class="h4 mb-45">{{ answers.count }} ответ в этом топике: </h2>
+                {% elif answers.count >= 2 and answers.count <= 4 %}
+                    <h2 class="h4 mb-45">{{ answers.count }} ответа в этом топике: </h2>
+                {% else %}
+                    <h2 class="h4 mb-45">{{ answers.count }} ответов в этом топике: </h2>
+                {% endif %}
+            {% else %}
+            <h2 class="h4 mb-45">Будь первым ответив на этот вопрос!</h2>
+            {% endif %}
+
+            {% for answer in answers %}
+                <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex fw-wrap mb12">
+                                <div class="flex-grow-1">
+                                    <p>
+                                        {% if answer.user.profile.avatar %}
+                                            <img src="{{ answer.user.profile.avatar.url }}" width="40" height="40" class="rounded-circle border object-fit-cover">
+                                        {% endif %}
+                                        <span><a href={% url "users:profile" answer.user.username %}>{{ answer.user.username }}</a></span>
+                                        <span>ответил(а) в {{ answer.created }}</span>
+                                    </p>
+                                </div>
+                                <div class="aside-cta mb12 print:d-none">
+                                    <a href="{% url 'forum:answer-report' answer.id %}" class="report-link" style="color: red;"><i class="bi bi-flag-fill"></i></a>
+                                </div>      
+                            </div>
+                        </div>
+                    <div class="card-body">
+                        <div class="card-header">
+                            <div class="comment-body">
+                            <p class="mb-0">{{ answer.text }}</p>
+                            </div>
+                        </div>
+
+                        <div id="vote-section">
+                            {% include 'forum/vote_section.html' %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if answers.count > 0 %}
+            <h2 class="h4 mb-45">Ответить</h2>
+        {% endif %}
+
+        <form action="" method="POST">
+            <div class="row vertical-gap">
+                <div class="col-12">
+                    {% csrf_token %}
+                    {{ answer_form }}
+                    <input 
+                        style="
+                            color: white; 
+                            background-image: linear-gradient(to right, rgb(88, 134, 221), rgb(21, 75, 223)); 
+                            border-color: rgb(255, 255, 255);
+                            border-radius: 5px;
+                            padding: 10px 20px;
+                        " 
+                        type="submit" 
+                        class="dx-btn dx-btn-lg" 
+                        value="Ответить"
+                    >
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 

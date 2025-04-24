@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}Жалоба на топик{% endblock %}
+
 {% block content %}
 <h2>Жалоба на топик</h2>
 <form action="" method="POST" class="dx-form mt-50 mb-45">
@@ -7,7 +9,18 @@
         <div class="col-12">
             {% csrf_token %}
             {{ form }}
-            <input type="submit" class="dx-btn dx-btn-lg" value="Отправить жалобу">
+            <input 
+                style="
+                    color: white; 
+                    background-image: linear-gradient(to right, rgb(236, 61, 61), rgb(156, 22, 22)); 
+                    border-color: rgb(255, 255, 255);
+                    border-radius: 5px;
+                    padding: 10px 20px;
+                " 
+                type="submit" 
+                class="dx-btn dx-btn-lg" 
+                value="Отправить жалобу"
+            >
         </div>
     </div>
 </form>

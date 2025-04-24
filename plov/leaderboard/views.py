@@ -1,5 +1,6 @@
 import http
 
+import django.contrib.auth
 import django.core.paginator
 import django.shortcuts
 import django.utils.timezone
@@ -52,6 +53,7 @@ def leaderboard(request):
     )
 
 
+@django.contrib.auth.decorators.login_required(login_url='/users/login/')
 def leaderboard_my_course(request):
     try:
         user = users.models.UserCourse.objects.filter(user=request.user).get()
