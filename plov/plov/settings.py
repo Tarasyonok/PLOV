@@ -61,6 +61,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'leaderboard.context_processors.rep_ldb_context',
+                'forum.context_processors.topics_context',
+                'forum.context_processors.my_topics_counter_context',
             ],
         },
     },
