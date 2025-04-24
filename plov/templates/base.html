@@ -21,6 +21,15 @@
   </head>
   <body>
     {% include 'includes/header.html' %}
+    <div class="banner">
+      {% if leader.reputation_points > 4 %}
+        <p>Сегодня лидер по репутации - {{ leader.user.username }}. У {{ leader.user.username }} целых {{ leader.reputation_points }} баллов!</p>
+      {% elif leader.reputation_points < 4 and leader.reputation_points > 1 %}
+        <p>Сегодня лидер по репутации - {{ leader.user.username }}. У {{ leader.user.username }} целых {{ leader.reputation_points }} балла!</p>
+      {% else %}
+        <p>Сегодня лидер по репутации - {{ leader.user.username }}. У {{ leader.user.username }} целый {{ leader.reputation_points }} балл!</p>
+      {% endif %}
+    </div>
     <div class="container mt-4" style="min-height: calc(100vh - 200px)">
       {% block content %}
       {% endblock %}

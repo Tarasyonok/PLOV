@@ -35,7 +35,7 @@ class StickerPackForm(django.forms.ModelForm):
         model = stickers.models.StickerPack
         fields = ['name', 'stickers']
 
-class StickerForm(django.forms.ModelForm)
+class StickerForm(django.forms.ModelForm):
     class Meta:
         model = stickers.models.Sticker
         fields = ['image']

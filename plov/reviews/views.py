@@ -9,6 +9,7 @@ import django.shortcuts
 import django.urls
 import django.views.decorators.http
 import django.views.generic
+
 import reviews.forms
 import reviews.models
 import interactions.models

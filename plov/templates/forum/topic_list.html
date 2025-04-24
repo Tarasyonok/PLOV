@@ -1,31 +1,32 @@
 {% extends "base.html" %}
 
-{% block content %}    
-    <div class="dx-box-5 pb-100 bg-grey-6">
-        <div class="container">
-            <div class="row vertical-gap md-gap">
-                <div class="col-lg-8">
-                    <div class="dx-box dx-box-decorated">
-                        <div class="dx-blog-post">
-                            <div class="dx-blog-post-box pt-30 pb-30">
-                                <h2 class="h4 mnt-5 mb-9">Q&A</h2>
-                            </div>
-                        <div class="dx-widget dx-box dx-box-decorated">
-                            <div class="dx-widget-title">
-                                Последние топики
-                            </div>
-                            {% for topics in latest_topics %}
-                                <a href="{% url 'forum:topic-detail' topics.id %}" class="dx-widget-link">
-                                    <span class="dx-widget-link-text">{{ topics.title }}</span>
-                                    <span class="dx-widget-link-date">{{ topics.created|date }}</span>
-                                </a>
-                            {% endfor %}
-                        </div>
-                        <h2><a href="{% url 'forum:topic-post' %}" class="bi bi-chat-square-text"> Задать вопрос</a></h2>
-                    </div>
-                </div>
-            </div>
-        </div>
+{% block content %}
+<div class="d-flex fw-wrap mb12">
+    <div class="flex-grow-1">
+      <h1 class="fs-headline1 mb12">Последние вопросы</h1>
     </div>
+    <div class="aside-cta mb12 print:d-none">
+        <a class="btn" href={% url "forum:topic-post" %} role="button" style="color: white; background-image: linear-gradient(to right, rgb(245, 87, 126), rgb(187, 85, 207)); border-color:rgb(255, 255, 255)">Задать Вопрос</a>
+    </div>      
+</div>
+<div>
+    <div class="card-list">
+        {% for topic in latest_topics %}
+          <div class="card">
+            <a href={% url "forum:topic-detail" topic.id %} style="text-decoration: none;">
+                <div class="card-header">
+                    <h5>{{ topic.title|truncatechars:50 }}</h5>
+                </div>
+            </a>
+            <div class="card-body">
+              <p>{{ topic.text|truncatechars:325 }}</p>
+              <div>
+                <p><img src="{{ user.profile.avatar.url }}" width="40" height="40" class="rounded-circle border object-fit-cover"> {{ user.username }} задал(а) вопрос в {{ topic.created }}</p>
+              </div>
+              <p>Просмотры: {{ topic.topic_view_count }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
 </div>
 {% endblock content %}
