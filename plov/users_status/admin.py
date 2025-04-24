@@ -5,14 +5,14 @@ import users_status.models
 
 class UserStatusAdmin(django.contrib.admin.ModelAdmin):
     list_display = (
-        'user',
-        'last_activity',
+        users_status.models.UserStatus.user.field.name,
+        users_status.models.UserStatus.last_activity.field.name,
     )
-    search_fields = ('user__username',)
-    list_filter = ('last_activity',)
+    search_fields = (f'{users_status.models.UserStatus.user.field.name}__username',)
+    list_filter = (users_status.models.UserStatus.last_activity.field.name,)
 
     def get_ordering(self, request):
-        return ('last_activity',)
+        return (users_status.models.UserStatus.last_activity.field.name,)
 
 
 django.contrib.admin.site.register(users_status.models.UserStatus, UserStatusAdmin)

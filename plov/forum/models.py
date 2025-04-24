@@ -2,6 +2,8 @@ import django.conf
 import django.db.models
 import django.urls
 
+import core.models
+
 
 class Topic(django.db.models.Model):
     user = django.db.models.ForeignKey(
@@ -108,3 +110,33 @@ class TopicView(django.db.models.Model):
 
     def __str__(self):
         return self.topic.title
+
+
+class TopicReport(core.models.Report):
+    topic = django.db.models.ForeignKey(
+        Topic,
+        verbose_name='топик',
+        on_delete=django.db.models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = 'жалоба на топик'
+        verbose_name_plural = 'жалобы на топики'
+
+    def __str__(self):
+        return f'Жалоба на топик от {self.reporter}'
+
+
+class AnswerReport(core.models.Report):
+    answer = django.db.models.ForeignKey(
+        Answer,
+        verbose_name='ответ',
+        on_delete=django.db.models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = 'жалоба на ответ'
+        verbose_name_plural = 'жалобы на ответы'
+
+    def __str__(self):
+        return f'Жалоба на ответ от {self.reporter}'

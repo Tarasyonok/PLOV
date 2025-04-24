@@ -6,8 +6,6 @@ import forum.models
 django.contrib.admin.site.register(forum.models.Topic)
 django.contrib.admin.site.register(forum.models.Answer)
 django.contrib.admin.site.register(forum.models.TopicView)
-django.contrib.admin.site.register(forum.models.TopicReport)
-django.contrib.admin.site.register(forum.models.AnswerReport)
 
 
 @django.contrib.admin.register(forum.models.TopicReport)
