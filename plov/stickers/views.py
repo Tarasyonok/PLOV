@@ -5,9 +5,9 @@ import django.views.generic
 import elasticsearch_dsl
 import transliterate
 
-import stickers.constants
-import stickers.documents
 import stickers.models
+import stickers.utils.constants
+import stickers.utils.documents
 
 
 class AddStickerPackView(django.views.generic.CreateView):
@@ -17,7 +17,7 @@ class AddStickerPackView(django.views.generic.CreateView):
 
     def form_valid(self, form):
         text = form.cleaned_data['name']
-        for k, v in stickers.constants.LOOKALIKES.items():
+        for k, v in stickers.utils.constants.LOOKALIKES.items():
             text = text.replace(k, v)
 
         text = text.lower().replace(' ', '')
@@ -52,7 +52,7 @@ class StickerPackDetailView(django.views.generic.DetailView):
 
 class StickerpackList(django.views.generic.ListView):
     model = stickers.models.StickerPack
-    template_name = 'sticlers/stickerpack_list.html'
+    template_name = 'stickers/stickerpack_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -108,7 +108,7 @@ class SearchStickerView(django.views.generic.ListView):
             ],
             fuzziness='auto',
         )
-        search = stickers.documents.StickerDocument.search().query(q)
+        search = stickers.utils.documents.StickerDocument.search().query(q)
         context['objects'] = search.to_queryset()
         return context
 

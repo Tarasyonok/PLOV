@@ -4,9 +4,9 @@ import django.core.validators
 import django.db.models
 import django.utils.deconstruct
 import django.utils.timezone
-import users.utils.validators
 
 import stickers.models
+import users.utils.validators
 
 
 class User(django.contrib.auth.models.AbstractUser):

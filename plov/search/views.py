@@ -2,7 +2,7 @@ import elasticsearch_dsl
 import rest_framework.response
 import rest_framework.views
 
-import stickers.documents
+import stickers.utils.documents
 
 
 class SearchStickersByText(rest_framework.views.APIView):
@@ -15,6 +15,6 @@ class SearchStickersByText(rest_framework.views.APIView):
             ],
             fuzziness='auto',
         )
-        search = stickers.documents.StickerDocument.search().query(q)
+        search = stickers.utils.documents.StickerDocument.search().query(q)
         response = search.execute()
         return rest_framework.response.Response({'objects': [elem.to_dict() for elem in response]})

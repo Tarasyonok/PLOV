@@ -2,6 +2,7 @@ import logging
 
 import celery
 import django.utils
+
 import users.models
 
 logger = logging.getLogger(__name__)

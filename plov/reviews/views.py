@@ -38,17 +38,14 @@ class ReviewListView(django.views.generic.ListView):
     def get_queryset(self):
         queryset = reviews.models.Review.objects.all().order_by('-created_at')
         if self.request.user.is_authenticated:
-            # Annotate each review with the user's vote
             content_type = django.contrib.contenttypes.models.ContentType.objects.get_for_model(reviews.models.Review)
             user_votes = interactions.models.Vote.objects.filter(
                 user=self.request.user,
                 content_type=content_type,
             ).values('object_id', 'vote_type')
 
-            # Create a mapping of review_id to vote_type
             vote_mapping = {v['object_id']: v['vote_type'] for v in user_votes}
 
-            # Annotate each review with the user's vote
             for review in queryset:
                 review.user_vote = vote_mapping.get(review.id)
 
@@ -59,6 +56,8 @@ class ReviewListView(django.views.generic.ListView):
         if self.request.user.is_authenticated:
             user_review = reviews.models.Review.objects.filter(user=self.request.user).first()
             context['user_review'] = user_review
+            course = self.request.user.courses.filter(specialization='D').first()
+            context['is_graduate'] = course and course.is_graduated
             context['show_write_button'] = not user_review
             context['form'] = reviews.forms.ReviewForm()
 

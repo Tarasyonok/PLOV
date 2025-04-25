@@ -4,10 +4,7 @@ import users_status.models
 
 
 class UserStatusAdmin(django.contrib.admin.ModelAdmin):
-    list_display = (
-        'user',
-        'last_activity',
-    )
+    list_display = ('user', 'last_activity')
     search_fields = ('user__username',)
     list_filter = ('last_activity',)
 

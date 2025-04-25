@@ -2,9 +2,9 @@ import django.conf
 import django.contrib.contenttypes.fields
 import django.contrib.contenttypes.models
 import django.db.models
-import users.models
 
 import interactions.models
+import users.models
 
 
 class Review(django.db.models.Model):
@@ -17,20 +17,46 @@ class Review(django.db.models.Model):
 
     user = django.db.models.ForeignKey(
         django.conf.settings.AUTH_USER_MODEL,
+        verbose_name='Пользователь',
         on_delete=django.db.models.SET_NULL,
         null=True,
         blank=True,
+        help_text='Автор отзыва (может быть анонимным)',
     )
     specialization = django.db.models.CharField(
+        verbose_name='Специализация',
         choices=users.models.UserCourse.SpecializationChoices,
         default=users.models.UserCourse.SpecializationChoices.DJANGO,
+        max_length=50,
+        help_text='Направление обучения, к которому относится отзыв',
     )
-    rating = django.db.models.PositiveSmallIntegerField(choices=RatingChoices)
-    content = django.db.models.TextField()
-    created_at = django.db.models.DateTimeField(auto_now_add=True)
-    updated_at = django.db.models.DateTimeField(auto_now=True, db_index=True)
+    rating = django.db.models.PositiveSmallIntegerField(
+        verbose_name='Оценка',
+        choices=RatingChoices.choices,
+        help_text='Оценка курса от 1 (ужасно) до 5 (отлично)',
+    )
+    content = django.db.models.TextField(
+        verbose_name='Текст отзыва',
+        help_text='Содержание отзыва (максимальная длина не ограничена)',
+    )
+    created_at = django.db.models.DateTimeField(
+        verbose_name='Дата создания',
+        auto_now_add=True,
+        help_text='Дата и время создания отзыва',
+    )
+    updated_at = django.db.models.DateTimeField(
+        verbose_name='Дата обновления',
+        auto_now=True,
+        db_index=True,
+        help_text='Дата и время последнего обновления отзыва',
+    )
 
-    votes = django.contrib.contenttypes.fields.GenericRelation('interactions.Vote', related_query_name='review')
+    votes = django.contrib.contenttypes.fields.GenericRelation(
+        'interactions.Vote',
+        verbose_name='Голоса',
+        related_query_name='review',
+        help_text='Голоса за/против этого отзыва',
+    )
 
     @property
     def upvotes_count(self):
@@ -56,6 +82,13 @@ class Review(django.db.models.Model):
                 violation_error_message='Этот пользователь уже оставлял отзыв на этот курс',
             ),
         ]
+        ordering = ['-created_at']
+        indexes = [
+            django.db.models.Index(fields=['specialization']),
+            django.db.models.Index(fields=['rating']),
+        ]
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
 
     def __str__(self):
-        return f"{self.rating}/5 review by {self.user or 'Anonymous'}"
+        return f"Отзыв {self.rating}/5 от {self.user or 'Анонима'}"

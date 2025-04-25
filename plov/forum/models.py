@@ -8,27 +8,32 @@ import core.models
 class Topic(django.db.models.Model):
     user = django.db.models.ForeignKey(
         django.conf.settings.AUTH_USER_MODEL,
-        verbose_name='пользователь',
+        verbose_name='Автор',
         on_delete=django.db.models.CASCADE,
+        help_text='Пользователь, создавший топик',
     )
     title = django.db.models.CharField(
+        verbose_name='Заголовок',
         max_length=256,
         null=True,
+        help_text='Название топика (макс. 256 символов)',
     )
     text = django.db.models.TextField(
+        verbose_name='Текст топика',
         max_length=1000,
+        help_text='Содержание топика (макс. 1000 символов)',
     )
     created = django.db.models.DateTimeField(
-        verbose_name='дата создания',
+        verbose_name='Дата создания',
         editable=False,
         auto_now_add=True,
         null=True,
-        help_text='Дата создания.',
+        help_text='Дата и время создания топика',
     )
 
     class Meta:
-        verbose_name = 'топик'
-        verbose_name_plural = 'топики'
+        verbose_name = 'Топик'
+        verbose_name_plural = 'Топики'
 
     def __str__(self):
         return self.title
@@ -50,39 +55,47 @@ class Topic(django.db.models.Model):
 
 class Answer(django.db.models.Model):
     topic = django.db.models.ForeignKey(
-        Topic,
-        verbose_name='топик',
+        'forum.Topic',
+        verbose_name='Топик',
         on_delete=django.db.models.CASCADE,
+        help_text='Топик, к которому относится ответ',
     )
     user = django.db.models.ForeignKey(
         django.conf.settings.AUTH_USER_MODEL,
-        verbose_name='пользователь',
+        verbose_name='Автор',
         on_delete=django.db.models.CASCADE,
+        help_text='Пользователь, оставивший ответ',
     )
-    text = django.db.models.TextField(max_length=1000)
+    text = django.db.models.TextField(
+        verbose_name='Текст ответа',
+        max_length=1000,
+        help_text='Содержание ответа (макс. 1000 символов)',
+    )
     created = django.db.models.DateTimeField(
-        verbose_name='дата создания',
+        verbose_name='Дата создания',
         editable=False,
         auto_now_add=True,
         null=True,
-        help_text='Дата создания.',
+        help_text='Дата и время создания ответа',
     )
     upvotes: django.db.models.ManyToManyField = django.db.models.ManyToManyField(
         django.conf.settings.AUTH_USER_MODEL,
-        verbose_name='голоса: "да"',
+        verbose_name='Голоса "за"',
         blank=True,
         related_name='upvotes',
+        help_text='Пользователи, проголосовавшие за ответ',
     )
     downvotes: django.db.models.ManyToManyField = django.db.models.ManyToManyField(
         django.conf.settings.AUTH_USER_MODEL,
-        verbose_name='голоса: "нет"',
+        verbose_name='Голоса "против"',
         blank=True,
         related_name='downvotes',
+        help_text='Пользователи, проголосовавшие против ответа',
     )
 
     class Meta:
-        verbose_name = 'ответ'
-        verbose_name_plural = 'ответы'
+        verbose_name = 'Ответ'
+        verbose_name_plural = 'Ответы'
 
     def __str__(self):
         return self.topic.title
@@ -94,19 +107,21 @@ class Answer(django.db.models.Model):
 
 class TopicView(django.db.models.Model):
     topic = django.db.models.ForeignKey(
-        Topic,
-        verbose_name='топик',
+        'forum.Topic',
+        verbose_name='Топик',
         on_delete=django.db.models.CASCADE,
+        help_text='Просматриваемый топик',
     )
     user = django.db.models.ForeignKey(
         django.conf.settings.AUTH_USER_MODEL,
-        verbose_name='пользователь',
+        verbose_name='Пользователь',
         on_delete=django.db.models.CASCADE,
+        help_text='Пользователь, просмотревший топик',
     )
 
     class Meta:
-        verbose_name = 'просмотр топика'
-        verbose_name_plural = 'просмотр топиков'
+        verbose_name = 'Просмотр топика'
+        verbose_name_plural = 'Просмотры топиков'
 
     def __str__(self):
         return self.topic.title
@@ -114,14 +129,15 @@ class TopicView(django.db.models.Model):
 
 class TopicReport(core.models.Report):
     topic = django.db.models.ForeignKey(
-        Topic,
-        verbose_name='топик',
+        'forum.Topic',
+        verbose_name='Топик',
         on_delete=django.db.models.CASCADE,
+        help_text='Топик, на который поступила жалоба',
     )
 
     class Meta:
-        verbose_name = 'жалоба на топик'
-        verbose_name_plural = 'жалобы на топики'
+        verbose_name = 'Жалоба на топик'
+        verbose_name_plural = 'Жалобы на топики'
 
     def __str__(self):
         return f'Жалоба на топик от {self.reporter}'
@@ -129,14 +145,15 @@ class TopicReport(core.models.Report):
 
 class AnswerReport(core.models.Report):
     answer = django.db.models.ForeignKey(
-        Answer,
-        verbose_name='ответ',
+        'forum.Answer',
+        verbose_name='Ответ',
         on_delete=django.db.models.CASCADE,
+        help_text='Ответ, на который поступила жалоба',
     )
 
     class Meta:
-        verbose_name = 'жалоба на ответ'
-        verbose_name_plural = 'жалобы на ответы'
+        verbose_name = 'Жалоба на ответ'
+        verbose_name_plural = 'Жалобы на ответы'
 
     def __str__(self):
         return f'Жалоба на ответ от {self.reporter}'

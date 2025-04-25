@@ -1,4 +1,5 @@
 import django.urls
+
 import homepage.views
 
 app_name = 'homepage'

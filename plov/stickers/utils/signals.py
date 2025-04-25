@@ -11,8 +11,8 @@ import django.db.models.signals
 import PIL
 import tg_bot.bot
 
-import stickers.documents
 import stickers.models
+import stickers.utils.documents
 
 
 def get_cleaned_text_without_time(text: str) -> str:
@@ -78,7 +78,7 @@ async def async_add_decryption(sender, instance, created, **kwargs):
 @django.dispatch.receiver(django.db.models.signals.post_save, sender=stickers.models.Sticker)
 def add_decryption(sender, instance, created, **kwargs):
     asgiref.sync.async_to_sync(async_add_decryption, force_new_loop=True)(sender, instance, created, **kwargs)
-    stickers.documents.StickerDocument().update(instance)
+    stickers.utils.documents.StickerDocument().update(instance)
 
 
 async def async_delete_sticker_from_tg_stickerpack(sender, instance, **kwargs):
@@ -92,7 +92,7 @@ def delete_sticker_from_tg_stickerpack(sender, instance, **kwargs):
         instance,
         **kwargs,
     )
-    stickers.documents.StickerDocument().update(instance, action='delete')
+    stickers.utils.documents.StickerDocument().update(instance, action='delete')
 
 
 async def async_add_stickerpack_to_tg(sender, instance, created, **kwargs):

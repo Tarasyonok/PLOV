@@ -6,31 +6,31 @@ import mocklms.models
 
 
 class Command(django.core.management.base.BaseCommand):
-    help = 'Creates real user profiles with interactive input'
+    help = 'Создаёт фейковый профиль ученика в LMS'
     fake = faker.Faker('ru_RU')
 
     def handle(self, *args, **options):
 
-        self.stdout.write(self.style.HTTP_INFO('\n🚀 Creating a new profile (press Enter for random values)'))
+        self.stdout.write(self.style.HTTP_INFO('\n🚀 Создаю профиль (нажмите Enter для случайных значений)'))
 
         profile = self.create_profile()
         course = self.create_course(profile)
         self.create_teachers(course)
 
         self.stdout.write(
-            self.style.SUCCESS(f'✅ Created profile: {profile.display_name} (ID: {profile.lms_profile_id})'),
+            self.style.SUCCESS(f'✅ Создал профиль: {profile.display_name} (ID: {profile.lms_profile_id})'),
         )
 
     def create_profile(self):
-        lms_profile_id = input('Profile ID (unique number): ') or self.fake.pyint(100000, 999999)
-        username = input('Username: ') or self.fake.user_name()
-        gender = input('Gender (0 - male | 1 - female): ') or self.fake.pybool()
-        last_name = input('Last Name: ') or [self.fake.last_name_male(), self.fake.last_name_female()][gender]
-        first_name = input('First Name: ') or [self.fake.first_name_male(), self.fake.first_name_female()][gender]
-        middle_name = input('Middle Name: ') or [self.fake.middle_name_male(), self.fake.middle_name_female()][gender]
+        lms_profile_id = input('ID профиля (уникальный номер): ') or self.fake.pyint(100000, 999999)
+        username = input('Логин: ') or self.fake.user_name()
+        gender = input('Пол (0 - мужской | 1 - женский): ') or self.fake.pybool()
+        last_name = input('Фамилия: ') or [self.fake.last_name_male(), self.fake.last_name_female()][gender]
+        first_name = input('Имя: ') or [self.fake.first_name_male(), self.fake.first_name_female()][gender]
+        middle_name = input('Отчество: ') or [self.fake.middle_name_male(), self.fake.middle_name_female()][gender]
         email = input('Email: ') or self.fake.email()
-        phone = input('Phone (+7XXXXXXXXXX): ') or f'+79{self.fake.msisdn()[:9]}'
-        birth_date = input('Birth Date (YYYY-MM-DD): ') or self.fake.date_of_birth(
+        phone = input('Телефон (+7XXXXXXXXXX): ') or f'+79{self.fake.msisdn()[:9]}'
+        birth_date = input('Дата рождения (ГГГГ-ММ-ДД): ') or self.fake.date_of_birth(
             minimum_age=12,
             maximum_age=18,
         ).strftime('%Y-%m-%d')
@@ -55,7 +55,7 @@ class Command(django.core.management.base.BaseCommand):
 
     def create_course(self, profile):
         title = 'Django | Специализации Яндекс Лицея | ' + input('Поток (пример: Весна 24/25): ') or 'Весна 24/25'
-        rating = int(input('Rating: ') or self.fake.pyint(50, 150))
+        rating = int(input('Рейтинг: ') or self.fake.pyint(50, 150))
         has_certificate = self.fake.pybool()
         if has_certificate:
             certificate_id = self.fake.pyint(10000, 99999)

@@ -31,13 +31,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_htmx',
     'core.apps.CoreConfig',
+    'forum.apps.ForumConfig',
+    'homepage.apps.HomepageConfig',
+    'interactions.apps.InteractionsConfig',
+    'leaderboard.apps.LeaderboardConfig',
     'mocklms.apps.MocklmsConfig',
+    'reviews.apps.ReviewsConfig',
     'search.apps.SearchConfig',
     'stickers.apps.StickersConfig',
-    'interactions.apps.InteractionsConfig',
-    'reviews.apps.ReviewsConfig',
-    'leaderboard.apps.LeaderboardConfig',
-    'forum.apps.ForumConfig',
     'users_status.apps.UsersStatusConfig',
 ]
 
@@ -133,7 +134,7 @@ if DEBUG:
 
 AUTH_USER_MODEL = 'users.User'
 AUTHENTICATION_BACKENDS = [
-    'users.backends.EmailAuthBackend',
+    'users.utils.backends.EmailAuthBackend',
 ]
 LMS_API_URL = 'http://localhost:8000/api/mocklms'
 

@@ -17,7 +17,7 @@
         {% endif %}
     </div>
 
-    {% if request.user.is_authenticated and show_write_button %}
+    {% if request.user.is_authenticated and show_write_button and is_graduate %}
     <button id="write-review-btn"
             hx-get="{% url 'reviews:create' %}"
             hx-target="#review-form-container"
