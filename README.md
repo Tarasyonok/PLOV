@@ -40,11 +40,10 @@
 ## Установка зависимостей
 
 1. Установите poetry:
-   - **Linux/MacOS**:
 
-     ```bash
-     pip install poetry
-     ```
+   ```bash
+   pip install poetry
+   ```
 
 2. Установите необходимые зависимости:
 
