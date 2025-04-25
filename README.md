@@ -39,21 +39,23 @@
 
 ## Установка зависимостей
 
-1. Создайте и активируйте виртуальное окружение:
+1. Установите poetry:
    - **Linux/MacOS**:
 
      ```bash
      pip install poetry
      ```
 
-     ```bash
-     source .venv/bin/activate
-     ```
-
 2. Установите необходимые зависимости:
 
    ```bash
    poetry install --no-root
+   ```
+
+3. Активируйте виртуальное окружение:
+
+   ```bash
+     source .venv/bin/activate
    ```
 
 ## Заполните переменные окружения
