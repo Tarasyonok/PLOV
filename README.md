@@ -37,6 +37,51 @@
    cd team-4
    ```
 
+## PostgreSQL
+
+1. Установка
+
+   - **Linux/MacOS**:
+
+      ```bash
+      sudo apt install postgresql
+      ```
+   - **Windows**
+      - Перейдите на официальный сайт [PostgreSQL](https://www.postgresql.org/download/) и загрузите последнюю версию для Windows
+2. Настройка
+   - **Linux/MacOS**:
+      - Запуск сервиса постгреса:
+
+         ```bash
+         sudo systemctl start postgresql
+         ```
+         ```bash
+         sudo systemctl enable postgresql
+         ```
+      - Создание пользователя и базы:
+
+         ```bash
+         sudo -u postgres psql
+         ```
+         мы уже в постгресе
+         ```bash
+         CREATE USER postgres WITH PASSWORD 'postgres';
+         ```
+         ```bash
+         CREATE DATABASE plov;
+         ```
+         ```bash
+         GRANT ALL PRIVILEGES ON DATABASE mydatabase TO postgres;
+         ```
+
+         чтобы выйти:
+         ```bash
+         /q
+         ```
+
+   - **Windows**
+      - Скачайте [pgadmin](https://www.pgadmin.org/download/)
+
 ## Установка зависимостей
 
 1. Установите poetry:
@@ -107,3 +152,4 @@ python manage.py createsuperuser
 
 2. Перейдите в браузер и откройте [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
    или [http://localhost:8000/](http://localhost:8000/).
+
