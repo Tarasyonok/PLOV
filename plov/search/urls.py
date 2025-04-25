@@ -1,5 +1,4 @@
 import django.urls
-
 import search.views
 
 app_name = 'search'

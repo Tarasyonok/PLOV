@@ -11,12 +11,12 @@ import users.utils.validators
 
 class User(django.contrib.auth.models.AbstractUser):
     class Role(django.db.models.TextChoices):
-        GUEST = "guest", "Гость"
-        STUDENT = "student", "Ученик"
-        MODERATOR = "moderator", "Модератор"
-        MENTOR = "mentor", "Ментор"
-        LEAD = "lead", "Лид"
-        ADMIN = "admin", "Админ"
+        GUEST = 'guest', 'Гость'
+        STUDENT = 'student', 'Ученик'
+        MODERATOR = 'moderator', 'Модератор'
+        MENTOR = 'mentor', 'Ментор'
+        LEAD = 'lead', 'Лид'
+        ADMIN = 'admin', 'Админ'
 
     role = django.db.models.CharField(max_length=20, choices=Role.choices, default=Role.GUEST, db_index=True)
     is_banned = django.db.models.BooleanField(default=False)
@@ -49,7 +49,7 @@ class User(django.contrib.auth.models.AbstractUser):
                 django.utils.timezone.now() < self.ban_ends_at
         )
 
-    def ban_user(self, duration_days=None, reason=""):
+    def ban_user(self, duration_days=None, reason=''):
         self.is_banned = True
         self.ban_reason = reason
         now = django.utils.timezone.now()
@@ -59,7 +59,7 @@ class User(django.contrib.auth.models.AbstractUser):
 
     def unban_user(self):
         self.is_banned = False
-        self.ban_reason = ""
+        self.ban_reason = ''
         self.banned_at = None
         self.ban_ends_at = None
         self.save(update_fields=['is_banned', 'ban_reason', 'banned_at', 'ban_ends_at'])

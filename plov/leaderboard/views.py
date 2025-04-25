@@ -7,7 +7,6 @@ import django.utils.timezone
 
 import users.models
 
-
 ELEMENTS_PER_PAGE = 3
 
 
