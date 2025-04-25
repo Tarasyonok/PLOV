@@ -54,7 +54,7 @@
 3. Активируйте виртуальное окружение:
 
    ```bash
-     source .venv/bin/activate
+   source .venv/bin/activate
    ```
 
 ## Заполните переменные окружения
