@@ -39,21 +39,22 @@
 
 ## Установка зависимостей
 
-1. Создайте и активируйте виртуальное окружение:
-   - **Linux/MacOS**:
+1. Установите poetry:
 
-     ```bash
-     pip install poetry
-     ```
-
-     ```bash
-     source .venv/bin/activate
-     ```
+   ```bash
+   pip install poetry
+   ```
 
 2. Установите необходимые зависимости:
 
    ```bash
    poetry install --no-root
+   ```
+
+3. Активируйте виртуальное окружение:
+
+   ```bash
+   source .venv/bin/activate
    ```
 
 ## Заполните переменные окружения
@@ -106,3 +107,4 @@ python manage.py createsuperuser
 
 2. Перейдите в браузер и откройте [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
    или [http://localhost:8000/](http://localhost:8000/).
+
