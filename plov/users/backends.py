@@ -1,5 +1,4 @@
 import django.contrib.auth.backends
-
 import users.models
 
 

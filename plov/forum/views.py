@@ -6,11 +6,18 @@ import django.urls
 import forum.forms
 import forum.models
 
+ELEMENTS_PER_PAGE = 3
+
 
 def topic_list(request):
     topics = forum.models.Topic.objects.all()
-    latest_topics = forum.models.Topic.objects.order_by('-created')[0:5]
-    context = {'topics': topics, 'latest_topics': latest_topics}
+    latest_topics = topics.order_by('-created')
+
+    paginator = django.core.paginator.Paginator(latest_topics, ELEMENTS_PER_PAGE)
+    page_num = request.GET.get('page')
+    page = paginator.get_page(page_num)
+
+    context = {'page': page}
     return django.shortcuts.render(request, 'forum/topic_list.html', context)
 
 

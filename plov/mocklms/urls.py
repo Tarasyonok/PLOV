@@ -1,7 +1,7 @@
 import django.urls
-import mocklms.views
 
 import core.utils.converters
+import mocklms.views
 
 django.urls.register_converter(core.utils.converters.PositiveIntConverter, 'positive-int')
 

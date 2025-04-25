@@ -1,6 +1,5 @@
 import django.contrib.admin
 import django.contrib.auth.admin
-
 import users.models
 
 
@@ -10,7 +9,16 @@ class CustomUserAdmin(django.contrib.auth.admin.UserAdmin):
     def lms_sync_status(self, obj):
         return '❌✅'[bool(obj.lms_profile_id)]
 
-    list_display = ('username', 'email', 'lms_sync_status', 'telegram_username', 'is_staff', 'role', 'is_banned', 'ban_reason')
+    list_display = (
+        'username',
+        'email',
+        'lms_sync_status',
+        'telegram_username',
+        'is_staff',
+        'role',
+        'is_banned',
+        'ban_reason',
+    )
     list_filter = ('is_staff', 'is_superuser')
     readonly_fields = ('lms_sync_status',)
     search_fields = ('username', 'email', 'telegram_username')

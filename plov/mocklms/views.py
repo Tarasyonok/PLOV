@@ -1,6 +1,7 @@
+import rest_framework.generics
+
 import mocklms.models
 import mocklms.serializers
-import rest_framework.generics
 
 
 class ProfileDetailView(rest_framework.generics.RetrieveAPIView):

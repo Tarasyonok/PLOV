@@ -9,10 +9,10 @@ import django.shortcuts
 import django.urls
 import django.views.decorators.http
 import django.views.generic
-import reviews.forms
-import reviews.models
 
 import interactions.models
+import reviews.forms
+import reviews.models
 
 
 class BaseReviewView(
@@ -42,7 +42,7 @@ class ReviewListView(django.views.generic.ListView):
             content_type = django.contrib.contenttypes.models.ContentType.objects.get_for_model(reviews.models.Review)
             user_votes = interactions.models.Vote.objects.filter(
                 user=self.request.user,
-                content_type=content_type
+                content_type=content_type,
             ).values('object_id', 'vote_type')
 
             # Create a mapping of review_id to vote_type

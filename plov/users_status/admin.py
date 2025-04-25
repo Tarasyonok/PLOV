@@ -9,10 +9,10 @@ class UserStatusAdmin(django.contrib.admin.ModelAdmin):
         'last_activity',
     )
     search_fields = ('user__username',)
-    list_filter = ('ulast_activity',)
+    list_filter = ('last_activity',)
 
     def get_ordering(self, request):
-        return (users_status.models.UserStatus.last_activity.field.name,)
+        return ('last_activity',)
 
 
 django.contrib.admin.site.register(users_status.models.UserStatus, UserStatusAdmin)

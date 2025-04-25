@@ -1,3 +1,5 @@
+import importlib
+
 from django.apps import AppConfig
 
 
@@ -6,4 +8,4 @@ class StickersConfig(AppConfig):
     name = 'stickers'
 
     def ready(self):
-        import stickers.signals
+        importlib.import_module('stickers.signals')

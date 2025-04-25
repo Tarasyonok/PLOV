@@ -2,9 +2,9 @@ import django.conf
 import django.contrib.contenttypes.fields
 import django.contrib.contenttypes.models
 import django.db.models
+import users.models
 
 import interactions.models
-import users.models
 
 
 class Review(django.db.models.Model):

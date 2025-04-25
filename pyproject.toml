@@ -107,7 +107,7 @@ exclude = '''
 [tool.isort]
 profile = "black"
 line_length = 120
-known_first_party = ["core", "forum", "interactions", "plov", "stickers", "tg_bot", "users", "users_status"]
+known_first_party = ["core", "forum", "interactions", "leaderboard", "mocklms", "reviews", "search", "stickers", "users_status"]
 known_third_party = ["django"]
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 skip = ["migrations", "venv", ".venv"]
@@ -124,7 +124,7 @@ max-line-length = 120
 ignore = ["E203", "E266", "E501", "W503", "I202"]
 import-order-style = "google"
 inline-quotes = "single"
-application-import-names = ["core", "forum", "interactions", "plov", "stickers", "tg_bot", "users", "users_status", "reviews"]
+application-import-names = ["core", "forum", "interactions", "leaderboard", "mocklms", "reviews", "search", "stickers", "users_status"]
 exclude = [".git", ".venv", "venv", "*/migrations/*", "__pycache__", "*.pyc"]
 
 
@@ -153,4 +153,4 @@ django_settings_module = "plov.settings"
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "plov.settings"
 python_files = "tests.py test_*.py *_tests.py"
-addopts = "--cov=core --cov=plov --cov=users --cov=reviews --verbose"
+addopts = "--cov=core --cov=forum --cov=interactions --cov=leaderboard --cov=mocklms --cov=reviews --cov=search --cov=stickers --cov=users_status --verbose"

@@ -1,7 +1,8 @@
 # Можно mixedCase, чтобы скопировать API LMS
 # flake8: noqa: N815
-import mocklms.models
 import rest_framework.serializers
+
+import mocklms.models
 
 
 class TeacherSerializer(rest_framework.serializers.ModelSerializer):

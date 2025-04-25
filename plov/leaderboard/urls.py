@@ -1,4 +1,5 @@
 import django.urls
+
 import leaderboard.views
 
 app_name = 'leaderboard'

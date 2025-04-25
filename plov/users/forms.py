@@ -5,7 +5,6 @@ import django.core.exceptions
 import django.forms
 import django.utils.timezone
 import requests
-
 import users.models
 import users.utils.lms
 

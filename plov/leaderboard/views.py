@@ -4,7 +4,6 @@ import django.contrib.auth
 import django.core.paginator
 import django.shortcuts
 import django.utils.timezone
-
 import users.models
 
 ELEMENTS_PER_PAGE = 3

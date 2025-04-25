@@ -13,7 +13,10 @@ OCR_SPACE_APIKEY = decouple.config('OCR_SPACE_APIKEY', default='api-key')
 TG_BOT_TOKEN = decouple.config('TG_BOT_TOKEN', 'bot-token')
 TG_USER_ID = decouple.config('TG_USER_ID', default=1, cast=int)
 TG_STICKERPACK_ENDING = decouple.config('TG_STICKERPACK_ENDING', default='by_bot')
-TG_START_OF_TG_URL_ON_STICKERPACK = decouple.config('TG_START_OF_TG_URL_ON_STICKERPACK', default='https://t.me/addstickers/')
+TG_START_OF_TG_URL_ON_STICKERPACK = decouple.config(
+    'TG_START_OF_TG_URL_ON_STICKERPACK',
+    default='https://t.me/addstickers/',
+)
 
 
 INSTALLED_APPS = [
@@ -65,6 +68,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'leaderboard.context_processors.rep_ldb_context',
+                'forum.context_processors.topics_context',
+                'forum.context_processors.my_topics_counter_context',
             ],
         },
     },
@@ -174,15 +179,3 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': 3600.0,
     },
 }
-
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://localhost:6379/1",  # Different DB number
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#         }
-#     }
-# }
-
-

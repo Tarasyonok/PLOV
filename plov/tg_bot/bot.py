@@ -29,13 +29,10 @@ async def add_sticker_to_stickerpack(buffer, stickerpack_slug):
     bot = telegram.Bot(django.conf.settings.TG_BOT_TOKEN)
     user_id = django.conf.settings.TG_USER_ID
     buffer.seek(0)
-    sticker = (
-        telegram.InputSticker(
-            sticker=buffer.read(),
-            emoji_list=['😀'],
-            format=telegram.constants.StickerFormat.STATIC
-        )
-
+    sticker = telegram.InputSticker(
+        sticker=buffer.read(),
+        emoji_list=['😀'],
+        format=telegram.constants.StickerFormat.STATIC,
     )
 
     stickerpack_name = stickerpack_slug + django.conf.settings.TG_STICKERPACK_ENDING

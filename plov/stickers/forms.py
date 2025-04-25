@@ -35,19 +35,21 @@ class StickerPackForm(django.forms.ModelForm):
         model = stickers.models.StickerPack
         fields = ['name', 'stickers']
 
+
 class StickerForm(django.forms.ModelForm):
     class Meta:
         model = stickers.models.Sticker
         fields = ['image']
+
     def clean(self):
         cleaned_data = super().clean()
         image = cleaned_data.get('image')
-        
+
         if not image:
             self.add_error('image', 'Please select a sticker image')
         else:
             extension = image.name.split('.')[-1].lower()
             if extension not in stickers.constants.IMAGE_EXTENSIONS:
                 self.add_error('image', 'Invalid image file format')
-        
+
         return cleaned_data

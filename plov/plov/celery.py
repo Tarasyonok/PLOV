@@ -1,7 +1,6 @@
 import os
 
 import celery
-import django.conf
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'plov.settings')
 

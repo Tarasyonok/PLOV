@@ -5,7 +5,6 @@ import django.db.models.signals
 import django.db.transaction
 import django.dispatch
 import django.utils.timezone
-
 import users.models
 import users.utils.lms
 
