@@ -10,12 +10,12 @@
       <div class="col-md-4">
         <div class="card shadow">
           <div class="card-body">
-            <h2 class="text-center mb-3">{% translate 'Вход' %}</h2>
+            <h2 class="text-center mb-3">Вход</h2>
             {% with submit_btn_label='Войти' %}
               {% include 'includes/form.html' %}
             {% endwith %}
             <p class="mt-2 mb-1">
-              <a href="{% url 'users:signup' %}">{% translate 'Нет аккаунта? Зарегистрироваться' %}</a>
+              <a href="{% url 'users:signup' %}">Нет аккаунта? Зарегистрироваться</a>
             </p>
           </div>
         </div>

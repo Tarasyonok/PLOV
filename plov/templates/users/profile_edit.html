@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}
+  Редактировать
+{% endblock %}
+
 {% block content %}
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card shadow-sm">
                 <div class="card-header bg-white">
-                    <h4 class="my-0">Edit Profile</h4>
+                    <h4 class="my-0">Редактировать профиль</h4>
                 </div>
 
                 <div class="card-body">
@@ -32,7 +36,7 @@
 
                             <div class="d-flex justify-content-center">
                                 <div class="btn btn-sm btn-outline-secondary position-relative">
-                                    Change Avatar
+                                    Изменить аватар
                                     <input type="file"
                                            name="avatar"
                                            class="position-absolute top-0 start-0 w-100 h-100 opacity-0"
@@ -44,7 +48,7 @@
                         <!-- User Form Fields -->
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
-                                <label for="id_user-first_name" class="form-label">First Name</label>
+                                <label for="id_user-first_name" class="form-label">Имя</label>
                                 <input type="text"
                                        class="form-control"
                                        id="id_user-first_name"
@@ -53,7 +57,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="id_user-last_name" class="form-label">Last Name</label>
+                                <label for="id_user-last_name" class="form-label">Фамилия</label>
                                 <input type="text"
                                        class="form-control"
                                        id="id_user-last_name"
@@ -62,7 +66,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="id_user-email" class="form-label">Email</label>
+                                <label for="id_user-email" class="form-label">Почта</label>
                                 <input type="email"
                                        class="form-control"
                                        id="id_user-email"
@@ -72,7 +76,7 @@
 
                             <div class="col-md-6">
                                 <label for="id_telegram_username" class="form-label">
-                                    <i class="bi bi-telegram"></i> Telegram
+                                    <i class="bi bi-telegram"></i> Телеграм
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text">@</span>
@@ -86,21 +90,21 @@
 
                             <div class="col-12">
                                 <label for="id_lms_profile_id" class="form-label">
-                                    <i class="bi bi-book"></i> LMS Profile ID
+                                    <i class="bi bi-book"></i> LMS профиль ID
                                 </label>
                                 <input type="text"
                                        class="form-control"
                                        id="id_lms_profile_id"
                                        name="lms_profile_id"
                                        value="{{ form.user_form.instance.lms_profile_id|default:'' }}">
-                                <div class="form-text">Enter your Yandex LMS profile ID</div>
+                                <div class="form-text">Введите ваш ID профиля Яндекс LMS</div>
                             </div>
                         </div>
 
                         <!-- Profile Form Fields -->
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="id_birthday" class="form-label">Birthday</label>
+                                <label for="id_birthday" class="form-label">День рождения</label>
                                 <input type="date"
                                        class="form-control"
                                        id="id_birthday"
@@ -110,7 +114,7 @@
                             </div>
 
                             <div class="col-12">
-                                <label for="id_bio" class="form-label">Bio</label>
+                                <label for="id_bio" class="form-label">Био</label>
                                 <textarea class="form-control"
                                           id="id_bio"
                                           name="bio"
@@ -121,10 +125,10 @@
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                             <a href="{% url 'users:profile' username=request.user.username %}"
                                class="btn btn-outline-secondary me-md-2">
-                                Cancel
+                                Отменить
                             </a>
                             <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-save"></i> Save Changes
+                                <i class="bi bi-save"></i> Сохранить
                             </button>
                         </div>
                     </form>

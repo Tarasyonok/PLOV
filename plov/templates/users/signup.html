@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block title %}
-  {% translate 'Регистрация' %}
+  Регистрация
 {% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@
       <div class="col-md-4">
         <div class="card shadow">
           <div class="card-body">
-            <h2 class="text-center mb-3">{% translate 'Регистрация' %}</h2>
+            <h2 class="text-center mb-3">Регистрация</h2>
             <form method="post">
               {% csrf_token %}
               {% with submit_btn_label='Создать аккаунт' %}
@@ -51,7 +51,7 @@
               </div>
             {% endif %}
             <p class="mt-2 mb-1">
-              <a href="{% url 'users:login' %}">{% translate 'Есть аккаунт? Войти' %}</a>
+              <a href="{% url 'users:login' %}">Есть аккаунт? Войти</a>
             </p>
           </div>
         </div>
