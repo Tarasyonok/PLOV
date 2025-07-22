@@ -3,12 +3,9 @@ import django.contrib.contenttypes.models
 import django.contrib.messages.views
 import django.http
 import django.shortcuts
-import django.urls
 import django.views.decorators.http
-import django.views.generic
 
 import interactions.models
-import reviews.forms
 import reviews.models
 
 
