@@ -1,5 +1,4 @@
 import django.contrib.auth.decorators
-import django.contrib.auth.mixins
 import django.contrib.contenttypes.models
 import django.contrib.messages.views
 import django.http
