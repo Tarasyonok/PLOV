@@ -1,7 +1,5 @@
 # ПЛОВ
 
-[![pipeline status](https://gitlab.crja72.ru/django/2025/spring/course/projects/team-4/badges/main/pipeline.svg)](https://gitlab.crja72.ru/django/2025/spring/course/projects/team-4/commits/main)
-
 ---
 
 ## Инструкция по запуску проекта в dev-режиме
